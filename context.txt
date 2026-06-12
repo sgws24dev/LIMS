@@ -1,0 +1,321 @@
+You are a Senior Product Architect, Senior UX Designer, and Senior Frontend Engineer.
+
+Create a production-grade, enterprise-level Pathology Laboratory Information Management System (LIMS/LIS) SaaS platform.
+
+IMPORTANT RULES:
+
+* Build FRONTEND ONLY.
+* Use mock data everywhere.
+* Do NOT create backend code.
+* Do NOT create database code.
+* Do NOT create API implementations.
+* Create realistic mock services and mock JSON responses.
+* The application must be fully navigable and look production ready.
+* Every screen must be responsive.
+* Every page should contain realistic sample data.
+* Include loading states, empty states, error states, success states, and confirmation dialogs.
+* Follow healthcare software UX standards.
+* Use role-based navigation and permissions.
+* Design as a multi-tenant SaaS product.
+* Create a modern enterprise UI similar to large healthcare platforms.
+* Build reusable components and a scalable folder structure.
+
+TECH STACK:
+
+* React
+* TypeScript
+* Vite
+* ShadCN UI
+* Tailwind CSS
+* React Router
+* React Hook Form
+* Zod
+* Zustand
+* TanStack Query (mock mode)
+* Recharts
+* Lucide Icons
+
+APPLICATION MODULES:
+
+1. Authentication
+
+   * Login
+   * Forgot Password
+   * Reset Password
+   * MFA Verification
+   * Change Password
+   * Session Management
+
+2. Dashboard
+
+   * Super Admin Dashboard
+   * Lab Admin Dashboard
+   * Branch Dashboard
+   * Technician Dashboard
+   * Doctor Dashboard
+   * Revenue Widgets
+   * Sample Widgets
+   * Report Widgets
+   * Analytics Charts
+
+3. User Management
+
+   * Users List
+   * Create User
+   * Edit User
+   * User Details
+   * User Roles
+   * Permission Matrix
+   * Activity Logs
+
+4. Role & Permission Management
+
+   * RBAC
+   * Module Permissions
+   * Screen Permissions
+   * Action Permissions
+
+5. Patient Management
+
+   * Patient List
+   * Create Patient
+   * Edit Patient
+   * Patient Details
+   * Medical History
+   * Family Members
+   * Attachments
+   * Visit Timeline
+   * Patient Analytics
+
+6. Doctor Management
+
+   * Doctor Directory
+   * Doctor Profile
+   * Referral Tracking
+   * Commission Tracking
+   * Doctor Performance Dashboard
+
+7. Branch Management
+
+   * Branch List
+   * Create Branch
+   * Branch Details
+   * Branch Performance
+   * Branch Staff
+
+8. Test Catalog Management
+
+   * Test Master
+   * Test Categories
+   * Departments
+   * Parameters
+   * Packages
+   * Profiles
+   * Pricing
+
+9. Booking & Registration
+
+   * Walk-In Registration
+   * Existing Patient Registration
+   * Corporate Registration
+   * Insurance Registration
+   * Booking History
+   * Booking Queue
+
+10. Sample Collection
+
+* Collection Queue
+* Sample Tracking
+* Barcode Management
+* Label Printing
+* Home Collection Assignment
+* Collection Timeline
+
+11. Laboratory Workflow
+
+* Sample Receiving
+* Accessioning
+* Processing Queue
+* Rejected Samples
+* Retest Queue
+* Disposal Tracking
+
+12. Result Entry
+
+* Manual Result Entry
+* Bulk Result Entry
+* Formula Calculations
+* Critical Value Alerts
+* Delta Checks
+
+13. Instrument Integration Module
+
+* Instrument List
+* Instrument Configuration
+* Mapping Interface
+* Logs Dashboard
+* Monitoring Dashboard
+
+14. Quality Control Module
+
+* Internal QC
+* External QC
+* Calibration Records
+* Maintenance Logs
+* Levey Jennings Charts
+* Westgard Rules Dashboard
+
+15. Report Management
+
+* Draft Reports
+* Review Reports
+* Approval Queue
+* Approved Reports
+* Report Delivery
+* Report History
+* PDF Preview
+* QR Verification
+
+16. Billing & Finance
+
+* Invoices
+* Payments
+* Refunds
+* Credit Notes
+* Day Closing
+* Expenses
+* GST Reports
+* Financial Dashboard
+
+17. Inventory Management
+
+* Inventory Dashboard
+* Reagents
+* Consumables
+* Vendors
+* Purchase Orders
+* Stock Transfers
+* Expiry Tracking
+* Batch Tracking
+
+18. Corporate & B2B
+
+* Corporate Accounts
+* Contracts
+* Employee Health Programs
+* Corporate Billing
+* Corporate Reports
+
+19. Home Collection Management
+
+* Booking Calendar
+* Route Planning
+* Agent Assignment
+* GPS Tracking UI
+* Visit Status Tracking
+
+20. CRM & Marketing
+
+* Campaign Dashboard
+* SMS Campaigns
+* WhatsApp Campaigns
+* Loyalty Programs
+* Referral Programs
+* Coupon Management
+
+21. Notification Center
+
+* Email Notifications
+* SMS Notifications
+* WhatsApp Notifications
+* Push Notifications
+* Notification Logs
+
+22. Analytics & BI
+
+* Revenue Analytics
+* Patient Analytics
+* Doctor Analytics
+* Branch Analytics
+* Inventory Analytics
+* Turnaround Time Analytics
+* Operational Analytics
+
+23. Audit & Compliance
+
+* Audit Logs
+* User Activity Logs
+* Security Events
+* Access Monitoring
+
+24. Settings Module
+
+* General Settings
+* Departments
+* Units
+* Holidays
+* Working Hours
+* Report Templates
+* Email Templates
+* SMS Templates
+
+25. Subscription & SaaS Management
+
+* Tenant Management
+* Subscription Plans
+* Trial Management
+* Billing Management
+* White Label Settings
+* Branding Settings
+
+26. Patient Portal
+
+* Dashboard
+* Book Tests
+* Reports
+* Payments
+* Family Members
+* Notifications
+* Medical History
+
+27. Doctor Portal
+
+* Dashboard
+* Referred Patients
+* Reports
+* Commissions
+* Analytics
+
+28. Mobile App Screens (UI only)
+
+* Patient Mobile App
+* Doctor Mobile App
+* Phlebotomist Mobile App
+
+AI FEATURES UI:
+
+* AI Report Summary
+* AI Interpretation Panel
+* AI Health Insights
+* AI Revenue Forecast Widget
+* AI Inventory Forecast Widget
+* AI Assistant Chat Panel
+
+DELIVERABLES:
+
+* Complete folder structure
+* Routing structure
+* Navigation structure
+* Sidebar
+* Header
+* Layout system
+* Reusable components
+* Mock services
+* Mock data layer
+* All pages
+* Responsive design
+* Dark mode
+* Accessibility support
+* Enterprise dashboard experience
+
+The final result should feel like a commercial laboratory SaaS platform that could be sold to pathology labs, diagnostic chains, hospitals, and collection centers.

@@ -1,0 +1,422 @@
+SCOPE OF WORK (SOW)
+Laboratory Management System (LMS)
+Table of Contents
+[[TOC will auto-generate in Word]]
+
+
+1.	Executive Summary
+CUSTOMER seeks to procure and implement an enterprise‑grade Laboratory Management System (LMS), to support the digital transformation of its research laboratories and core facilities. The system shall unify operational workflows, asset lifecycle management, scheduling, financial
+processes, and data‑driven decision‑making across CUSTOMER’s expanding scientific ecosystem.
+The LMS must be AI‑powered, IoT‑enabled, MCP‑compliant, and designed for multi‑institution scalability. It shall integrate seamlessly with CUSTOMER’s identity systems, ERP/finance, HRIS,
+calendar systems, ticketing platforms, and document repositories. The vendor shall deliver a secure, highly available, user‑friendly, audit‑ready platform suitable for long‑term institutional needs.
+
+
+2.	Background
+CUSTOMER operates complex, high‑performance laboratory environments supporting robotics, AI research, computer science, computer vision, and interdisciplinary scientific work. These
+environments include advanced scientific instruments, specialized workspaces, core facilities, and diverse workflows across multiple stakeholders (students, researchers, PIs, faculty, technicians,
+administrators).
+Due to rapid growth in research output and infrastructure, CUSTOMER requires a centralized platform capable of:
+•	Consolidating scheduling, workflows, and sample/service management
+•	Managing equipment lifecycle, usage, maintenance, and compliance
+•	Enforcing training prerequisites and access rules
+•	Automating invoicing, billing, and cost recovery
+•	Providing real‑time and historical insights via dashboards and analytics
+•	Supporting multi‑facility, multi‑institution collaboration
+•	Enabling AI‑driven insights, automation, and predictive maintenance
+ 
+
+The initiative establishes a modern, scalable LMS foundation to serve current and future research demands.
+3.	Project Objectives
+
+
+The LMS shall:
+
+1.	Digitize and standardize laboratory operations across core facilities.
+2.	Optimize utilization of instruments, rooms, and resources.
+3.	Enhance transparency through scheduling, audit trails, and reporting.
+4.	Improve compliance with institutional, fiscal, and safety controls.
+5.	Enable AI‑driven insights for maintenance, workflows, and resource allocation.
+6.	Integrate with CUSTOMER systems (identity, ERP, HRIS, calendars, ticketing).
+7.	Support growth, multi‑institution expansion, and future research centers.
+8.	Provide a unified user experience via web and mobile applications.
+
+
+
+4.	System Architecture Requirements
+The LMS architecture shall be:
+4.1	API‑First & Modular
+•	Microservices preferred
+•	All major functions exposed via REST/GraphQL APIs
+•	Webhooks/events for downstream systems
+
+4.2	MCP (Model Context Protocol) Support
+•	Native support for MCP server and client modes
+•	Secure tool calling
+•	Structured context retrieval
+•	Full auditability of AI‑driven actions
+ 
+4.3	Cloud‑Hosted or Hybrid
+•	Vendor may propose SaaS, hosted, or hybrid deployment
+•	All deployment models must meet CUSTOMER security and residency policies
+
+4.4	Scalability
+
+The LMS must scale across:
+
+•	Thousands of users
+•	Thousands of pieces of equipment & instruments
+•	Multiple labs and institutions
+•	High‑volume transactions and analytics
+
+
+4.5	Disaster Recovery & Resilience
+•	The architecture must include documented disaster recovery capabilities
+•	Support for geographic redundancy where available
+•	Defined RPO/RTO targets aligned with CUSTOMER continuity requirements
+•	Automated backup, failover, and recovery procedures
+•	Regular DR testing and audit reporting
+
+4.6	MCP Security Architecture
+•	Mandatory authentication and authorization for all MCP tool calls and interactions
+•	Role‑based access control (RBAC) defining which users, agents, or services can invoke specific MCP tools
+•	Clear definition of allowed vs. prohibited AI actions, especially for operations affecting equipment, safety, or configuration
+•	Encrypted transportation channels for MCP communication
+•	Comprehensive audit trails capturing tool invoked, parameters, outputs, timestamps, actor identity, and approval steps
+•	Mandatory human approval gates for high‑risk or system‑impacting MCP actions
+•	Integration with CUSTOMER security monitoring, including anomaly detection, log retention, and incident response processes
+ 
+5.	Functional Pillars
+Pillar 1 — Facility & Equipment Management
+The system shall provide:
+
+1.	Advanced Asset Management
+a.	Asset metadata, location, condition, funding details
+b.	Extended/custom fields
+c.	Transfer & decommission workflows
+2.	Asset Rental & Utilization Management
+3.	Depreciation & Value Tracking
+a.	Cost, salvage value, lifetime, AMC/maintenance costs
+4.	Chain of Custody
+a.	Full audit trail of handlers, sessions, and movement
+5.	QR/Barcode Integration
+6.	Actual Usage Tracker (RFID, Web & Desktop)
+a.	RFID tracking (RFID tagging)
+b.	Real‑time session tracking
+c.	Reconciliation vs. scheduled usage
+d.	Session locking on instrument PCs
+7.	IoT Monitoring (AI Module 3)
+a.	OPC‑UA / MQTT / Modbus / REST
+b.	Threshold & anomaly detection
+c.	IoT security controls must be strengthened, as lab‑instrument endpoints represent high‑risk interfaces
+d.	Security requirements shall be developed in coordination with the CUSTOMER security team
+e.	Protection must cover device authentication, encrypted communication, endpoint hardening, and continuous monitoring
+8.	Predictive/Protective Maintenance (AI Module 4)
+9.	Global Search (multi‑lab, multi‑institution)
+a.	Security‑trimmed
+b.	Context‑aware
+c.	Scientific meta‑tagging
+ 
+
+
+Pillar 2 — User, Role & Institution Management
+The system shall support:
+
+1.	SSO via Entra ID
+2.	SCIM user provisioning
+3.	Role‑based and attribute‑based access control (RBAC + ABAC)
+4.	Multi‑institution federation
+5.	Trainer availability with bi‑directional Outlook/Google sync
+6.	Roles:
+a.	Institution Admin
+b.	Facility Admin
+c.	Lab Admin
+d.	Group Leader (PI)
+e.	Trainer
+f.	Researcher / Student
+
+Pillar 3 — Operations, Scheduling & Workflow Automation
+1.	Online Scheduler
+a.	Instruments, rooms, and utilities
+b.	Constraints (training, consumables, staff availability, maintenance schedules) c.
+Waitlists
+d. Recurring bookings
+2.	Sample Submission & Service Requests
+a.	Form builder
+b.	Milestones
+c.	Conditional logic
+d.	Approvals & routing
+3.	Reusable Workflow Engine
+a.	Custom statuses
+b.	Notification rules
+ 
+
+c.	Revert to previous stage
+4.	Project Management
+a.	Dashboard
+b.	Work orders
+c.	Cost centers
+5.	Supplies & Inventory
+a.	Catalog management
+b.	Pricing
+c.	Reorder alerts
+d.	Barcode scanning
+6.	Technical Issue Tracking
+a.	Native or integrated with ServiceNow/Jira
+
+
+
+Pillar 4 — Financial & Compliance
+1.	Invoicing
+a.	Custom templates (PDF/CSV/Word)
+b.	Multi‑facility billing workflows
+2.	Oracle Fusion ERP Integration
+a.	Accounts, cost centers, financial postings, cost center/program/project alignment
+b.	VAT invoicing, tax code management, and tax reporting must be fully supported
+c.	Integration shall accommodate VAT workflows already implemented in Sahab
+3.	Pricing Models
+a.	Internal/external rates
+b.	Rebates
+c.	Membership credits
+4.	Audit Trails
+a.	Immutable logs
+b.	E‑signatures
+c.	Reason‑for‑change tracking
+5.	Asset Value & Depreciation Reports
+ 
+Pillar 5 — Analytics, Dashboards & Reporting
+The system shall include:
+
+•	Configurable dashboards
+•	Drag‑and‑drop widgets
+•	Filters, date ranges, custom tiles
+•	Ad‑hoc reporting with custom fields
+•	Scheduled emails
+•	“Instrument 365 View”
+•	Usage, downtime, revenue, service trends
+
+
+
+Pillar 6 — Communication, Training & Support
+1.	Training Module
+a.	Competency prerequisites
+b.	Booking gating
+c.	Time‑based expiry
+2.	Announcements
+3.	Notification Center (email/SMS/Teams)
+4.	Help & Support Guide
+a.	Documentation, walkthroughs, release notes
+5.	Facility/Lab Homepage Builder
+6.	Publication Tracking
+
+
+
+Pillar 7 — AI Modules (M1–M7)
+The LMS shall include:
+ 
+M1 — Helpdesk
+
+A centralized AI‑driven support service for Core Labs and Facilities.
+•	Voice and text interaction
+•	Multi‑turn intent handling
+•	Dry‑run previews
+•	Safe‑action guardrails
+•	Automated ticket creation and routing
+•	RAG‑based knowledge retrieval with citations
+•	Context‑aware responses (equipment status, user roles, IoT data)
+•	Incident report generation
+•	Cross‑platform access (web, mobile, kiosk)
+•	Full audit logging
+•	SLA and performance dashboards
+
+
+M2 — Talk‑to‑Action (Conversational Orchestration)
+•	Voice and text interaction
+•	Multi‑turn intent handling
+•	Dry‑run previews
+•	Safe‑action guardrails
+M3 — Equipment FAQ & Knowledge Base
+•	RAG with citations
+•	SOP/manual indexing
+•	QR‑linked contextual assistance
+
+M4 — IoT Integration & Automation
+•	Real‑time sensor ingestion
+•	Soft→hard action automation
+•	Safety controls
+ 
+M5 — Predictive/Protective Maintenance
+•	RUL modeling
+•	Failure mode classification
+•	Automated work orders
+•	This system can predict Issues for equipment and system, design blueprint for fixing issues, recommend solutions for how to fix issues, arrange TODOs for facility technician to execute.
+
+
+M6 — AIOps Predictive/Protective Maintenance
+•	RUL modeling
+•	Failure mode classification
+•	Automated work orders
+•	This system can predict Issues for equipment and system, design blueprint for fixing issues, recommend solutions for how to fix issues, arrange TODOs for facility technician to execute.
+
+
+M6 — Planning & Optimization
+•	Capacity modeling
+•	Batching
+•	Energy optimization
+•	Fairness policy enforcement
+•	This system collects feedback from facility technicians aggressively or passively after the
+deployment of fixes, by data from the sensors or feedback from facility technicians, to adjust and improve the related blueprint, solutions, and TODOs.
+
+M7 — Self-Evolution (Gap Analysis, Module Design & Continuous Improvement)
+•	Identify system gaps
+•	Design new modules based on operational needs
+•	Auto-generate workflow and template improvements
+•	Recommend configuration enhancements
+•	Support supervised deployment with mandatory human approval gates before any changes are released
+ 
+
+•	Track post-deployment effectiveness
+•	Iteratively refine modules and workflows
+
+
+
+Pillar 8 — User Interface
+1.	WCAG 2.2 AA compliant web interface
+2.	iOS & Android native mobile apps
+3.	Role‑based mobile functionality
+4.	Offline SOP access
+5.	MDM/Intune support
+
+
+
+6.	Integrations
+The system must integrate with:
+
+•	Entra ID (SSO)
+•	SCIM
+•	Outlook 365 & Google Calendar
+•	Oracle Fusion ERP
+•	ServiceNow/Jira
+•	SharePoint/OneDrive
+•	IoT/OT protocols (OPC‑UA, MQTT, Modbus, REST)
+•	Event bus (webhooks)
+•	Banner SIS, Salesforce CRM, BMS
+
+
+
+7.	Data, AI Readiness & MCP Requirements
+The LMS must treat all data as AI‑ready:
+
+•	Structured schemas
+•	Provenance metadata
+ 
+
+•	Versioning
+•	MCP tool definitions
+•	Queryability
+•	Auditability of AI actions
+
+
+
+8.	Security & Compliance
+
+Required Security Domains:
+•	General Security Compliance Requirements
+•	Deployment Model Declaration
+•	Identity and Access Management (IAM)
+•	Data Protection Requirements
+•	Application Security
+•	Infrastructure & Network Security
+•	IoT / OT Security
+•	API Security Requirements
+•	Logging, Monitoring & Audit
+•	Backup & Disaster Recovery
+•	Incident Response & Breach Notification
+•	Security Testing & Acceptance Criteria
+•	Vendor Security Declaration
+•	UAE PDPL
+•	GDPR alignment
+•	ISO 27001 preferred
+•	MFA, conditional access
+•	AES‑256 at rest / TLS 1.2+ in transit
+•	Immutable audit logs
+•	Vendor must conduct regular vulnerability assessments and penetration testing, governed by defined SLAs
+ 
+9.	Performance Requirements
+•	Web P95 < 3s
+•	API P95 < 500 ms
+•	IoT breach detection < 5s
+•	Uptime SLA ≥ 99.9%
+•	RPO ≤ 15 minutes
+•	RTO ≤ 1 hour
+
+
+
+10.	Deliverables
+•	Architecture design including hardware and software requirements
+•	API documentation
+•	Configured LMS
+•	AI modules (phased)
+•	Integrations
+•	Training & onboarding
+•	Data migration
+o	Scope must identify all source systems (e.g., existing LIMS, Excel/SharePoint repositories, ERP, instrument logs)
+o	Vendor must provide an estimate of data volume and size to be migrated (records, files, historical logs, instrument data)
+•	Mapping of data models between source systems and the LMS
+•	o	Data cleansing, transformation, and validation procedures
+o	Migration rehearsal and dry‑run testing before go‑live
+o	Cutover plan defining final migration window, rollback plan, and acceptance criteria
+•	Testing & validation
+•	Go‑Live & Hypercare
+ 
+
+and reporting structures created for or uploaded by CUSTOMER shall be the sole property of CUSTOMER.
+•	All custom-developed AI models, fine‑tuned models, custom inference pipelines, feature engineering, and any derivative AI assets produced specifically for CUSTOMER shall be owned exclusively by CUSTOMER.
+•	All materials provided by CUSTOMER to the vendor (data, documents, schemas, SOPs,
+knowledge bases, training material, etc.) remain CUSTOMER property and may not be reused without written approval.
+
+
+10.2	Vendor Pre-Existing Intellectual Property
+•	Vendor retains ownership of all pre‑existing platform components, including:
+•	Core LMS source code
+•	o	Generic AI models and libraries
+•	o	Platform frameworks and APIs
+•	o	Reusable tools, plugins, and connectors
+•	o	System architecture, design patterns, and proprietary methods
+•	Vendor grants CUSTOMER a perpetual, irrevocable, royalty‑free license to use, operate, modify, integrate, and export any deliverable that incorporates vendor pre‑existing IP,
+provided it is used within CUSTOMER’s environment.
+
+
+10.3	Joint or Derived Intellectual Property
+•	Any asset developed jointly by the vendor and CUSTOMER but originating from CUSTOMER data, requirements, or workflows shall be deemed CUSTOMER IP.
+•	Any enhancement to vendor IP created during this project but not specific to CUSTOMER remains vendor property, provided it excludes CUSTOMER data, confidential information, or designs.
+
+
+10.4	Export Rights
+•	Vendor must support full export of all CUSTOMER-owned IP, including:
+o	All data and metadata
+ 
+
+•	All AI assets (models, prompts, feature sets, embeddings, MCP tools)
+•	All workflows, configurations, and templates
+o	All logs, audit trails, and historical records
+
+•	Export must be provided in open, non-proprietary formats sufficient for transition to another system.
+
+
+10.5	Restrictions on Vendor Use
+•	Vendor may not reuse CUSTOMER-originated materials for any other client without prior written consent.
+•	CUSTOMER data (including derived AI representations) may not be used for training vendor models, benchmarking, or product development unless explicitly approved in writing.
+
+
+10.6	No Vendor Lock-In
+•	The system must be designed to avoid lock‑in, including:
+o	Open APIs and export tools o Documentation of data models and workflows
+o	No dependency on proprietary formats for CUSTOMER-owned assets
+
+
+10.7	Survival of IP Rights
+•	All IP ownership rights granted to CUSTOMER survive:
+•	Contract termination
+•	o	Subscription expiry
+•	o	Transition to another platform
+•	o	Withdrawal of services by the vendor

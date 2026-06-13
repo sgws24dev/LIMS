@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="5fdc987a-a558-430c-bb24-1c52ef944720" name="NET_SP@DESKTOP-OH5VLR8 2026-06-13 15:41:59" runUser="DESKTOP-OH5VLR8\NET_SP" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-06-13T15:41:59.9217111+05:30" queuing="2026-06-13T15:41:59.9217115+05:30" start="2026-06-13T15:41:54.6057941+05:30" finish="2026-06-13T15:41:59.9838017+05:30" />
+  <TestSettings name="default" id="2e6d28f3-ae12-491f-8d72-80d4e279c9a2">
+    <Deployment runDeploymentRoot="NET_SP_DESKTOP-OH5VLR8_2026-06-13_15_41_59" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="c1832ec0-6851-4192-bb5d-1d090d859cd1" testId="bfa8b382-ffdb-500a-74bd-0bc8a2815fd9" testName="ResearchLms.IntegrationTests.UserTests.CreateUser_WithValidData_ReturnsOk" computerName="DESKTOP-OH5VLR8" duration="00:00:03.8719610" startTime="2026-06-13T15:41:55.9863644+05:30" endTime="2026-06-13T15:41:59.8793267+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c1832ec0-6851-4192-bb5d-1d090d859cd1" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ResearchLms.IntegrationTests.UserTests.CreateUser_WithValidData_ReturnsOk" storage="e:\lims\research-lms\backend\tests\integrationtests\bin\debug\net10.0\researchlms.integrationtests.dll" id="bfa8b382-ffdb-500a-74bd-0bc8a2815fd9">
+      <Execution id="c1832ec0-6851-4192-bb5d-1d090d859cd1" />
+      <TestMethod codeBase="E:\LIMS\research-lms\backend\tests\IntegrationTests\bin\Debug\net10.0\ResearchLms.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ResearchLms.IntegrationTests.UserTests" name="CreateUser_WithValidData_ReturnsOk" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="bfa8b382-ffdb-500a-74bd-0bc8a2815fd9" executionId="c1832ec0-6851-4192-bb5d-1d090d859cd1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.7)&#xD;
+[xUnit.net 00:00:00.23]   Discovering: ResearchLms.IntegrationTests&#xD;
+[xUnit.net 00:00:00.38]   Discovered:  ResearchLms.IntegrationTests&#xD;
+[xUnit.net 00:00:00.43]   Starting:    ResearchLms.IntegrationTests&#xD;
+[15:41:59 INF] HTTP POST /api/v1/auth/login responded 200 in 737.2818 ms&#xD;
+[15:41:59 INF] HTTP POST /api/v1/users responded 200 in 97.7187 ms&#xD;
+[xUnit.net 00:00:04.42]   Finished:    ResearchLms.IntegrationTests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

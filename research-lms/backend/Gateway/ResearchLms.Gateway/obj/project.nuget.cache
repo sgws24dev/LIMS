@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "dgSpecHash": "MconztYsqbM=",
+  "success": true,
+  "projectFilePath": "E:\\LIMS\\research-lms\\backend\\Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\NET_SP\\.nuget\\packages\\system.io.hashing\\8.0.0\\system.io.hashing.8.0.0.nupkg.sha512",
+    "C:\\Users\\NET_SP\\.nuget\\packages\\yarp.reverseproxy\\2.2.0\\yarp.reverseproxy.2.2.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "message": "ResearchLms.Gateway depends on Yarp.ReverseProxy (>= 2.2.0-preview.2.25305.2) but Yarp.ReverseProxy 2.2.0-preview.2.25305.2 was not found. Yarp.ReverseProxy 2.2.0 was resolved instead.",
+      "projectPath": "E:\\LIMS\\research-lms\\backend\\Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj",
+      "warningLevel": 1,
+      "filePath": "E:\\LIMS\\research-lms\\backend\\Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj",
+      "libraryId": "Yarp.ReverseProxy",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

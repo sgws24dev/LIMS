@@ -1,0 +1,16 @@
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\bin\Debug\net10.0\ResearchLms.Identity.Domain.deps.json
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\bin\Debug\net10.0\ResearchLms.Identity.Domain.dll
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\bin\Debug\net10.0\ResearchLms.Identity.Domain.pdb
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\bin\Debug\net10.0\ResearchLms.Shared.dll
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\bin\Debug\net10.0\ResearchLms.Shared.pdb
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\obj\Debug\net10.0\ResearchLms.Identity.Domain.csproj.AssemblyReference.cache
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\obj\Debug\net10.0\ResearchLms.Identity.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\obj\Debug\net10.0\ResearchLms.Identity.Domain.AssemblyInfoInputs.cache
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\obj\Debug\net10.0\ResearchLms.Identity.Domain.AssemblyInfo.cs
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\obj\Debug\net10.0\ResearchLms.Identity.Domain.csproj.CoreCompileInputs.cache
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\obj\Debug\net10.0\ResearchLms.Identity.Domain.sourcelink.json
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\obj\Debug\net10.0\Research.D9300D38.Up2Date
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\obj\Debug\net10.0\ResearchLms.Identity.Domain.dll
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\obj\Debug\net10.0\refint\ResearchLms.Identity.Domain.dll
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\obj\Debug\net10.0\ResearchLms.Identity.Domain.pdb
+E:\LIMS\research-lms\backend\Services\Identity\ResearchLms.Identity.Domain\obj\Debug\net10.0\ref\ResearchLms.Identity.Domain.dll

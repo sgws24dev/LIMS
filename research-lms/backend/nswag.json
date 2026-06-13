@@ -1,0 +1,31 @@
+{
+  "runtime": "Net60",
+  "defaultVariables": null,
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "http://localhost:5001/swagger/v1/swagger.json",
+      "output": null
+    }
+  },
+  "codeGenerators": {
+    "openApiToTypeScriptClient": {
+      "className": "{controller}Client",
+      "moduleName": "",
+      "namespace": "",
+      "typeScriptVersion": 5.5,
+      "template": "Angular",
+      "promiseType": "Promise",
+      "httpClass": "HttpClient",
+      "useSingletonProvider": true,
+      "injectionTokenType": "InjectionToken",
+      "rxjsVersion": 7.0,
+      "dateTimeType": "Date",
+      "nullValue": "undefined",
+      "generateClientClasses": true,
+      "generateClientInterfaces": true,
+      "generateOptionalParameters": true,
+      "exportTypes": true,
+      "output": "../frontend/src/lib/api/generated/client.ts"
+    }
+  }
+}

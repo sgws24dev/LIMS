@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\LIMS\\research-lms\\backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8573DBA8-6E81-88D2-1778-DC30E6C78D70}|Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj|e:\\lims\\research-lms\\backend\\gateway\\researchlms.gateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8573DBA8-6E81-88D2-1778-DC30E6C78D70}|Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj|solutionrelative:gateway\\researchlms.gateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8573DBA8-6E81-88D2-1778-DC30E6C78D70}|Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj|e:\\lims\\research-lms\\backend\\gateway\\researchlms.gateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8573DBA8-6E81-88D2-1778-DC30E6C78D70}|Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj|solutionrelative:gateway\\researchlms.gateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E74737C5-03C7-FBFF-2D5A-CD7AACADC059}|Services\\Identity\\ResearchLms.Identity.Api\\ResearchLms.Identity.Api.csproj|e:\\lims\\research-lms\\backend\\services\\identity\\researchlms.identity.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E74737C5-03C7-FBFF-2D5A-CD7AACADC059}|Services\\Identity\\ResearchLms.Identity.Api\\ResearchLms.Identity.Api.csproj|solutionrelative:services\\identity\\researchlms.identity.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Gateway\\ResearchLms.Gateway\\Program.cs",
+              "RelativeDocumentMoniker": "Gateway\\ResearchLms.Gateway\\Program.cs",
+              "ToolTip": "E:\\LIMS\\research-lms\\backend\\Gateway\\ResearchLms.Gateway\\Program.cs",
+              "RelativeToolTip": "Gateway\\ResearchLms.Gateway\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-13T11:40:13.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Gateway\\ResearchLms.Gateway\\appsettings.json",
+              "RelativeDocumentMoniker": "Gateway\\ResearchLms.Gateway\\appsettings.json",
+              "ToolTip": "E:\\LIMS\\research-lms\\backend\\Gateway\\ResearchLms.Gateway\\appsettings.json",
+              "RelativeToolTip": "Gateway\\ResearchLms.Gateway\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-13T11:40:39.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Services\\Identity\\ResearchLms.Identity.Api\\Program.cs",
+              "RelativeDocumentMoniker": "Services\\Identity\\ResearchLms.Identity.Api\\Program.cs",
+              "ToolTip": "E:\\LIMS\\research-lms\\backend\\Services\\Identity\\ResearchLms.Identity.Api\\Program.cs",
+              "RelativeToolTip": "Services\\Identity\\ResearchLms.Identity.Api\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-13T11:39:39.194Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "ResearchLms.Identity.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\Services\\Identity\\ResearchLms.Identity.Api",
+  "ResearchLms.Identity.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\Services\\Identity\\ResearchLms.Identity.Application",
+  "ResearchLms.Identity.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\Services\\Identity\\ResearchLms.Identity.Domain",
+  "ResearchLms.Identity.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\Services\\Identity\\ResearchLms.Identity.Infrastructure",
+  "ResearchLms.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\BuildingBlocks\\ResearchLms.Infrastructure",
+  "ResearchLms.Shared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\BuildingBlocks\\ResearchLms.Shared"
+}

@@ -1,0 +1,26 @@
+<Solution>
+  <Folder Name="/BuildingBlocks/">
+    <Project Path="BuildingBlocks\ResearchLms.Shared\ResearchLms.Shared.csproj" />
+    <Project Path="BuildingBlocks\ResearchLms.Infrastructure\ResearchLms.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Services/" />
+  <Folder Name="/Services/Identity/">
+    <Project Path="Services\Identity\ResearchLms.Identity.Domain\ResearchLms.Identity.Domain.csproj" />
+    <Project Path="Services\Identity\ResearchLms.Identity.Application\ResearchLms.Identity.Application.csproj" />
+    <Project Path="Services\Identity\ResearchLms.Identity.Infrastructure\ResearchLms.Identity.Infrastructure.csproj" />
+    <Project Path="Services\Identity\ResearchLms.Identity.Api\ResearchLms.Identity.Api.csproj" />
+  </Folder>
+  <Folder Name="/Services/Institution/">
+    <Project Path="Services\Institution\ResearchLms.Institution.Api\ResearchLms.Institution.Api.csproj" />
+  </Folder>
+  <Folder Name="/Gateway/">
+    <Project Path="Gateway\ResearchLms.Gateway\ResearchLms.Gateway.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/IntegrationTests/">
+    <Project Path="tests\IntegrationTests\ResearchLms.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/">
+    <Project Path="tests\UnitTests\ResearchLms.UnitTests.csproj" />
+  </Folder>
+</Solution>

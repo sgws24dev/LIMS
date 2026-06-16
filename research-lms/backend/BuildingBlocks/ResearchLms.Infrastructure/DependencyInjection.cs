@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Identity.Web;
 using ResearchLms.Infrastructure.Auth;
 using ResearchLms.Infrastructure.BackgroundJobs;
 using ResearchLms.Infrastructure.Contexts;
@@ -78,8 +79,17 @@ public static class DependencyInjection
             services.AddScoped<IJobService, JobService>();
         }
 
+        var azureAdSection = configuration.GetSection("AzureAd");
+        if (azureAdSection.Exists() && !string.IsNullOrEmpty(azureAdSection["ClientId"]))
+        {
+            services.AddAuthentication()
+                .AddMicrosoftIdentityWebApi(azureAdSection);
+        }
+
+        services.AddElasticsearch(configuration);
+        services.AddScoped<ISearchService, ElasticsearchService>();
+
         services.AddScoped<IFileStorageService, FileStorageService>();
-        services.AddScoped<ISearchService, SearchService>();
 
         services.AddScoped<ITenantContext, TenantContext>();
         services.AddScoped<ICurrentUser, CurrentUser>();

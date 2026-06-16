@@ -14,5 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\ResearchLms.Shared\ResearchLms.Shared.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\ResearchLms.Infrastructure\ResearchLms.Infrastructure.csproj" />
+    <ProjectReference Include="..\ResearchLms.Institution.Application\ResearchLms.Institution.Application.csproj" />
+    <ProjectReference Include="..\ResearchLms.Institution.Infrastructure\ResearchLms.Institution.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

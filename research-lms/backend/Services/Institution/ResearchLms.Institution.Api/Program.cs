@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using ResearchLms.Infrastructure;
 using ResearchLms.Infrastructure.Middleware;
 using ResearchLms.Infrastructure.Persistence;
+using ResearchLms.Institution.Application;
+using ResearchLms.Institution.Infrastructure;
 using ResearchLms.Shared.Abstractions;
 using Serilog;
 
@@ -10,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((ctx, cfg) => cfg.ReadFrom.Configuration(ctx.Configuration));
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInstitutionApplication();
+builder.Services.AddInstitutionInfrastructure();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

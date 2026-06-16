@@ -1,5 +1,5 @@
 {
-  "runtime": "Net60",
+  "runtime": "Net90",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
@@ -12,8 +12,8 @@
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
-      "typeScriptVersion": 5.5,
-      "template": "Angular",
+      "typeScriptVersion": 6.0,
+      "template": "Fetch",
       "promiseType": "Promise",
       "httpClass": "HttpClient",
       "useSingletonProvider": true,

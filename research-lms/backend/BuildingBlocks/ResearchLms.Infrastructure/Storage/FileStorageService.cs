@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+
 namespace ResearchLms.Infrastructure.Storage;
 
 public interface IFileStorageService
@@ -9,18 +11,38 @@ public interface IFileStorageService
 
 public class FileStorageService : IFileStorageService
 {
-    public Task<string> UploadAsync(Stream fileStream, string fileName, string contentType)
+    private readonly string _basePath;
+    private readonly string _baseUrl;
+
+    public FileStorageService(IConfiguration configuration)
     {
-        return Task.FromResult($"https://storage.researchlms.com/files/{Guid.NewGuid()}/{fileName}");
+        _basePath = configuration.GetValue<string>("FileStorage:LocalPath") ?? Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+        _baseUrl = configuration.GetValue<string>("FileStorage:BaseUrl") ?? "/uploads";
+        Directory.CreateDirectory(_basePath);
+    }
+
+    public async Task<string> UploadAsync(Stream fileStream, string fileName, string contentType)
+    {
+        var fileKey = $"{Guid.NewGuid():N}_{fileName}";
+        var fullPath = Path.Combine(_basePath, fileKey);
+
+        await using var file = new FileStream(fullPath, FileMode.Create, FileAccess.Write);
+        await fileStream.CopyToAsync(file);
+
+        return fileKey;
     }
 
     public Task<string> GetUrlAsync(string fileKey)
     {
-        return Task.FromResult($"https://storage.researchlms.com/files/{fileKey}");
+        var url = $"{_baseUrl}/{fileKey}";
+        return Task.FromResult(url);
     }
 
     public Task DeleteAsync(string fileKey)
     {
+        var fullPath = Path.Combine(_basePath, fileKey);
+        if (File.Exists(fullPath))
+            File.Delete(fullPath);
         return Task.CompletedTask;
     }
 }

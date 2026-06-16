@@ -15,6 +15,8 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+    <PackageReference Include="FluentAssertions" Version="7.2.0" />
+    <PackageReference Include="Bogus" Version="35.6.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Services\Identity\ResearchLms.Identity.Api\ResearchLms.Identity.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Facility\ResearchLms.Facility.Api\ResearchLms.Facility.Api.csproj" />
   </ItemGroup>
 
 </Project>

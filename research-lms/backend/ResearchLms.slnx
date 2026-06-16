@@ -10,8 +10,23 @@
     <Project Path="Services\Identity\ResearchLms.Identity.Infrastructure\ResearchLms.Identity.Infrastructure.csproj" />
     <Project Path="Services\Identity\ResearchLms.Identity.Api\ResearchLms.Identity.Api.csproj" />
   </Folder>
+  <Folder Name="/Services/Facility/">
+    <Project Path="Services\Facility\ResearchLms.Facility.Domain\ResearchLms.Facility.Domain.csproj" />
+    <Project Path="Services\Facility\ResearchLms.Facility.Application\ResearchLms.Facility.Application.csproj" />
+    <Project Path="Services\Facility\ResearchLms.Facility.Infrastructure\ResearchLms.Facility.Infrastructure.csproj" />
+    <Project Path="Services\Facility\ResearchLms.Facility.Api\ResearchLms.Facility.Api.csproj" />
+  </Folder>
   <Folder Name="/Services/Institution/">
+    <Project Path="Services\Institution\ResearchLms.Institution.Domain\ResearchLms.Institution.Domain.csproj" />
+    <Project Path="Services\Institution\ResearchLms.Institution.Application\ResearchLms.Institution.Application.csproj" />
+    <Project Path="Services\Institution\ResearchLms.Institution.Infrastructure\ResearchLms.Institution.Infrastructure.csproj" />
     <Project Path="Services\Institution\ResearchLms.Institution.Api\ResearchLms.Institution.Api.csproj" />
+  </Folder>
+  <Folder Name="/Services/Scheduling/">
+    <Project Path="Services\Scheduling\ResearchLms.Scheduling.Domain\ResearchLms.Scheduling.Domain.csproj" />
+    <Project Path="Services\Scheduling\ResearchLms.Scheduling.Application\ResearchLms.Scheduling.Application.csproj" />
+    <Project Path="Services\Scheduling\ResearchLms.Scheduling.Infrastructure\ResearchLms.Scheduling.Infrastructure.csproj" />
+    <Project Path="Services\Scheduling\ResearchLms.Scheduling.Api\ResearchLms.Scheduling.Api.csproj" />
   </Folder>
   <Folder Name="/Gateway/">
     <Project Path="Gateway\ResearchLms.Gateway\ResearchLms.Gateway.csproj" />

@@ -1,4 +1,8 @@
 {
+  "ResearchLms.Facility.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\Services\\Facility\\ResearchLms.Facility.Api",
+  "ResearchLms.Facility.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\Services\\Facility\\ResearchLms.Facility.Application",
+  "ResearchLms.Facility.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\Services\\Facility\\ResearchLms.Facility.Domain",
+  "ResearchLms.Facility.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\Services\\Facility\\ResearchLms.Facility.Infrastructure",
   "ResearchLms.Identity.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\Services\\Identity\\ResearchLms.Identity.Api",
   "ResearchLms.Identity.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\Services\\Identity\\ResearchLms.Identity.Application",
   "ResearchLms.Identity.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "E:\\LIMS\\research-lms\\backend\\Services\\Identity\\ResearchLms.Identity.Domain",

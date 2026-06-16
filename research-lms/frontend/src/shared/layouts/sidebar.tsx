@@ -6,6 +6,7 @@ import {
   ShieldCheck, Settings, CreditCard, ChevronLeft,
   ChevronRight, Dna, Wrench, BookOpen,
   ClipboardPen, CalendarCheck, GitBranch, Activity,
+  Clock, ListOrdered, AlertTriangle, Repeat,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useUIStore } from "@/store/uiStore"
@@ -54,7 +55,13 @@ const navCategories: NavCategory[] = [
   {
     label: "Operations",
     items: [
-      { label: "Bookings", icon: CalendarCheck, href: "/bookings" },
+      { label: "Booking Calendar", icon: CalendarCheck, href: "/scheduler/calendar" },
+      { label: "My Bookings", icon: BookOpen, href: "/scheduler/bookings" },
+      { label: "Availability", icon: Clock, href: "/scheduler/availability" },
+      { label: "Constraints", icon: ShieldCheck, href: "/scheduler/constraints" },
+      { label: "Recurring Rules", icon: Repeat, href: "/scheduler/recurring-rules" },
+      { label: "Waitlist", icon: ListOrdered, href: "/scheduler/waitlist" },
+      { label: "Conflicts", icon: AlertTriangle, href: "/scheduler/conflicts" },
       { label: "Requests", icon: ClipboardPen, href: "/requests" },
       { label: "Workflows", icon: GitBranch, href: "/workflows" },
       { label: "Projects", icon: BookOpen, href: "/projects" },

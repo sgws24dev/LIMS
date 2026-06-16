@@ -3,12 +3,36 @@
   "WorkspaceRootPath": "E:\\LIMS\\research-lms\\backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8573DBA8-6E81-88D2-1778-DC30E6C78D70}|Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj|e:\\lims\\research-lms\\backend\\gateway\\researchlms.gateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8573DBA8-6E81-88D2-1778-DC30E6C78D70}|Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj|solutionrelative:gateway\\researchlms.gateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|e:\\lims\\research-lms\\backend\\services\\scheduling\\researchlms.scheduling.application\\commands\\sprint2commands.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|solutionrelative:services\\scheduling\\researchlms.scheduling.application\\commands\\sprint2commands.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|e:\\lims\\research-lms\\backend\\services\\scheduling\\researchlms.scheduling.application\\handlers\\sprint4queryhandlers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|solutionrelative:services\\scheduling\\researchlms.scheduling.application\\handlers\\sprint4queryhandlers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|e:\\lims\\research-lms\\backend\\services\\scheduling\\researchlms.scheduling.application\\queries\\sprint4queries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|solutionrelative:services\\scheduling\\researchlms.scheduling.application\\queries\\sprint4queries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|e:\\lims\\research-lms\\backend\\services\\scheduling\\researchlms.scheduling.application\\queries\\getresourcesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|solutionrelative:services\\scheduling\\researchlms.scheduling.application\\queries\\getresourcesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|e:\\lims\\research-lms\\backend\\services\\scheduling\\researchlms.scheduling.application\\queries\\sprint3queries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|solutionrelative:services\\scheduling\\researchlms.scheduling.application\\queries\\sprint3queries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|e:\\lims\\research-lms\\backend\\services\\scheduling\\researchlms.scheduling.application\\queries\\sprint2queries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32937618-7784-59A9-0EBE-8C58945ED17B}|Services\\Scheduling\\ResearchLms.Scheduling.Application\\ResearchLms.Scheduling.Application.csproj|solutionrelative:services\\scheduling\\researchlms.scheduling.application\\queries\\sprint2queries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8573DBA8-6E81-88D2-1778-DC30E6C78D70}|Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj|e:\\lims\\research-lms\\backend\\gateway\\researchlms.gateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{8573DBA8-6E81-88D2-1778-DC30E6C78D70}|Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj|solutionrelative:gateway\\researchlms.gateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8573DBA8-6E81-88D2-1778-DC30E6C78D70}|Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj|e:\\lims\\research-lms\\backend\\gateway\\researchlms.gateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8573DBA8-6E81-88D2-1778-DC30E6C78D70}|Gateway\\ResearchLms.Gateway\\ResearchLms.Gateway.csproj|solutionrelative:gateway\\researchlms.gateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E74737C5-03C7-FBFF-2D5A-CD7AACADC059}|Services\\Identity\\ResearchLms.Identity.Api\\ResearchLms.Identity.Api.csproj|e:\\lims\\research-lms\\backend\\services\\identity\\researchlms.identity.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,6 +51,84 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Sprint2Commands.cs",
+              "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Commands\\Sprint2Commands.cs",
+              "RelativeDocumentMoniker": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Commands\\Sprint2Commands.cs",
+              "ToolTip": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Commands\\Sprint2Commands.cs",
+              "RelativeToolTip": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Commands\\Sprint2Commands.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T08:37:07.148Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Sprint4QueryHandlers.cs",
+              "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Handlers\\Sprint4QueryHandlers.cs",
+              "RelativeDocumentMoniker": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Handlers\\Sprint4QueryHandlers.cs",
+              "ToolTip": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Handlers\\Sprint4QueryHandlers.cs",
+              "RelativeToolTip": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Handlers\\Sprint4QueryHandlers.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAIAwwBkAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T08:36:53.8Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GetResourcesQueryHandler.cs",
+              "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\GetResourcesQueryHandler.cs",
+              "RelativeDocumentMoniker": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\GetResourcesQueryHandler.cs",
+              "ToolTip": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\GetResourcesQueryHandler.cs",
+              "RelativeToolTip": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\GetResourcesQueryHandler.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T08:36:22.52Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Sprint4Queries.cs",
+              "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint4Queries.cs",
+              "RelativeDocumentMoniker": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint4Queries.cs",
+              "ToolTip": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint4Queries.cs",
+              "RelativeToolTip": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint4Queries.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T08:33:45.374Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Sprint3Queries.cs",
+              "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint3Queries.cs",
+              "RelativeDocumentMoniker": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint3Queries.cs",
+              "ToolTip": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint3Queries.cs",
+              "RelativeToolTip": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint3Queries.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T08:33:35.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Sprint2Queries.cs",
+              "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint2Queries.cs",
+              "RelativeDocumentMoniker": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint2Queries.cs",
+              "ToolTip": "E:\\LIMS\\research-lms\\backend\\Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint2Queries.cs",
+              "RelativeToolTip": "Services\\Scheduling\\ResearchLms.Scheduling.Application\\Queries\\Sprint2Queries.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T08:33:24.773Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Gateway\\ResearchLms.Gateway\\Program.cs",
               "RelativeDocumentMoniker": "Gateway\\ResearchLms.Gateway\\Program.cs",
@@ -34,12 +136,11 @@
               "RelativeToolTip": "Gateway\\ResearchLms.Gateway\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-13T11:40:13.054Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-13T11:40:13.054Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "appsettings.json",
               "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Gateway\\ResearchLms.Gateway\\appsettings.json",
               "RelativeDocumentMoniker": "Gateway\\ResearchLms.Gateway\\appsettings.json",
@@ -52,7 +153,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\LIMS\\research-lms\\backend\\Services\\Identity\\ResearchLms.Identity.Api\\Program.cs",
               "RelativeDocumentMoniker": "Services\\Identity\\ResearchLms.Identity.Api\\Program.cs",
@@ -60,8 +161,7 @@
               "RelativeToolTip": "Services\\Identity\\ResearchLms.Identity.Api\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-13T11:39:39.194Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-13T11:39:39.194Z"
             }
           ]
         }

@@ -1,7 +1,5 @@
 namespace ResearchLms.Identity.Infrastructure.Services;
 
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using ResearchLms.Infrastructure.Auth;
 using ResearchLms.Infrastructure.Persistence;
@@ -23,11 +21,10 @@ public class PasswordHasher : IPasswordHasher
 {
     public string Hash(string password)
     {
-        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(password + "ResearchLmsSalt"));
-        return Convert.ToBase64String(bytes);
+        return BCrypt.Net.BCrypt.HashPassword(password, workFactor: 10);
     }
 
-    public bool Verify(string password, string hash) => Hash(password) == hash;
+    public bool Verify(string password, string hash) => BCrypt.Net.BCrypt.Verify(password, hash);
 }
 
 public sealed class IdentityService : IIdentityService

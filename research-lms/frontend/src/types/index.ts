@@ -9,6 +9,7 @@ export interface User {
   phone: string
   avatarUrl?: string
   role: UserRole[]
+  roleName?: string
   isActive: boolean
   isMfaEnabled: boolean
   lastLoginAt?: string

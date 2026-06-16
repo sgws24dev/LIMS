@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ResearchLms.ServiceWorkflow.Infrastructure</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="JsonSchema.Net" Version="7.3.1" />
+    <PackageReference Include="MailKit" Version="4.17.0" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="9.1.2" />
+    <PackageReference Include="MimeKit" Version="4.17.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\ResearchLms.Infrastructure\ResearchLms.Infrastructure.csproj" />
+    <ProjectReference Include="..\ResearchLms.ServiceWorkflow.Application\ResearchLms.ServiceWorkflow.Application.csproj" />
+  </ItemGroup>
+</Project>

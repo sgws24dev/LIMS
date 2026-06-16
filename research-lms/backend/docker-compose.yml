@@ -69,8 +69,160 @@ services:
       retries: 10
       start_period: 30s
 
+  identity-api:
+    image: ${DOCKER_REGISTRY-}researchlms-identity
+    container_name: research-lms-identity
+    build:
+      context: .
+      dockerfile: Services/Identity/ResearchLms.Identity.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5001
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=ResearchLms_Identity;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+      - RabbitMQ__Host=rabbitmq
+      - Elasticsearch__Url=http://elasticsearch:9200
+    ports:
+      - "5001:5001"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_started
+    volumes:
+      - identity-logs:/app/logs
+
+  institution-api:
+    image: ${DOCKER_REGISTRY-}researchlms-institution
+    container_name: research-lms-institution
+    build:
+      context: .
+      dockerfile: Services/Institution/ResearchLms.Institution.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5002
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=ResearchLms_Identity;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+      - Elasticsearch__Url=http://elasticsearch:9200
+    ports:
+      - "5002:5002"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_started
+    volumes:
+      - institution-logs:/app/logs
+
+  facility-api:
+    image: ${DOCKER_REGISTRY-}researchlms-facility
+    container_name: research-lms-facility
+    build:
+      context: .
+      dockerfile: Services/Facility/ResearchLms.Facility.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5003
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=ResearchLms_Facility;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+      - RabbitMQ__Host=rabbitmq
+      - Elasticsearch__Url=http://elasticsearch:9200
+    ports:
+      - "5003:5003"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_started
+    volumes:
+      - facility-logs:/app/logs
+
+  scheduling-api:
+    image: ${DOCKER_REGISTRY-}researchlms-scheduling
+    container_name: research-lms-scheduling
+    build:
+      context: .
+      dockerfile: Services/Scheduling/ResearchLms.Scheduling.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5004
+      - ConnectionStrings__SchedulingDb=Server=sqlserver,1433;Database=ResearchLms_Scheduling;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+      - RabbitMQ__Host=rabbitmq
+      - Elasticsearch__Url=http://elasticsearch:9200
+    ports:
+      - "5004:5004"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_started
+    volumes:
+      - scheduling-logs:/app/logs
+
+  serviceworkflow-api:
+    image: ${DOCKER_REGISTRY-}researchlms-serviceworkflow
+    container_name: research-lms-serviceworkflow
+    build:
+      context: .
+      dockerfile: Services/ServiceWorkflow/ResearchLms.ServiceWorkflow.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5005
+      - ConnectionStrings__ServiceWorkflowDb=Server=sqlserver,1433;Database=ResearchLms_ServiceWorkflow;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+      - RabbitMQ__Host=rabbitmq
+      - Elasticsearch__Url=http://elasticsearch:9200
+    ports:
+      - "5005:5005"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_started
+    volumes:
+      - serviceworkflow-logs:/app/logs
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: research-lms-mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    environment:
+      MH_STORAGE: maildir
+    volumes:
+      - mailhog-data:/maildir
+
+  gateway:
+    image: ${DOCKER_REGISTRY-}researchlms-gateway
+    container_name: research-lms-gateway
+    build:
+      context: .
+      dockerfile: Gateway/ResearchLms.Gateway/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    ports:
+      - "5000:5000"
+    depends_on:
+      - identity-api
+      - institution-api
+      - facility-api
+      - scheduling-api
+      - serviceworkflow-api
+
 volumes:
   sqlserver-data:
   redis-data:
   rabbitmq-data:
   elasticsearch-data:
+  mailhog-data:
+  identity-logs:
+  institution-logs:
+  facility-logs:
+  scheduling-logs:
+  serviceworkflow-logs:

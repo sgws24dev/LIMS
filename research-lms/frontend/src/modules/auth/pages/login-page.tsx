@@ -1,10 +1,13 @@
 import { useState, type FormEvent } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { useAuthStore } from "@/store/authStore"
 import { Button } from "@/shared/ui/button"
 import { Input } from "@/shared/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card"
-import { Loader2, LogIn, AlertCircle, Eye, EyeOff } from "lucide-react"
+import { Separator } from "@/shared/ui/separator"
+import { Loader2, LogIn, AlertCircle, Eye, EyeOff, Building2 } from "lucide-react"
+
+const SSO_URL = "/api/v1/auth/sso/entra-id"
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -13,6 +16,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [ssoLoading, setSsoLoading] = useState(false)
 
   if (isAuthenticated) {
     navigate("/dashboard", { replace: true })
@@ -34,6 +38,11 @@ export default function LoginPage() {
     }
   }
 
+  const handleSSO = () => {
+    setSsoLoading(true)
+    window.location.href = SSO_URL
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-muted/30 to-background p-4">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
@@ -46,6 +55,27 @@ export default function LoginPage() {
           <CardDescription>Sign in to your account to continue</CardDescription>
         </CardHeader>
         <CardContent>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={handleSSO}
+            disabled={ssoLoading}
+          >
+            {ssoLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Building2 className="mr-2 h-4 w-4" />
+            )}
+            Sign in with Institution SSO
+          </Button>
+
+          <div className="relative my-6">
+            <Separator />
+            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">
+              OR
+            </span>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <div className="flex items-center gap-2 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
@@ -87,9 +117,9 @@ export default function LoginPage() {
                 <input type="checkbox" className="rounded border-border" />
                 Remember me
               </label>
-              <button type="button" className="text-primary hover:underline">
+              <Link to="/forgot-password" className="text-primary hover:underline">
                 Forgot password?
-              </button>
+              </Link>
             </div>
 
             <Button type="submit" className="w-full" disabled={isLoading}>

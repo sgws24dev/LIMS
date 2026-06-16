@@ -13,6 +13,7 @@ import {
 } from "@/shared/ui/dropdown-menu"
 import { useNavigate, Link } from "react-router-dom"
 import { cn } from "@/lib/utils"
+import GlobalSearch from "@/shared/components/global-search"
 
 export function Header() {
   const { user, logout } = useAuthStore()
@@ -58,6 +59,8 @@ export function Header() {
         </nav>
       )}
       <div className="flex-1" />
+
+      <GlobalSearch />
 
       <div className="flex items-center gap-1">
         <Button

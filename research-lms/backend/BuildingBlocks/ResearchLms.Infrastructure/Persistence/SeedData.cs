@@ -23,7 +23,7 @@ public static class SeedData
         {
             "users", "roles", "tenants", "institutions", "facilities",
             "labs", "equipment", "samples", "experiments", "trainings",
-            "bookings", "billing", "reports", "audit", "settings"
+            "bookings", "resources", "billing", "reports", "audit", "settings"
         };
 
         var adminRole = Role.Create("System Administrator", "Full system access", true);
@@ -42,7 +42,7 @@ public static class SeedData
         }
 
         var piRole = Role.Create("Principal Investigator", "Manages experiments and samples", false);
-        foreach (var module in new[] { "samples", "experiments", "equipment", "bookings", "reports" })
+        foreach (var module in new[] { "samples", "experiments", "equipment", "bookings", "resources", "reports", "facilities" })
         {
             var perm = new Permission(module, true, true, true, false);
             piRole.AddPermission(perm);
@@ -53,7 +53,7 @@ public static class SeedData
         trainerRole.AddPermission(trainerPerm);
 
         var researcherRole = Role.Create("Researcher", "Conducts research", false);
-        foreach (var module in new[] { "samples", "experiments", "equipment", "bookings" })
+        foreach (var module in new[] { "samples", "experiments", "equipment", "bookings", "facilities" })
         {
             var perm = new Permission(module, true, true, false, false);
             researcherRole.AddPermission(perm);

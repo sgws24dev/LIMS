@@ -28,6 +28,7 @@ public class PublishFormDefinitionCommandHandler : IRequestHandler<PublishFormDe
             form.Title,
             form.Description,
             form.Schema,
+            form.Fields,
             form.Version,
             form.Status.ToString(),
             form.Category,

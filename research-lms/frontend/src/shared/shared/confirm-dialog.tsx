@@ -10,12 +10,13 @@ import {
 } from "@/shared/ui/dialog"
 import { Button } from "@/shared/ui/button"
 import { AlertTriangle, Info, Trash2 } from "lucide-react"
+import type { ReactNode } from "react"
 
 export interface ConfirmDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   title: string
-  description: string
+  description: string | ReactNode
   confirmLabel?: string
   cancelLabel?: string
   variant?: "default" | "destructive" | "warning"

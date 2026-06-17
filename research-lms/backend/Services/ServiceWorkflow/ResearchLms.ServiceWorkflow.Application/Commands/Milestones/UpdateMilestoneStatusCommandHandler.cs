@@ -43,6 +43,7 @@ public class UpdateMilestoneStatusCommandHandler : IRequestHandler<UpdateMilesto
             milestone.Description,
             milestone.Order,
             milestone.Status.ToString(),
+            milestone.DueDate,
             milestone.CompletedAt,
             milestone.CompletedBy,
             milestone.AssignedTo

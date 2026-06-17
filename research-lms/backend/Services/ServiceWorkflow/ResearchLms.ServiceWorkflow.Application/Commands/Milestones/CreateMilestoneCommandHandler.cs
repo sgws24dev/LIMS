@@ -28,6 +28,7 @@ public class CreateMilestoneCommandHandler : IRequestHandler<CreateMilestoneComm
             request.Description,
             request.Order,
             request.CreatedBy,
+            request.DueDate,
             request.AssignedTo);
 
         await _repository.AddAsync(milestone, ct);
@@ -39,6 +40,7 @@ public class CreateMilestoneCommandHandler : IRequestHandler<CreateMilestoneComm
             milestone.Description,
             milestone.Order,
             milestone.Status.ToString(),
+            milestone.DueDate,
             milestone.CompletedAt,
             milestone.CompletedBy,
             milestone.AssignedTo

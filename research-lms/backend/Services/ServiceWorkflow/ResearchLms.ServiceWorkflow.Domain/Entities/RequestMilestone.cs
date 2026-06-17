@@ -13,6 +13,7 @@ public class RequestMilestone : BaseEntity
     public DateTime? CompletedAt { get; private set; }
     public string? CompletedBy { get; private set; }
     public string? AssignedTo { get; private set; }
+    public DateTime? DueDate { get; private set; }
 
     public ServiceRequest ServiceRequest { get; private set; } = null!;
 
@@ -24,6 +25,7 @@ public class RequestMilestone : BaseEntity
         string? description,
         int order,
         string createdBy,
+        DateTime? dueDate = null,
         string? assignedTo = null)
     {
         ServiceRequestId = serviceRequestId;
@@ -31,6 +33,7 @@ public class RequestMilestone : BaseEntity
         Description = description;
         Order = order;
         Status = MilestoneStatus.Pending;
+        DueDate = dueDate;
         AssignedTo = assignedTo;
         MarkCreated(createdBy);
     }

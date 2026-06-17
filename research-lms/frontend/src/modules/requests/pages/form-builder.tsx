@@ -319,6 +319,7 @@ export default function FormBuilderPage() {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
+                            style={provided.draggableProps.style as React.CSSProperties}
                             className={`p-3 border rounded cursor-pointer flex items-center justify-between ${
                               selectedFieldIndex === index ? 'border-primary ring-2 ring-primary' : ''
                             }`}

@@ -23,6 +23,7 @@ public class CreateFormDefinitionCommandHandler : IRequestHandler<CreateFormDefi
             request.Title,
             request.Description,
             schema,
+            request.Fields,
             request.Category,
             request.CreatedBy);
 
@@ -33,6 +34,7 @@ public class CreateFormDefinitionCommandHandler : IRequestHandler<CreateFormDefi
             form.Title,
             form.Description,
             form.Schema,
+            form.Fields,
             form.Version,
             form.Status.ToString(),
             form.Category,

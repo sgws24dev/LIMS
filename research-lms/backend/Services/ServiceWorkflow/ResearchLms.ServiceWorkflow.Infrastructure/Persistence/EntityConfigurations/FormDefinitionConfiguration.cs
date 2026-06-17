@@ -17,6 +17,7 @@ public class FormDefinitionConfiguration : IEntityTypeConfiguration<FormDefiniti
         builder.Property(e => e.Description).HasMaxLength(2000);
         builder.Property(e => e.Schema).HasColumnType("nvarchar(max)").IsRequired()
             .HasConversion(v => v.ToString(), v => new Domain.ValueObjects.JsonSchema(v));
+        builder.Property(e => e.Fields).HasColumnType("nvarchar(max)");
         builder.Property(e => e.Version).IsRequired();
         builder.Property(e => e.Status).HasMaxLength(50).IsRequired()
             .HasConversion<string>();

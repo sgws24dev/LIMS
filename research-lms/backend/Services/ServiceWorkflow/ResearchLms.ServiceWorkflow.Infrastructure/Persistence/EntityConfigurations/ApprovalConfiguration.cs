@@ -18,6 +18,7 @@ public class ApprovalConfiguration : IEntityTypeConfiguration<Approval>
         builder.Property(e => e.Status).HasMaxLength(50).IsRequired()
             .HasConversion<string>();
         builder.Property(e => e.Comment).HasMaxLength(2000);
+        builder.Property(e => e.AssignedAt);
 
         builder.Property(e => e.CreatedBy).HasMaxLength(100).IsRequired();
         builder.Property(e => e.UpdatedBy).HasMaxLength(100);

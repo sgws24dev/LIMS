@@ -20,6 +20,7 @@ public class RequestMilestoneConfiguration : IEntityTypeConfiguration<RequestMil
             .HasConversion<string>();
         builder.Property(e => e.CompletedBy).HasMaxLength(100);
         builder.Property(e => e.AssignedTo).HasMaxLength(100);
+        builder.Property(e => e.DueDate);
 
         builder.Property(e => e.CreatedBy).HasMaxLength(100).IsRequired();
         builder.Property(e => e.UpdatedBy).HasMaxLength(100);

@@ -4,6 +4,12 @@
     <Project Path="BuildingBlocks\ResearchLms.Infrastructure\ResearchLms.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/Services/" />
+  <Folder Name="/Services/Projects/">
+    <Project Path="Services\Projects\ResearchLms.Projects.Domain\ResearchLms.Projects.Domain.csproj" />
+    <Project Path="Services\Projects\ResearchLms.Projects.Application\ResearchLms.Projects.Application.csproj" />
+    <Project Path="Services\Projects\ResearchLms.Projects.Infrastructure\ResearchLms.Projects.Infrastructure.csproj" />
+    <Project Path="Services\Projects\ResearchLms.Projects.Api\ResearchLms.Projects.Api.csproj" />
+  </Folder>
   <Folder Name="/Services/Identity/">
     <Project Path="Services\Identity\ResearchLms.Identity.Domain\ResearchLms.Identity.Domain.csproj" />
     <Project Path="Services\Identity\ResearchLms.Identity.Application\ResearchLms.Identity.Application.csproj" />
@@ -27,6 +33,18 @@
     <Project Path="Services\Scheduling\ResearchLms.Scheduling.Application\ResearchLms.Scheduling.Application.csproj" />
     <Project Path="Services\Scheduling\ResearchLms.Scheduling.Infrastructure\ResearchLms.Scheduling.Infrastructure.csproj" />
     <Project Path="Services\Scheduling\ResearchLms.Scheduling.Api\ResearchLms.Scheduling.Api.csproj" />
+  </Folder>
+  <Folder Name="/Services/Inventory/">
+    <Project Path="Services\Inventory\ResearchLms.Inventory.Domain\ResearchLms.Inventory.Domain.csproj" />
+    <Project Path="Services\Inventory\ResearchLms.Inventory.Application\ResearchLms.Inventory.Application.csproj" />
+    <Project Path="Services\Inventory\ResearchLms.Inventory.Infrastructure\ResearchLms.Inventory.Infrastructure.csproj" />
+    <Project Path="Services\Inventory\ResearchLms.Inventory.Api\ResearchLms.Inventory.Api.csproj" />
+  </Folder>
+  <Folder Name="/Services/ServiceWorkflow/">
+    <Project Path="Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Domain\ResearchLms.ServiceWorkflow.Domain.csproj" />
+    <Project Path="Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Application\ResearchLms.ServiceWorkflow.Application.csproj" />
+    <Project Path="Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Infrastructure\ResearchLms.ServiceWorkflow.Infrastructure.csproj" />
+    <Project Path="Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Api\ResearchLms.ServiceWorkflow.Api.csproj" />
   </Folder>
   <Folder Name="/Gateway/">
     <Project Path="Gateway\ResearchLms.Gateway\ResearchLms.Gateway.csproj" />

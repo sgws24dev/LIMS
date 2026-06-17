@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ResearchLms.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a1190c6440f491b9d6bb11246b4053e522187db4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d75e6b00f9f46734164873689836ce627e452e74")]
 [assembly: System.Reflection.AssemblyProductAttribute("ResearchLms.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ResearchLms.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -15,6 +15,8 @@ public class ServiceRequestConfiguration : IEntityTypeConfiguration<ServiceReque
         builder.Property(e => e.TenantId).IsRequired();
         builder.Property(e => e.Title).HasMaxLength(200).IsRequired();
         builder.Property(e => e.Description).HasMaxLength(2000);
+        builder.Property(e => e.Priority).HasMaxLength(50).IsRequired()
+            .HasConversion<string>();
         builder.Property(e => e.Status).HasMaxLength(50).IsRequired()
             .HasConversion<string>();
         builder.Property(e => e.FormData).HasColumnType("nvarchar(max)").IsRequired();

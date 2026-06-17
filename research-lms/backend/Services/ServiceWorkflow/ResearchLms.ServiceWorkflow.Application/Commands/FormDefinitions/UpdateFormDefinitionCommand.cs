@@ -8,6 +8,7 @@ public record UpdateFormDefinitionCommand(
     string Title,
     string? Description,
     string Schema,
+    string Fields,
     string Category,
     string ModifiedBy
 ) : IRequest<ApiResponse<FormDefinitionDto>>;

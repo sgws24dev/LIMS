@@ -171,3 +171,6 @@ E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflo
 E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Api\obj\Debug\net10.0\ResearchLms.ServiceWorkflow.Api.pdb
 E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Api\obj\Debug\net10.0\ResearchLms.ServiceWorkflow.Api.genruntimeconfig.cache
 E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Api\obj\Debug\net10.0\ref\ResearchLms.ServiceWorkflow.Api.dll
+E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Api\bin\Debug\net10.0\BouncyCastle.Cryptography.dll
+E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Api\bin\Debug\net10.0\MailKit.dll
+E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Api\bin\Debug\net10.0\MimeKit.dll

@@ -54,7 +54,7 @@ public class ServiceRequestsController : ControllerBase
         var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "system";
         var command = new CreateServiceRequestCommand(
             request.FormDefinitionId, request.Title, request.Description,
-            request.FormData, request.ApprovalRouting, userId);
+            request.FormData, request.ApprovalRouting, request.Priority, request.DueDate, userId);
         var result = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetById), new { id = result.Data?.Id }, result);
     }

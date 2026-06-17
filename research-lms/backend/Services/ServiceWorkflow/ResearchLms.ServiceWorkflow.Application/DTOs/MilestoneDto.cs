@@ -7,6 +7,7 @@ public record MilestoneDto(
     string? Description,
     int Order,
     string Status,
+    DateTime? DueDate,
     DateTime? CompletedAt,
     string? CompletedBy,
     string? AssignedTo
@@ -17,5 +18,6 @@ public record CreateMilestoneRequest(
     string Title,
     string? Description,
     int Order,
+    DateTime? DueDate,
     string? AssignedTo
 );

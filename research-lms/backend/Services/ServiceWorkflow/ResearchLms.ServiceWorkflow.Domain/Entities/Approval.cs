@@ -11,6 +11,7 @@ public class Approval : BaseEntity
     public string? ApproverName { get; private set; }
     public ApprovalStatus Status { get; private set; }
     public string? Comment { get; private set; }
+    public DateTime? AssignedAt { get; private set; }
     public DateTime? DecidedAt { get; private set; }
 
     public ServiceRequest ServiceRequest { get; private set; } = null!;
@@ -28,6 +29,7 @@ public class Approval : BaseEntity
         ApproverUserId = approverUserId;
         ApproverName = approverName;
         Status = ApprovalStatus.Pending;
+        AssignedAt = DateTime.UtcNow;
         MarkCreated(approverUserId);
     }
 

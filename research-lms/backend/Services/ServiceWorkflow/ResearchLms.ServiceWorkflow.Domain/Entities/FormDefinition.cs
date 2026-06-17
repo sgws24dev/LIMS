@@ -9,28 +9,31 @@ public class FormDefinition : BaseEntity
     public string Title { get; private set; }
     public string? Description { get; private set; }
     public JsonSchema Schema { get; private set; }
+    public string Fields { get; private set; }
     public int Version { get; private set; }
     public FormStatus Status { get; private set; }
     public string Category { get; private set; }
 
-    private FormDefinition() { Title = null!; Schema = null!; Category = null!; }
+    private FormDefinition() { Title = null!; Schema = null!; Fields = null!; Category = null!; }
 
-    public FormDefinition(string title, string? description, JsonSchema schema, string category, string createdBy)
+    public FormDefinition(string title, string? description, JsonSchema schema, string fields, string category, string createdBy)
     {
         Title = title;
         Description = description;
         Schema = schema;
+        Fields = fields;
         Category = category;
         Version = 1;
         Status = FormStatus.Draft;
         MarkCreated(createdBy);
     }
 
-    public void Update(string title, string? description, JsonSchema schema, string category, string modifiedBy)
+    public void Update(string title, string? description, JsonSchema schema, string fields, string category, string modifiedBy)
     {
         Title = title;
         Description = description;
         Schema = schema;
+        Fields = fields;
         Category = category;
         Version++;
         MarkUpdated(modifiedBy);

@@ -33,7 +33,7 @@ public class MilestonesController : ControllerBase
     {
         var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "system";
         var command = new CreateMilestoneCommand(
-            requestId, request.Title, request.Description, request.Order, request.AssignedTo, userId);
+            requestId, request.Title, request.Description, request.Order, request.DueDate, request.AssignedTo, userId);
         var result = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetByRequest), new { requestId }, result);
     }

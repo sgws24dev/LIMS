@@ -20,7 +20,7 @@ public class GetFormDefinitionByIdQueryHandler : IRequestHandler<GetFormDefiniti
             ?? throw new NotFoundException(nameof(Domain.Entities.FormDefinition), request.Id);
 
         return new ApiResponse<FormDefinitionDto>(true, new FormDefinitionDto(
-            form.Id, form.Title, form.Description, form.Schema,
+            form.Id, form.Title, form.Description, form.Schema, form.Fields,
             form.Version, form.Status.ToString(), form.Category,
             form.CreatedAt, form.CreatedBy, form.UpdatedAt, form.UpdatedBy
         ));

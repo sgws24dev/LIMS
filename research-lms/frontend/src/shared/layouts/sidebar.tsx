@@ -6,7 +6,7 @@ import {
   ShieldCheck, Settings, CreditCard, ChevronLeft,
   ChevronRight, Dna, Wrench, BookOpen,
   ClipboardPen, CalendarCheck, GitBranch, Activity,
-  Clock, ListOrdered, AlertTriangle, Repeat,
+  Clock, ListOrdered, AlertTriangle, Repeat, ShoppingCart,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useUIStore } from "@/store/uiStore"
@@ -65,7 +65,10 @@ const navCategories: NavCategory[] = [
       { label: "Requests", icon: ClipboardPen, href: "/requests" },
       { label: "Workflows", icon: GitBranch, href: "/workflows" },
       { label: "Projects", icon: BookOpen, href: "/projects" },
-      { label: "Inventory", icon: Package, href: "/inventory" },
+      { label: "Inventory Dashboard", icon: Package, href: "/inventory" },
+      { label: "Item Catalog", icon: Package, href: "/inventory/items" },
+      { label: "Purchase Orders", icon: ShoppingCart, href: "/inventory/purchase-orders" },
+      { label: "Vendors", icon: Building2, href: "/inventory/vendors" },
     ],
   },
   {

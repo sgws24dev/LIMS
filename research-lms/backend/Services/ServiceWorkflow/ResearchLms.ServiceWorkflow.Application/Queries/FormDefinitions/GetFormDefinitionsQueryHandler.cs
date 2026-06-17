@@ -20,7 +20,7 @@ public class GetFormDefinitionsQueryHandler : IRequestHandler<GetFormDefinitions
             : await _repository.GetAllAsync(request.TenantId, ct);
 
         var dtos = forms.Select(f => new FormDefinitionDto(
-            f.Id, f.Title, f.Description, f.Schema,
+            f.Id, f.Title, f.Description, f.Schema, f.Fields,
             f.Version, f.Status.ToString(), f.Category,
             f.CreatedAt, f.CreatedBy, f.UpdatedAt, f.UpdatedBy
         )).ToList();

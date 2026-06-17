@@ -22,7 +22,7 @@ public class UpdateFormDefinitionCommandHandler : IRequestHandler<UpdateFormDefi
             ?? throw new NotFoundException(nameof(FormDefinition), request.Id);
 
         var schema = new JsonSchema(request.Schema);
-        form.Update(request.Title, request.Description, schema, request.Category, request.ModifiedBy);
+        form.Update(request.Title, request.Description, schema, request.Fields, request.Category, request.ModifiedBy);
 
         await _repository.UpdateAsync(form, ct);
 
@@ -31,6 +31,7 @@ public class UpdateFormDefinitionCommandHandler : IRequestHandler<UpdateFormDefi
             form.Title,
             form.Description,
             form.Schema,
+            form.Fields,
             form.Version,
             form.Status.ToString(),
             form.Category,

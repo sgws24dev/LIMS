@@ -46,8 +46,9 @@ public class GetServiceRequestsQueryHandler : IRequestHandler<GetServiceRequests
 
             dtos.Add(new ServiceRequestDto(
                 sr.Id, sr.FormDefinitionId, sr.FormDefinitionVersion, forms[sr.FormDefinitionId],
-                sr.Title, sr.Description, sr.Status.ToString(), sr.FormData,
-                sr.AssignedTo, sr.SubmittedAt, sr.SubmittedBy, sr.CompletedAt, sr.CompletedBy,
+                sr.Title, sr.Description, sr.Status.ToString(), sr.Priority.ToString(),
+                sr.FormData, sr.AssignedTo, sr.SubmittedAt, sr.SubmittedBy,
+                sr.DueDate, sr.CompletedAt, sr.CompletedBy,
                 sr.ApprovalRouting.ToString(), sr.CreatedAt, sr.CreatedBy
             ));
         }

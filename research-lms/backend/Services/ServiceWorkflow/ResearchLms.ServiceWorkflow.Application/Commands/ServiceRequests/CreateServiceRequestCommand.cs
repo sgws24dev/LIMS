@@ -9,5 +9,7 @@ public record CreateServiceRequestCommand(
     string? Description,
     string FormData,
     string ApprovalRouting,
+    string Priority,
+    DateTime? DueDate,
     string CreatedBy
 ) : IRequest<ApiResponse<ServiceRequestDto>>;

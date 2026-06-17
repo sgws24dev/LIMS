@@ -10,10 +10,12 @@ public class ServiceRequest : BaseEntity
     public string Title { get; private set; }
     public string? Description { get; private set; }
     public ServiceRequestStatus Status { get; private set; }
+    public Priority Priority { get; private set; }
     public string FormData { get; private set; }
     public string? AssignedTo { get; private set; }
     public DateTime? SubmittedAt { get; private set; }
     public string? SubmittedBy { get; private set; }
+    public DateTime? DueDate { get; private set; }
     public DateTime? CompletedAt { get; private set; }
     public string? CompletedBy { get; private set; }
     public Guid? ParentRequestId { get; private set; }
@@ -40,6 +42,8 @@ public class ServiceRequest : BaseEntity
         string? description,
         string formData,
         ApprovalRoutingType approvalRouting,
+        Priority priority,
+        DateTime? dueDate,
         string createdBy)
     {
         FormDefinitionId = formDefinitionId;
@@ -47,7 +51,9 @@ public class ServiceRequest : BaseEntity
         Title = title;
         Description = description;
         Status = ServiceRequestStatus.Draft;
+        Priority = priority;
         FormData = formData;
+        DueDate = dueDate;
         ApprovalRouting = approvalRouting;
         MarkCreated(createdBy);
     }

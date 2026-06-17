@@ -313,12 +313,12 @@ export default function DynamicFormRenderer({
             control={control}
             render={({ field: f }) => (
               <div className="border rounded p-2">
-                <SignaturePad
-                  style={{ width: '100%', height: 150 }}
-                  value={f.value}
-                  onChange={(val) => f.onChange(val)}
-                  disabled={readOnly}
-                />
+                  <SignaturePad
+                    style={{ width: '100%', height: 150 }}
+                    defaultPoints={f.value ? (typeof f.value === 'string' ? JSON.parse(f.value) : f.value) : undefined}
+                    onPointer={(points) => f.onChange(points)}
+                    readonly={readOnly}
+                  />
               </div>
             )}
           />
@@ -392,4 +392,4 @@ export default function DynamicFormRenderer({
   )
 }
 
-export { parseFields, buildJsonSchema }
+export { parseFields, buildZodSchema }

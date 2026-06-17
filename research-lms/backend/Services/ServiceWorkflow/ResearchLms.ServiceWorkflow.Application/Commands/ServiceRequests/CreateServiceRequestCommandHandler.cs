@@ -35,6 +35,9 @@ public class CreateServiceRequestCommandHandler : IRequestHandler<CreateServiceR
             throw new Domain.Exceptions.FormValidationException("Form data validation failed.",
                 validation.Errors!.Select(e => new Domain.Exceptions.FieldError(e.Field, e.Message)));
 
+        if (!Enum.TryParse<Priority>(request.Priority, true, out var priority))
+            throw new ArgumentException($"Invalid priority: {request.Priority}");
+
         var serviceRequest = new ServiceRequest(
             form.Id,
             form.Version,
@@ -42,6 +45,8 @@ public class CreateServiceRequestCommandHandler : IRequestHandler<CreateServiceR
             request.Description,
             request.FormData,
             routing,
+            priority,
+            request.DueDate,
             request.CreatedBy);
 
         await _repository.AddAsync(serviceRequest, ct);
@@ -51,8 +56,9 @@ public class CreateServiceRequestCommandHandler : IRequestHandler<CreateServiceR
 
     private static ServiceRequestDto MapToDto(ServiceRequest sr, string formTitle) => new(
         sr.Id, sr.FormDefinitionId, sr.FormDefinitionVersion, formTitle,
-        sr.Title, sr.Description, sr.Status.ToString(), sr.FormData,
-        sr.AssignedTo, sr.SubmittedAt, sr.SubmittedBy, sr.CompletedAt, sr.CompletedBy,
+        sr.Title, sr.Description, sr.Status.ToString(), sr.Priority.ToString(),
+        sr.FormData, sr.AssignedTo, sr.SubmittedAt, sr.SubmittedBy,
+        sr.DueDate, sr.CompletedAt, sr.CompletedBy,
         sr.ApprovalRouting.ToString(), sr.CreatedAt, sr.CreatedBy
     );
 }

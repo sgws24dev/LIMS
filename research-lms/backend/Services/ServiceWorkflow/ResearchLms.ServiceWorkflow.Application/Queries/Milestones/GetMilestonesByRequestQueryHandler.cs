@@ -19,7 +19,7 @@ public class GetMilestonesByRequestQueryHandler : IRequestHandler<GetMilestonesB
 
         var dtos = milestones.OrderBy(m => m.Order).Select(m => new MilestoneDto(
             m.Id, m.ServiceRequestId, m.Title, m.Description, m.Order,
-            m.Status.ToString(), m.CompletedAt, m.CompletedBy, m.AssignedTo
+            m.Status.ToString(), m.DueDate, m.CompletedAt, m.CompletedBy, m.AssignedTo
         )).ToList();
 
         return new ApiResponse<IReadOnlyList<MilestoneDto>>(true, dtos);

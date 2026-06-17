@@ -1,0 +1,2278 @@
+You are a senior .NET + React full-stack engineer working on the ResearchLMS platform.
+
+## CONTEXT
+- Solution: Clean Architecture — 4 layers per microservice (Domain, Application, Infrastructure, Api)
+- Phase 1 complete: BaseEntity, ITenantContext, multi-tenancy, JWT/RBAC, MediatR CQRS,
+  FluentValidation, Serilog, MassTransit (RabbitMQ), Hangfire, Redis, Elasticsearch,
+  Docker Compose, API Gateway (YARP) — all in place.
+- Phase 2 complete: Facility microservice.
+- Phase 3 complete: Scheduling microservice.
+- Phase 4 Sprint 1 complete: ServiceWorkflow microservice — Form Builder, Service Requests,
+  Milestones, Approval Engine, frontend pages.
+- Phase 4 Sprint 2 complete: Workflow Engine — WorkflowDefinition, WorkflowInstance,
+  NotificationRules, Guards, Actions, SmtpEmailService, NotificationDispatcher,
+  workflow-designer.tsx, workflow-instance-view.tsx.
+- Phase 4 Sprint 3 complete: Projects microservice — Projects, WorkOrders, CostCenters,
+  Issues, ServiceNow/Jira sync, Hangfire sync job, project dashboard, kanban, cost center
+  tracking, issue tracker with TipTap editor.
+- Phase 4 Sprint 4 introduces the `Services/Inventory/` microservice (greenfield).
+- ORM: EF Core with SQL Server 2022.
+- Frontend module path: `frontend/src/modules/inventory/`
+- All Inventory API routes: `/api/v1/inventory/`
+
+## SPRINT 4 GOAL
+Bootstrap the `Inventory` microservice. Implement Item catalog, Stock management with
+low-stock alerts, Vendor management, Purchase Order lifecycle (draft → approved → received),
+barcode/QR scanning support, and all corresponding frontend pages (inventory dashboard,
+item catalog, stock ledger, vendor directory, purchase order wizard).
+
+---
+
+## BOOTSTRAP — Inventory Microservice
+
+### Step 0 — Scaffold Solution Structure
+backend/Services/Inventory/
+├── ResearchLms.Inventory.Domain/
+│ ├── Entities/
+│ ├── Enums/
+│ ├── ValueObjects/
+│ └── Interfaces/
+├── ResearchLms.Inventory.Application/
+│ ├── Commands/
+│ ├── Queries/
+│ ├── DTOs/
+│ ├── Validators/
+│ ├── EventHandlers/
+│ └── DependencyInjection.cs
+├── ResearchLms.Inventory.Infrastructure/
+│ ├── Persistence/
+│ │ ├── InventoryDbContext.cs
+│ │ └── EntityConfigurations/
+│ ├── Services/
+│ ├── BackgroundJobs/
+│ └── DependencyInjection.cs
+└── ResearchLms.Inventory.Api/
+├── Controllers/
+├── Middleware/
+└── Program.cs
+
+text
+
+**`Program.cs`:**
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services
+    .AddApplicationServices()
+    .AddInfrastructureServices(builder.Configuration)
+    .AddControllers();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(/* same JWT config as other services */);
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("InventoryAdmin",
+        p => p.RequireClaim("permission", "inventory.admin"));
+    options.AddPolicy("PurchaseAdmin",
+        p => p.RequireClaim("permission", "purchase.admin"));
+});
+
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(
+        typeof(ApplicationAssemblyMarker).Assembly));
+builder.Services.AddValidatorsFromAssembly(
+    typeof(ApplicationAssemblyMarker).Assembly);
+
+var app = builder.Build();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+app.Run();
+```
+
+**`InventoryDbContext.cs`:**
+```csharp
+public class InventoryDbContext(
+    DbContextOptions<InventoryDbContext> options,
+    ITenantContext tenantContext)
+    : DbContext(options)
+{
+    public DbSet<InventoryItem>   InventoryItems   => Set<InventoryItem>();
+    public DbSet<StockTransaction> StockTransactions => Set<StockTransaction>();
+    public DbSet<Vendor>          Vendors          => Set<Vendor>();
+    public DbSet<PurchaseOrder>   PurchaseOrders   => Set<PurchaseOrder>();
+    public DbSet<PurchaseOrderLine> PurchaseOrderLines => Set<PurchaseOrderLine>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(
+            typeof(InventoryDbContext).Assembly);
+
+        modelBuilder.Entity<InventoryItem>()
+            .HasQueryFilter(e => e.TenantId == tenantContext.TenantId);
+        modelBuilder.Entity<StockTransaction>()
+            .HasQueryFilter(e => e.TenantId == tenantContext.TenantId);
+        modelBuilder.Entity<Vendor>()
+            .HasQueryFilter(e => e.TenantId == tenantContext.TenantId);
+        modelBuilder.Entity<PurchaseOrder>()
+            .HasQueryFilter(e => e.TenantId == tenantContext.TenantId);
+        modelBuilder.Entity<PurchaseOrderLine>()
+            .HasQueryFilter(e => e.TenantId == tenantContext.TenantId);
+    }
+}
+```
+
+**Connection string (`appsettings.json`):**
+```json
+"ConnectionStrings": {
+  "InventoryDb": "Server=sqlserver;Database=ResearchLms_Inventory;..."
+}
+```
+
+**Docker Compose — add to `docker-compose.yml`:**
+```yaml
+inventory-api:
+  build:
+    context: ./backend/Services/Inventory
+    dockerfile: ResearchLms.Inventory.Api/Dockerfile
+  environment:
+    - ConnectionStrings__InventoryDb=...
+    - RabbitMQ__Host=rabbitmq
+  depends_on:
+    - sqlserver
+    - rabbitmq
+  ports:
+    - "5006:8080"
+```
+
+**YARP Gateway — add routing entry:**
+```json
+{
+  "RouteId": "inventory-route",
+  "ClusterId": "inventory-cluster",
+  "Match": { "Path": "/api/v1/inventory/{**catch-all}" },
+  "Transforms": [{ "PathPattern": "/api/v1/inventory/{**catch-all}" }]
+}
+```
+
+---
+
+## TASK 4.13 — Item Catalog + Stock Management
+
+### Enums
+
+Create `ResearchLms.Inventory.Domain/Enums/ItemCategory.cs`:
+```csharp
+public enum ItemCategory
+{
+    Chemical,
+    LabEquipment,
+    Consumable,
+    SafetyEquipment,
+    OfficeSupply,
+    SparePart,
+    Other
+}
+```
+
+Create `ResearchLms.Inventory.Domain/Enums/UnitOfMeasure.cs`:
+```csharp
+public enum UnitOfMeasure
+{
+    Each,
+    Kilogram,
+    Gram,
+    Milligram,
+    Liter,
+    Milliliter,
+    Meter,
+    Centimeter,
+    Box,
+    Pack,
+    Roll,
+    Pair,
+    Set
+}
+```
+
+Create `ResearchLms.Inventory.Domain/Enums/StockTransactionType.cs`:
+```csharp
+public enum StockTransactionType
+{
+    Receipt,      // Stock received from PO
+    Issue,        // Stock issued to a requester / project
+    Adjustment,   // Manual correction (positive or negative)
+    Return,       // Returned stock
+    Write_Off,    // Damaged / expired stock removed
+    Transfer      // Moved between storage locations
+}
+```
+
+### Domain Entities
+
+Create `ResearchLms.Inventory.Domain/Entities/InventoryItem.cs`:
+- Extends `BaseEntity`
+- Fields:
+  - TenantId (Guid)
+  - SKU (string, required, max 100) — unique per tenant
+  - Name (string, required, max 300)
+  - Description (string?, max 2000)
+  - Category (ItemCategory enum)
+  - UnitOfMeasure (UnitOfMeasure enum)
+  - QuantityOnHand (decimal, default 0) — authoritative current stock
+  - QuantityReserved (decimal, default 0) — reserved for approved but unfulfilled orders
+  - ReorderPoint (decimal, default 0) — threshold that triggers low-stock alert
+  - ReorderQuantity (decimal, default 0) — suggested order qty when reorder triggered
+  - UnitCost (decimal, default 0) — last known cost per unit
+  - Barcode (string?, max 200) — EAN-13, QR code value, or internal code
+  - StorageLocation (string?, max 200) — e.g. "Shelf A3, Lab 2"
+  - ExpiryDate (DateOnly?) — for chemicals / consumables
+  - IsActive (bool, default true)
+  - IsHazardous (bool, default false) — triggers special handling flag in UI
+  - PreferredVendorId (Guid?) — FK hint, not enforced at DB level
+  - CreatedAt (DateTime, UtcNow)
+  - UpdatedAt (DateTime, UtcNow)
+  - Navigation: StockTransactions (ICollection<StockTransaction>)
+
+**Domain computed properties:**
+```csharp
+public decimal QuantityAvailable => QuantityOnHand - QuantityReserved;
+
+public bool IsLowStock =>
+    ReorderPoint > 0 && QuantityOnHand <= ReorderPoint;
+
+public bool IsOutOfStock => QuantityOnHand <= 0;
+
+public bool IsExpiringSoon =>
+    ExpiryDate.HasValue &&
+    ExpiryDate.Value <= DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30));
+
+public bool IsExpired =>
+    ExpiryDate.HasValue &&
+    ExpiryDate.Value < DateOnly.FromDateTime(DateTime.UtcNow);
+```
+
+**Domain method — stock mutation (enforces invariants):**
+```csharp
+public void AdjustStock(decimal delta, string reason)
+{
+    if (QuantityOnHand + delta < 0)
+        throw new InvalidOperationException(
+            $"Cannot reduce stock below zero. " +
+            $"Current: {QuantityOnHand}, Delta: {delta}");
+    QuantityOnHand += delta;
+    UpdatedAt = DateTime.UtcNow;
+}
+
+public void ReserveStock(decimal quantity)
+{
+    if (quantity > QuantityAvailable)
+        throw new InvalidOperationException(
+            $"Insufficient available stock. " +
+            $"Available: {QuantityAvailable}, Requested: {quantity}");
+    QuantityReserved += quantity;
+    UpdatedAt = DateTime.UtcNow;
+}
+
+public void ReleaseReservation(decimal quantity)
+{
+    QuantityReserved = Math.Max(0, QuantityReserved - quantity);
+    UpdatedAt = DateTime.UtcNow;
+}
+```
+
+Create `ResearchLms.Inventory.Domain/Entities/StockTransaction.cs`:
+- Extends `BaseEntity`
+- Fields:
+  - TenantId (Guid)
+  - InventoryItemId (Guid, FK → InventoryItem)
+  - Type (StockTransactionType enum)
+  - Quantity (decimal) — positive for inflow (Receipt, Return), negative for outflow (Issue, Write_Off)
+  - QuantityBefore (decimal) — snapshot of QuantityOnHand before transaction
+  - QuantityAfter (decimal) — snapshot after transaction
+  - UnitCost (decimal, default 0) — cost at time of transaction
+  - TotalCost (decimal, default 0) — `Quantity × UnitCost`
+  - ReferenceType (string?, max 100) — "PurchaseOrder" | "ServiceRequest" | "Manual"
+  - ReferenceId (Guid?) — linked entity ID
+  - Notes (string?, max 1000)
+  - TransactedById (Guid)
+  - TransactedByName (string, max 200) — denormalized
+  - TransactedAt (DateTime, UtcNow)
+
+### Value Object
+Create `ResearchLms.Inventory.Domain/ValueObjects/StockLevel.cs`:
+```csharp
+public record StockLevel(
+    decimal OnHand,
+    decimal Reserved,
+    decimal Available,
+    bool IsLowStock,
+    bool IsOutOfStock,
+    bool IsExpiringSoon,
+    bool IsExpired
+);
+```
+
+### EF Configurations
+
+Create `InventoryItemConfiguration.cs`:
+```csharp
+builder.ToTable("InventoryItems");
+builder.HasKey(i => i.Id);
+builder.Property(i => i.SKU).IsRequired().HasMaxLength(100);
+builder.Property(i => i.Name).IsRequired().HasMaxLength(300);
+builder.Property(i => i.Description).HasMaxLength(2000);
+builder.Property(i => i.Category).HasConversion<string>().HasMaxLength(50);
+builder.Property(i => i.UnitOfMeasure).HasConversion<string>().HasMaxLength(50);
+builder.Property(i => i.Barcode).HasMaxLength(200);
+builder.Property(i => i.StorageLocation).HasMaxLength(200);
+builder.Property(i => i.QuantityOnHand).HasPrecision(14, 4);
+builder.Property(i => i.QuantityReserved).HasPrecision(14, 4);
+builder.Property(i => i.ReorderPoint).HasPrecision(14, 4);
+builder.Property(i => i.ReorderQuantity).HasPrecision(14, 4);
+builder.Property(i => i.UnitCost).HasPrecision(18, 4);
+builder.HasIndex(i => new { i.TenantId, i.SKU }).IsUnique();
+builder.HasIndex(i => new { i.TenantId, i.Barcode })
+    .HasFilter("[Barcode] IS NOT NULL");
+builder.HasIndex(i => new { i.TenantId, i.Category, i.IsActive });
+builder.HasQueryFilter(i => !i.IsActive == false); // active items only by default
+builder.HasMany(i => i.StockTransactions)
+    .WithOne(t => t.InventoryItem)
+    .HasForeignKey(t => t.InventoryItemId)
+    .OnDelete(DeleteBehavior.Restrict);
+```
+
+Create `StockTransactionConfiguration.cs`:
+```csharp
+builder.ToTable("StockTransactions");
+builder.HasKey(t => t.Id);
+builder.Property(t => t.Type).HasConversion<string>().HasMaxLength(50);
+builder.Property(t => t.ReferenceType).HasMaxLength(100);
+builder.Property(t => t.TransactedByName).IsRequired().HasMaxLength(200);
+builder.Property(t => t.Notes).HasMaxLength(1000);
+builder.Property(t => t.Quantity).HasPrecision(14, 4);
+builder.Property(t => t.QuantityBefore).HasPrecision(14, 4);
+builder.Property(t => t.QuantityAfter).HasPrecision(14, 4);
+builder.Property(t => t.UnitCost).HasPrecision(18, 4);
+builder.Property(t => t.TotalCost).HasPrecision(18, 4);
+builder.HasIndex(t => new { t.TenantId, t.InventoryItemId, t.TransactedAt });
+builder.HasIndex(t => new { t.TenantId, t.ReferenceType, t.ReferenceId });
+```
+
+### Domain Interfaces
+
+Create `IInventoryItemRepository.cs`:
+```csharp
+public interface IInventoryItemRepository
+{
+    Task<InventoryItem?> GetByIdAsync(Guid id, CancellationToken ct);
+    Task<InventoryItem?> GetBySkuAsync(string sku, CancellationToken ct);
+    Task<InventoryItem?> GetByBarcodeAsync(string barcode, CancellationToken ct);
+    Task<PagedResult<InventoryItem>> GetPagedAsync(
+        string? nameFilter,
+        ItemCategory? category,
+        bool? isLowStock,
+        bool? isExpiringSoon,
+        bool includeInactive,
+        int page, int pageSize,
+        CancellationToken ct);
+    Task<IEnumerable<InventoryItem>> GetLowStockItemsAsync(CancellationToken ct);
+    Task<IEnumerable<InventoryItem>> GetExpiringItemsAsync(
+        int daysAhead, CancellationToken ct);
+    Task<InventoryDashboardStats> GetDashboardStatsAsync(CancellationToken ct);
+    Task AddAsync(InventoryItem item, CancellationToken ct);
+    Task UpdateAsync(InventoryItem item, CancellationToken ct);
+}
+
+public record InventoryDashboardStats(
+    int TotalActiveItems,
+    int LowStockCount,
+    int OutOfStockCount,
+    int ExpiringCount,
+    int ExpiredCount,
+    decimal TotalInventoryValue,    // SUM(QuantityOnHand × UnitCost)
+    int PendingPurchaseOrders,
+    decimal PendingPOValue
+);
+```
+
+Create `IStockTransactionRepository.cs`:
+```csharp
+public interface IStockTransactionRepository
+{
+    Task<PagedResult<StockTransaction>> GetByItemAsync(
+        Guid itemId, int page, int pageSize, CancellationToken ct);
+    Task<IEnumerable<StockTransaction>> GetByReferenceAsync(
+        string referenceType, Guid referenceId, CancellationToken ct);
+    Task AddAsync(StockTransaction transaction, CancellationToken ct);
+    Task<StockMovementSummary> GetMovementSummaryAsync(
+        Guid itemId, DateTime from, DateTime to, CancellationToken ct);
+}
+
+public record StockMovementSummary(
+    Guid ItemId,
+    decimal TotalReceived,
+    decimal TotalIssued,
+    decimal TotalAdjusted,
+    decimal NetChange,
+    decimal OpeningBalance,
+    decimal ClosingBalance
+);
+```
+
+### Application Layer — Commands + Queries
+
+**Item Commands:**
+```csharp
+public record CreateInventoryItemCommand(
+    string SKU,
+    string Name,
+    string? Description,
+    ItemCategory Category,
+    UnitOfMeasure UnitOfMeasure,
+    decimal ReorderPoint,
+    decimal ReorderQuantity,
+    decimal UnitCost,
+    string? Barcode,
+    string? StorageLocation,
+    DateOnly? ExpiryDate,
+    bool IsHazardous,
+    Guid? PreferredVendorId
+) : IRequest<Guid>;
+
+public record UpdateInventoryItemCommand(
+    Guid ItemId,
+    string Name,
+    string? Description,
+    ItemCategory Category,
+    UnitOfMeasure UnitOfMeasure,
+    decimal ReorderPoint,
+    decimal ReorderQuantity,
+    decimal UnitCost,
+    string? Barcode,
+    string? StorageLocation,
+    DateOnly? ExpiryDate,
+    bool IsHazardous,
+    bool IsActive,
+    Guid? PreferredVendorId
+) : IRequest<Unit>;
+
+public record DeactivateInventoryItemCommand(Guid ItemId) : IRequest<Unit>;
+```
+
+`CreateInventoryItemCommand` Handler:
+1. Check uniqueness of `SKU` within tenant → throw 409 Conflict if duplicate
+2. If `Barcode` provided: check uniqueness within tenant → throw 409 Conflict
+3. Create item with `QuantityOnHand = 0`
+4. Save and return Id
+
+**Stock Transaction Commands:**
+```csharp
+public record RecordStockReceiptCommand(
+    Guid ItemId,
+    decimal Quantity,
+    decimal UnitCost,
+    Guid? PurchaseOrderId,
+    string? Notes,
+    Guid TransactedById,
+    string TransactedByName
+) : IRequest<Guid>;
+
+public record IssueStockCommand(
+    Guid ItemId,
+    decimal Quantity,
+    string? ReferenceType,
+    Guid? ReferenceId,
+    string? Notes,
+    Guid TransactedById,
+    string TransactedByName
+) : IRequest<Guid>;
+
+public record AdjustStockCommand(
+    Guid ItemId,
+    decimal NewQuantity,    // absolute new quantity — system calculates delta
+    string Reason,
+    Guid TransactedById,
+    string TransactedByName
+) : IRequest<Guid>;
+
+public record WriteOffStockCommand(
+    Guid ItemId,
+    decimal Quantity,
+    string Reason,
+    Guid TransactedById,
+    string TransactedByName
+) : IRequest<Guid>;
+
+public record LookupByBarcodeCommand(string Barcode) : IRequest<InventoryItemDto?>;
+```
+
+`RecordStockReceiptCommand` Handler:
+```csharp
+// 1. Load item
+var item = await _repo.GetByIdAsync(cmd.ItemId, ct)
+    ?? throw new NotFoundException("Item not found.");
+
+// 2. Snapshot state before
+decimal before = item.QuantityOnHand;
+
+// 3. Mutate via domain method
+item.AdjustStock(cmd.Quantity, "Receipt");
+item.UnitCost = cmd.UnitCost;   // update last known cost
+
+// 4. Create transaction record
+var transaction = new StockTransaction
+{
+    TenantId         = item.TenantId,
+    InventoryItemId  = item.Id,
+    Type             = StockTransactionType.Receipt,
+    Quantity         = cmd.Quantity,
+    QuantityBefore   = before,
+    QuantityAfter    = item.QuantityOnHand,
+    UnitCost         = cmd.UnitCost,
+    TotalCost        = cmd.Quantity * cmd.UnitCost,
+    ReferenceType    = cmd.PurchaseOrderId.HasValue ? "PurchaseOrder" : null,
+    ReferenceId      = cmd.PurchaseOrderId,
+    Notes            = cmd.Notes,
+    TransactedById   = cmd.TransactedById,
+    TransactedByName = cmd.TransactedByName,
+    TransactedAt     = DateTime.UtcNow
+};
+
+// 5. Save item + transaction
+await _itemRepo.UpdateAsync(item, ct);
+await _txRepo.AddAsync(transaction, ct);
+
+// 6. Check if stock no longer low → publish LowStockResolvedEvent
+// (no event if it was already above reorder point)
+if (before <= item.ReorderPoint && item.QuantityOnHand > item.ReorderPoint)
+    await _bus.Publish(new LowStockResolvedEvent(item.Id, item.TenantId, item.Name));
+
+return transaction.Id;
+```
+
+`AdjustStockCommand` Handler:
+1. Load item
+2. Compute delta = `cmd.NewQuantity - item.QuantityOnHand`
+3. Call `item.AdjustStock(delta, cmd.Reason)` — throws if negative result
+4. Create `StockTransaction` with `Type = Adjustment`, `Quantity = delta`
+5. Save item + transaction
+
+`WriteOffStockCommand` Handler:
+1. Load item
+2. Call `item.AdjustStock(-cmd.Quantity, cmd.Reason)` — throws if quantity
+   exceeds current stock
+3. Create transaction with `Type = Write_Off`, `Quantity = -cmd.Quantity`
+4. Save
+
+**Item Queries:**
+```csharp
+public record GetInventoryItemsQuery(
+    string? NameFilter,
+    ItemCategory? Category,
+    bool? IsLowStock,
+    bool? IsExpiringSoon,
+    bool IncludeInactive,
+    int Page,
+    int PageSize
+) : IRequest<PagedResult<InventoryItemDto>>;
+
+public record GetInventoryItemByIdQuery(Guid ItemId)
+    : IRequest<InventoryItemDetailDto?>;
+
+public record GetInventoryDashboardStatsQuery()
+    : IRequest<InventoryDashboardStatsDto>;
+
+public record GetLowStockAlertsQuery()
+    : IRequest<IEnumerable<LowStockAlertDto>>;
+
+public record GetExpiringItemsQuery(int DaysAhead)
+    : IRequest<IEnumerable<ExpiringItemDto>>;
+
+public record GetStockLedgerQuery(Guid ItemId, int Page, int PageSize)
+    : IRequest<PagedResult<StockTransactionDto>>;
+
+public record GetStockMovementSummaryQuery(
+    Guid ItemId,
+    DateTime From,
+    DateTime To
+) : IRequest<StockMovementSummaryDto>;
+```
+
+**DTOs:**
+```csharp
+public record InventoryItemDto(
+    Guid Id,
+    string SKU,
+    string Name,
+    string? Description,
+    ItemCategory Category,
+    string UnitOfMeasure,
+    decimal QuantityOnHand,
+    decimal QuantityReserved,
+    decimal QuantityAvailable,
+    decimal ReorderPoint,
+    decimal UnitCost,
+    decimal TotalValue,          // QuantityOnHand × UnitCost
+    string? Barcode,
+    string? StorageLocation,
+    DateOnly? ExpiryDate,
+    bool IsHazardous,
+    bool IsLowStock,
+    bool IsOutOfStock,
+    bool IsExpiringSoon,
+    bool IsExpired,
+    bool IsActive,
+    DateTime UpdatedAt
+);
+
+public record InventoryItemDetailDto(
+    // All InventoryItemDto fields +
+    decimal ReorderQuantity,
+    Guid? PreferredVendorId,
+    string? PreferredVendorName,
+    IEnumerable<StockTransactionDto> RecentTransactions   // last 10
+);
+
+public record StockTransactionDto(
+    Guid Id,
+    string Type,
+    decimal Quantity,
+    decimal QuantityBefore,
+    decimal QuantityAfter,
+    decimal UnitCost,
+    decimal TotalCost,
+    string? ReferenceType,
+    Guid? ReferenceId,
+    string? Notes,
+    string TransactedByName,
+    DateTime TransactedAt
+);
+
+public record LowStockAlertDto(
+    Guid ItemId,
+    string SKU,
+    string Name,
+    ItemCategory Category,
+    decimal QuantityOnHand,
+    decimal ReorderPoint,
+    decimal ReorderQuantity,
+    string? StorageLocation,
+    string? PreferredVendorName
+);
+
+public record ExpiringItemDto(
+    Guid ItemId,
+    string SKU,
+    string Name,
+    ItemCategory Category,
+    decimal QuantityOnHand,
+    DateOnly ExpiryDate,
+    int DaysUntilExpiry,
+    bool IsHazardous,
+    string? StorageLocation
+);
+
+public record InventoryDashboardStatsDto(
+    int TotalActiveItems,
+    int LowStockCount,
+    int OutOfStockCount,
+    int ExpiringCount,
+    int ExpiredCount,
+    decimal TotalInventoryValue,
+    int PendingPurchaseOrders,
+    decimal PendingPOValue
+);
+
+public record StockMovementSummaryDto(
+    Guid ItemId,
+    string ItemName,
+    decimal TotalReceived,
+    decimal TotalIssued,
+    decimal TotalAdjusted,
+    decimal NetChange,
+    decimal OpeningBalance,
+    decimal ClosingBalance
+);
+```
+
+**Validators:**
+```csharp
+public class CreateInventoryItemValidator
+    : AbstractValidator<CreateInventoryItemCommand>
+{
+    public CreateInventoryItemValidator()
+    {
+        RuleFor(x => x.SKU).NotEmpty().MaximumLength(100)
+            .Matches(@"^[A-Z0-9\-_]+$")
+            .WithMessage("SKU must contain only uppercase letters, numbers, hyphens, and underscores.");
+        RuleFor(x => x.Name).NotEmpty().MaximumLength(300);
+        RuleFor(x => x.Description).MaximumLength(2000);
+        RuleFor(x => x.ReorderPoint).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.ReorderQuantity).GreaterThan(0);
+        RuleFor(x => x.UnitCost).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.Barcode).MaximumLength(200);
+        RuleFor(x => x.StorageLocation).MaximumLength(200);
+        RuleFor(x => x.ExpiryDate)
+            .GreaterThan(DateOnly.FromDateTime(DateTime.UtcNow))
+            .When(x => x.ExpiryDate.HasValue)
+            .WithMessage("Expiry date must be in the future.");
+    }
+}
+
+public class RecordStockReceiptValidator
+    : AbstractValidator<RecordStockReceiptCommand>
+{
+    public RecordStockReceiptValidator()
+    {
+        RuleFor(x => x.ItemId).NotEmpty();
+        RuleFor(x => x.Quantity).GreaterThan(0);
+        RuleFor(x => x.UnitCost).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.TransactedByName).NotEmpty().MaximumLength(200);
+        RuleFor(x => x.Notes).MaximumLength(1000);
+    }
+}
+
+public class IssueStockValidator : AbstractValidator<IssueStockCommand>
+{
+    public IssueStockValidator()
+    {
+        RuleFor(x => x.ItemId).NotEmpty();
+        RuleFor(x => x.Quantity).GreaterThan(0);
+        RuleFor(x => x.TransactedByName).NotEmpty().MaximumLength(200);
+        RuleFor(x => x.Notes).MaximumLength(1000);
+    }
+}
+```
+
+### Controllers
+
+Create `ResearchLms.Inventory.Api/Controllers/InventoryItemsController.cs`:
+```csharp
+[ApiController]
+[Authorize]
+[Route("api/v1/inventory/items")]
+public class InventoryItemsController(IMediator mediator) : ControllerBase
+{
+    [HttpGet]
+    // GET list — filters: nameFilter, category, isLowStock,
+    // isExpiringSoon, includeInactive, page, pageSize
+    public async Task<IActionResult> GetAll(
+        [FromQuery] GetInventoryItemsQuery query)
+
+    [HttpGet("{id:guid}")]
+    // GET item detail with recent transactions
+    public async Task<IActionResult> GetById(Guid id)
+
+    [HttpGet("by-barcode/{barcode}")]
+    // GET item by barcode (for scanner input)
+    public async Task<IActionResult> GetByBarcode(string barcode)
+
+    [HttpGet("dashboard")]
+    // GET inventory dashboard stats
+    public async Task<IActionResult> GetDashboard()
+
+    [HttpGet("low-stock")]
+    // GET all low-stock alerts
+    public async Task<IActionResult> GetLowStockAlerts()
+
+    [HttpGet("expiring")]
+    // GET items expiring within N days
+    // Query: daysAhead=30 (default)
+    public async Task<IActionResult> GetExpiring(
+        [FromQuery] int daysAhead = 30)
+
+    [HttpPost]
+    // POST create item
+    [Authorize(Policy = "InventoryAdmin")]
+    public async Task<IActionResult> Create(
+        [FromBody] CreateInventoryItemCommand cmd)
+
+    [HttpPut("{id:guid}")]
+    // PUT update item metadata
+    [Authorize(Policy = "InventoryAdmin")]
+    public async Task<IActionResult> Update(
+        Guid id, [FromBody] UpdateInventoryItemCommand cmd)
+
+    [HttpPost("{id:guid}/deactivate")]
+    // POST soft-deactivate item
+    [Authorize(Policy = "InventoryAdmin")]
+    public async Task<IActionResult> Deactivate(Guid id)
+
+    // Stock transaction endpoints nested under item
+    [HttpGet("{id:guid}/ledger")]
+    // GET stock ledger (paginated transaction history)
+    // Query: page, pageSize
+    public async Task<IActionResult> GetLedger(
+        Guid id,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 25)
+
+    [HttpGet("{id:guid}/movement-summary")]
+    // GET stock movement summary for a date range
+    // Query: from (ISO date), to (ISO date)
+    public async Task<IActionResult> GetMovementSummary(
+        Guid id,
+        [FromQuery] DateTime from,
+        [FromQuery] DateTime to)
+
+    [HttpPost("{id:guid}/receipt")]
+    // POST record stock receipt
+    // Body: { quantity, unitCost, purchaseOrderId?, notes? }
+    public async Task<IActionResult> Receipt(
+        Guid id, [FromBody] RecordStockReceiptRequest req)
+
+    [HttpPost("{id:guid}/issue")]
+    // POST issue stock (deduct from inventory)
+    // Body: { quantity, referenceType?, referenceId?, notes? }
+    public async Task<IActionResult> Issue(
+        Guid id, [FromBody] IssueStockRequest req)
+
+    [HttpPost("{id:guid}/adjust")]
+    // POST manual stock adjustment
+    // Body: { newQuantity, reason }
+    [Authorize(Policy = "InventoryAdmin")]
+    public async Task<IActionResult> Adjust(
+        Guid id, [FromBody] AdjustStockRequest req)
+
+    [HttpPost("{id:guid}/write-off")]
+    // POST write off damaged/expired stock
+    // Body: { quantity, reason }
+    [Authorize(Policy = "InventoryAdmin")]
+    public async Task<IActionResult> WriteOff(
+        Guid id, [FromBody] WriteOffStockRequest req)
+}
+```
+
+---
+
+## TASK 4.14 — Vendor Management
+
+### Enums
+
+Create `ResearchLms.Inventory.Domain/Enums/VendorStatus.cs`:
+```csharp
+public enum VendorStatus { Active, Inactive, Blacklisted }
+```
+
+Create `ResearchLms.Inventory.Domain/Enums/PaymentTerms.cs`:
+```csharp
+public enum PaymentTerms
+{
+    Immediate,
+    Net15,
+    Net30,
+    Net45,
+    Net60,
+    Net90
+}
+```
+
+### Domain Entity
+Create `ResearchLms.Inventory.Domain/Entities/Vendor.cs`:
+- Extends `BaseEntity`
+- Fields:
+  - TenantId (Guid)
+  - Code (string, required, max 50) — unique per tenant (e.g. "VND-001")
+  - Name (string, required, max 300)
+  - ContactPerson (string?, max 200)
+  - Email (string?, max 300)
+  - Phone (string?, max 50)
+  - Address (string?) — `nvarchar(max)` — JSON with `{ street, city, state, zip, country }`
+  - Website (string?, max 500)
+  - Status (VendorStatus enum, default Active)
+  - PaymentTerms (PaymentTerms enum, default Net30)
+  - TaxId (string?, max 50)
+  - Notes (string?, max 2000)
+  - Rating (int?, range 1–5) — internal vendor rating
+  - TotalOrdersCount (int, default 0) — denormalized counter
+  - TotalOrdersValue (decimal, default 0) — denormalized running total
+  - CreatedAt (DateTime, UtcNow)
+  - UpdatedAt (DateTime, UtcNow)
+  - Navigation: PurchaseOrders (ICollection<PurchaseOrder>)
+
+**Value Object:**
+```csharp
+public record VendorAddress(
+    string? Street,
+    string? City,
+    string? State,
+    string? Zip,
+    string? Country
+);
+```
+
+### EF Configuration
+Create `VendorConfiguration.cs`:
+```csharp
+builder.ToTable("Vendors");
+builder.HasKey(v => v.Id);
+builder.Property(v => v.Code).IsRequired().HasMaxLength(50);
+builder.Property(v => v.Name).IsRequired().HasMaxLength(300);
+builder.Property(v => v.ContactPerson).HasMaxLength(200);
+builder.Property(v => v.Email).HasMaxLength(300);
+builder.Property(v => v.Phone).HasMaxLength(50);
+builder.Property(v => v.Address).HasColumnType("nvarchar(max)");
+builder.Property(v => v.Website).HasMaxLength(500);
+builder.Property(v => v.TaxId).HasMaxLength(50);
+builder.Property(v => v.Notes).HasMaxLength(2000);
+builder.Property(v => v.Status).HasConversion<string>().HasMaxLength(50);
+builder.Property(v => v.PaymentTerms).HasConversion<string>().HasMaxLength(50);
+builder.Property(v => v.TotalOrdersValue).HasPrecision(18, 2);
+builder.HasIndex(v => new { v.TenantId, v.Code }).IsUnique();
+builder.HasIndex(v => new { v.TenantId, v.Status });
+builder.HasMany(v => v.PurchaseOrders)
+    .WithOne(p => p.Vendor)
+    .HasForeignKey(p => p.VendorId)
+    .OnDelete(DeleteBehavior.Restrict);
+```
+
+### Domain Interface
+Create `IVendorRepository.cs`:
+```csharp
+public interface IVendorRepository
+{
+    Task<Vendor?> GetByIdAsync(Guid id, CancellationToken ct);
+    Task<Vendor?> GetByCodeAsync(string code, CancellationToken ct);
+    Task<PagedResult<Vendor>> GetPagedAsync(
+        string? nameFilter,
+        VendorStatus? status,
+        int page, int pageSize,
+        CancellationToken ct);
+    Task<VendorPerformanceSummary> GetPerformanceSummaryAsync(
+        Guid vendorId, CancellationToken ct);
+    Task AddAsync(Vendor vendor, CancellationToken ct);
+    Task UpdateAsync(Vendor vendor, CancellationToken ct);
+}
+
+public record VendorPerformanceSummary(
+    Guid VendorId,
+    string VendorName,
+    int TotalOrders,
+    int CompletedOrders,
+    int PendingOrders,
+    decimal TotalValue,
+    decimal AverageOrderValue,
+    double AverageLeadTimeDays,    // average days from PO created to PO received
+    int? Rating
+);
+```
+
+### Application Layer
+
+**Commands:**
+```csharp
+public record CreateVendorCommand(
+    string Code,
+    string Name,
+    string? ContactPerson,
+    string? Email,
+    string? Phone,
+    string? Street,
+    string? City,
+    string? State,
+    string? Zip,
+    string? Country,
+    string? Website,
+    PaymentTerms PaymentTerms,
+    string? TaxId,
+    string? Notes
+) : IRequest<Guid>;
+
+public record UpdateVendorCommand(
+    Guid VendorId,
+    string Name,
+    string? ContactPerson,
+    string? Email,
+    string? Phone,
+    string? Street,
+    string? City,
+    string? State,
+    string? Zip,
+    string? Country,
+    string? Website,
+    VendorStatus Status,
+    PaymentTerms PaymentTerms,
+    string? TaxId,
+    string? Notes,
+    int? Rating
+) : IRequest<Unit>;
+```
+
+`CreateVendorCommand` Handler:
+1. Uniqueness check on `Code` → throw 409 if duplicate
+2. Serialize address fields into `Address` JSON column
+3. Create + save
+
+`UpdateVendorCommand` Handler:
+1. Load vendor
+2. Validate: if `Status = Blacklisted` → ensure no pending POs exist for this vendor
+   (throw 400 if pending POs exist)
+3. Update all fields
+4. Save
+
+**Queries:**
+```csharp
+public record GetVendorsQuery(
+    string? NameFilter,
+    VendorStatus? Status,
+    int Page,
+    int PageSize
+) : IRequest<PagedResult<VendorDto>>;
+
+public record GetVendorByIdQuery(Guid VendorId) : IRequest<VendorDetailDto?>;
+
+public record GetVendorPerformanceQuery(Guid VendorId)
+    : IRequest<VendorPerformanceSummaryDto>;
+```
+
+**DTOs:**
+```csharp
+public record VendorDto(
+    Guid Id,
+    string Code,
+    string Name,
+    string? ContactPerson,
+    string? Email,
+    string? Phone,
+    VendorStatus Status,
+    string PaymentTerms,
+    int? Rating,
+    int TotalOrdersCount,
+    decimal TotalOrdersValue
+);
+
+public record VendorDetailDto(
+    // All VendorDto fields +
+    string? Website,
+    string? TaxId,
+    string? Notes,
+    VendorAddressDto? Address,
+    IEnumerable<PurchaseOrderSummaryDto> RecentOrders   // last 5
+);
+
+public record VendorAddressDto(
+    string? Street,
+    string? City,
+    string? State,
+    string? Zip,
+    string? Country
+);
+
+public record VendorPerformanceSummaryDto(
+    Guid VendorId,
+    string VendorName,
+    int TotalOrders,
+    int CompletedOrders,
+    int PendingOrders,
+    decimal TotalValue,
+    decimal AverageOrderValue,
+    double AverageLeadTimeDays,
+    int? Rating
+);
+```
+
+**Validator:**
+```csharp
+public class CreateVendorValidator : AbstractValidator<CreateVendorCommand>
+{
+    public CreateVendorValidator()
+    {
+        RuleFor(x => x.Code).NotEmpty().MaximumLength(50)
+            .Matches(@"^[A-Z0-9\-]+$")
+            .WithMessage("Code must be uppercase letters, numbers, and hyphens.");
+        RuleFor(x => x.Name).NotEmpty().MaximumLength(300);
+        RuleFor(x => x.Email).EmailAddress()
+            .When(x => !string.IsNullOrEmpty(x.Email));
+        RuleFor(x => x.Phone).MaximumLength(50);
+        RuleFor(x => x.Website).MaximumLength(500)
+            .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _))
+            .When(x => !string.IsNullOrEmpty(x.Website))
+            .WithMessage("Website must be a valid URL.");
+        RuleFor(x => x.TaxId).MaximumLength(50);
+        RuleFor(x => x.Notes).MaximumLength(2000);
+    }
+}
+```
+
+### Controller
+Create `ResearchLms.Inventory.Api/Controllers/VendorsController.cs`:
+```csharp
+[ApiController]
+[Authorize]
+[Route("api/v1/inventory/vendors")]
+public class VendorsController(IMediator mediator) : ControllerBase
+{
+    [HttpGet]
+    // GET list — filters: nameFilter, status, page, pageSize
+    public async Task<IActionResult> GetAll(
+        [FromQuery] GetVendorsQuery query)
+
+    [HttpGet("{id:guid}")]
+    // GET vendor detail with recent POs
+    public async Task<IActionResult> GetById(Guid id)
+
+    [HttpGet("{id:guid}/performance")]
+    // GET vendor performance summary
+    public async Task<IActionResult> GetPerformance(Guid id)
+
+    [HttpPost]
+    // POST create vendor
+    [Authorize(Policy = "InventoryAdmin")]
+    public async Task<IActionResult> Create(
+        [FromBody] CreateVendorCommand cmd)
+
+    [HttpPut("{id:guid}")]
+    // PUT update vendor
+    [Authorize(Policy = "InventoryAdmin")]
+    public async Task<IActionResult> Update(
+        Guid id, [FromBody] UpdateVendorCommand cmd)
+}
+```
+
+---
+
+## TASK 4.15 — Purchase Order Lifecycle
+
+### Enums
+
+Create `ResearchLms.Inventory.Domain/Enums/PurchaseOrderStatus.cs`:
+```csharp
+public enum PurchaseOrderStatus
+{
+    Draft,
+    PendingApproval,
+    Approved,
+    Ordered,       // sent to vendor
+    PartiallyReceived,
+    FullyReceived,
+    Cancelled
+}
+```
+
+### Domain Entities
+
+Create `ResearchLms.Inventory.Domain/Entities/PurchaseOrder.cs`:
+- Extends `BaseEntity`
+- Fields:
+  - TenantId (Guid)
+  - PONumber (string, required, max 50) — unique per tenant (auto-generated: "PO-2026-0001")
+  - VendorId (Guid, FK → Vendor)
+  - Status (PurchaseOrderStatus enum, default Draft)
+  - OrderedAt (DateTime?) — when status moves to Ordered
+  - ExpectedDeliveryDate (DateOnly?)
+  - ReceivedAt (DateTime?) — when fully received
+  - CostCenterId (Guid?) — billing target from Projects microservice (cross-service ref)
+  - ShippingAddress (string?, max 1000)
+  - Notes (string?, max 2000)
+  - RequestedById (Guid)
+  - RequestedByName (string, max 200) — denormalized
+  - ApprovedById (Guid?)
+  - ApprovedByName (string?, max 200) — denormalized
+  - ApprovedAt (DateTime?)
+  - TotalAmount (decimal, default 0) — SUM of line totals (denormalized)
+  - CreatedAt (DateTime, UtcNow)
+  - UpdatedAt (DateTime, UtcNow)
+  - Navigation: Vendor
+  - Navigation: Lines (ICollection<PurchaseOrderLine>)
+
+**Domain method — state machine:**
+```csharp
+public bool CanTransitionTo(PurchaseOrderStatus newStatus) =>
+    (Status, newStatus) switch
+    {
+        (PurchaseOrderStatus.Draft,              PurchaseOrderStatus.PendingApproval)   => true,
+        (PurchaseOrderStatus.Draft,              PurchaseOrderStatus.Cancelled)         => true,
+        (PurchaseOrderStatus.PendingApproval,    PurchaseOrderStatus.Approved)          => true,
+        (PurchaseOrderStatus.PendingApproval,    PurchaseOrderStatus.Draft)             => true, // reject back
+        (PurchaseOrderStatus.PendingApproval,    PurchaseOrderStatus.Cancelled)         => true,
+        (PurchaseOrderStatus.Approved,           PurchaseOrderStatus.Ordered)           => true,
+        (PurchaseOrderStatus.Approved,           PurchaseOrderStatus.Cancelled)         => true,
+        (PurchaseOrderStatus.Ordered,            PurchaseOrderStatus.PartiallyReceived) => true,
+        (PurchaseOrderStatus.Ordered,            PurchaseOrderStatus.FullyReceived)     => true,
+        (PurchaseOrderStatus.PartiallyReceived,  PurchaseOrderStatus.FullyReceived)     => true,
+        (PurchaseOrderStatus.PartiallyReceived,  PurchaseOrderStatus.Cancelled)         => true,
+        _ => false
+    };
+```
+
+**Domain method — recalculate total:**
+```csharp
+public void RecalculateTotalAmount()
+{
+    TotalAmount = Lines.Sum(l => l.TotalPrice);
+    UpdatedAt   = DateTime.UtcNow;
+}
+```
+
+**Auto-generate PO number:**
+```csharp
+// In CreatePurchaseOrderCommand handler — pass the next sequence from DB:
+public static string GeneratePONumber(int year, int sequence) =>
+    $"PO-{year}-{sequence:D4}";
+```
+
+Create `ResearchLms.Inventory.Domain/Entities/PurchaseOrderLine.cs`:
+- Extends `BaseEntity`
+- Fields:
+  - TenantId (Guid)
+  - PurchaseOrderId (Guid, FK → PurchaseOrder)
+  - InventoryItemId (Guid, FK → InventoryItem)
+  - Description (string?, max 500) — override item name if needed
+  - QuantityOrdered (decimal)
+  - QuantityReceived (decimal, default 0)
+  - UnitPrice (decimal)
+  - TotalPrice (decimal) — computed: `QuantityOrdered × UnitPrice`
+  - Notes (string?, max 500)
+
+**Domain computed property:**
+```csharp
+public decimal QuantityPending => QuantityOrdered - QuantityReceived;
+public bool IsFullyReceived    => QuantityReceived >= QuantityOrdered;
+```
+
+### EF Configurations
+
+Create `PurchaseOrderConfiguration.cs`:
+```csharp
+builder.ToTable("PurchaseOrders");
+builder.HasKey(p => p.Id);
+builder.Property(p => p.PONumber).IsRequired().HasMaxLength(50);
+builder.Property(p => p.Status).HasConversion<string>().HasMaxLength(50);
+builder.Property(p => p.ShippingAddress).HasMaxLength(1000);
+builder.Property(p => p.Notes).HasMaxLength(2000);
+builder.Property(p => p.RequestedByName).IsRequired().HasMaxLength(200);
+builder.Property(p => p.ApprovedByName).HasMaxLength(200);
+builder.Property(p => p.TotalAmount).HasPrecision(18, 2);
+builder.HasIndex(p => new { p.TenantId, p.PONumber }).IsUnique();
+builder.HasIndex(p => new { p.TenantId, p.Status });
+builder.HasIndex(p => p.VendorId);
+builder.HasMany(p => p.Lines)
+    .WithOne(l => l.PurchaseOrder)
+    .HasForeignKey(l => l.PurchaseOrderId)
+    .OnDelete(DeleteBehavior.Cascade);
+```
+
+Create `PurchaseOrderLineConfiguration.cs`:
+```csharp
+builder.ToTable("PurchaseOrderLines");
+builder.HasKey(l => l.Id);
+builder.Property(l => l.Description).HasMaxLength(500);
+builder.Property(l => l.QuantityOrdered).HasPrecision(14, 4);
+builder.Property(l => l.QuantityReceived).HasPrecision(14, 4);
+builder.Property(l => l.UnitPrice).HasPrecision(18, 4);
+builder.Property(l => l.TotalPrice).HasPrecision(18, 4);
+builder.Property(l => l.Notes).HasMaxLength(500);
+builder.HasIndex(l => l.PurchaseOrderId);
+builder.HasOne(l => l.InventoryItem)
+    .WithMany()
+    .HasForeignKey(l => l.InventoryItemId)
+    .OnDelete(DeleteBehavior.Restrict);
+```
+
+### Domain Interface
+Create `IPurchaseOrderRepository.cs`:
+```csharp
+public interface IPurchaseOrderRepository
+{
+    Task<PurchaseOrder?> GetByIdAsync(Guid id, CancellationToken ct);
+    Task<PurchaseOrder?> GetByIdWithLinesAsync(Guid id, CancellationToken ct);
+    Task<PagedResult<PurchaseOrder>> GetPagedAsync(
+        PurchaseOrderStatus? status,
+        Guid? vendorId,
+        DateTime? fromDate,
+        DateTime? toDate,
+        int page, int pageSize,
+        CancellationToken ct);
+    Task<int> GetNextSequenceAsync(int year, CancellationToken ct);
+    Task AddAsync(PurchaseOrder order, CancellationToken ct);
+    Task UpdateAsync(PurchaseOrder order, CancellationToken ct);
+}
+```
+
+### Application Layer — Commands + Queries
+
+**Commands:**
+```csharp
+public record CreatePurchaseOrderCommand(
+    Guid VendorId,
+    Guid? CostCenterId,
+    DateOnly? ExpectedDeliveryDate,
+    string? ShippingAddress,
+    string? Notes,
+    Guid RequestedById,
+    string RequestedByName,
+    IEnumerable<PurchaseOrderLineInput> Lines
+) : IRequest<Guid>;
+
+public record PurchaseOrderLineInput(
+    Guid InventoryItemId,
+    string? Description,
+    decimal QuantityOrdered,
+    decimal UnitPrice,
+    string? Notes
+);
+
+public record AddPurchaseOrderLineCommand(
+    Guid PurchaseOrderId,
+    Guid InventoryItemId,
+    string? Description,
+    decimal QuantityOrdered,
+    decimal UnitPrice,
+    string? Notes
+) : IRequest<Unit>;
+
+public record RemovePurchaseOrderLineCommand(
+    Guid PurchaseOrderId,
+    Guid LineId
+) : IRequest<Unit>;
+
+public record SubmitPurchaseOrderCommand(
+    Guid PurchaseOrderId,
+    Guid SubmittedById
+) : IRequest<Unit>;    // Draft → PendingApproval
+
+public record ApprovePurchaseOrderCommand(
+    Guid PurchaseOrderId,
+    Guid ApprovedById,
+    string ApprovedByName
+) : IRequest<Unit>;    // PendingApproval → Approved
+
+public record SendPurchaseOrderCommand(
+    Guid PurchaseOrderId
+) : IRequest<Unit>;    // Approved → Ordered
+
+public record ReceivePurchaseOrderItemsCommand(
+    Guid PurchaseOrderId,
+    IEnumerable<LineReceiptInput> ReceivedLines,
+    Guid ReceivedById,
+    string ReceivedByName
+) : IRequest<Unit>;
+
+public record LineReceiptInput(Guid LineId, decimal QuantityReceived);
+
+public record CancelPurchaseOrderCommand(
+    Guid PurchaseOrderId,
+    string Reason,
+    Guid CancelledById
+) : IRequest<Unit>;
+```
+
+`CreatePurchaseOrderCommand` Handler:
+1. Validate vendor exists + is Active (throw 400 if Blacklisted)
+2. Validate all `InventoryItemId`s exist
+3. Generate PO number: `GetNextSequenceAsync(year)` → `GeneratePONumber(year, seq)`
+4. Create PO + Lines, compute `TotalPrice` per line, call `RecalculateTotalAmount()`
+5. Save and return Id
+
+`ReceivePurchaseOrderItemsCommand` Handler:
+```csharp
+// This is the most complex handler — full implementation:
+var po = await _poRepo.GetByIdWithLinesAsync(cmd.PurchaseOrderId, ct)
+    ?? throw new NotFoundException("Purchase order not found.");
+
+if (po.Status != PurchaseOrderStatus.Ordered &&
+    po.Status != PurchaseOrderStatus.PartiallyReceived)
+    throw new InvalidOperationException(
+        "Can only receive items on Ordered or PartiallyReceived purchase orders.");
+
+foreach (var receipt in cmd.ReceivedLines)
+{
+    var line = po.Lines.FirstOrDefault(l => l.Id == receipt.LineId)
+        ?? throw new NotFoundException($"PO line {receipt.LineId} not found.");
+
+    if (receipt.QuantityReceived <= 0)
+        continue;
+
+    if (line.QuantityReceived + receipt.QuantityReceived > line.QuantityOrdered)
+        throw new InvalidOperationException(
+            $"Received quantity for '{line.Description ?? "item"}' " +
+            $"exceeds ordered quantity.");
+
+    // Update line received qty
+    line.QuantityReceived += receipt.QuantityReceived;
+
+    // Record stock receipt transaction
+    await _mediator.Send(new RecordStockReceiptCommand(
+        ItemId:          line.InventoryItemId,
+        Quantity:        receipt.QuantityReceived,
+        UnitCost:        line.UnitPrice,
+        PurchaseOrderId: po.Id,
+        Notes:           $"Received via PO {po.PONumber}",
+        TransactedById:  cmd.ReceivedById,
+        TransactedByName: cmd.ReceivedByName
+    ), ct);
+}
+
+// Update PO status based on line completion
+bool allReceived = po.Lines.All(l => l.IsFullyReceived);
+bool anyReceived = po.Lines.Any(l => l.QuantityReceived > 0);
+
+po.Status = allReceived
+    ? PurchaseOrderStatus.FullyReceived
+    : anyReceived
+        ? PurchaseOrderStatus.PartiallyReceived
+        : po.Status;
+
+if (allReceived)
+{
+    po.ReceivedAt = DateTime.UtcNow;
+    // Update vendor stats
+    var vendor = await _vendorRepo.GetByIdAsync(po.VendorId, ct);
+    if (vendor is not null)
+    {
+        vendor.TotalOrdersCount++;
+        vendor.TotalOrdersValue += po.TotalAmount;
+        await _vendorRepo.UpdateAsync(vendor, ct);
+    }
+    // Publish event
+    await _bus.Publish(new PurchaseOrderFullyReceivedEvent(
+        po.Id, po.TenantId, po.PONumber, po.VendorId));
+}
+
+await _poRepo.UpdateAsync(po, ct);
+```
+
+**Queries:**
+```csharp
+public record GetPurchaseOrdersQuery(
+    PurchaseOrderStatus? Status,
+    Guid? VendorId,
+    DateTime? FromDate,
+    DateTime? ToDate,
+    int Page,
+    int PageSize
+) : IRequest<PagedResult<PurchaseOrderDto>>;
+
+public record GetPurchaseOrderByIdQuery(Guid PurchaseOrderId)
+    : IRequest<PurchaseOrderDetailDto?>;
+```
+
+**DTOs:**
+```csharp
+public record PurchaseOrderDto(
+    Guid Id,
+    string PONumber,
+    string VendorName,
+    PurchaseOrderStatus Status,
+    DateOnly? ExpectedDeliveryDate,
+    decimal TotalAmount,
+    int LineCount,
+    string RequestedByName,
+    string? ApprovedByName,
+    DateTime? OrderedAt,
+    DateTime? ReceivedAt,
+    DateTime CreatedAt
+);
+
+public record PurchaseOrderDetailDto(
+    Guid Id,
+    string PONumber,
+    Guid VendorId,
+    string VendorName,
+    string? VendorEmail,
+    PurchaseOrderStatus Status,
+    DateOnly? ExpectedDeliveryDate,
+    string? ShippingAddress,
+    string? Notes,
+    string RequestedByName,
+    string? ApprovedByName,
+    DateTime? ApprovedAt,
+    DateTime? OrderedAt,
+    DateTime? ReceivedAt,
+    decimal TotalAmount,
+    IEnumerable<PurchaseOrderLineDto> Lines,
+    DateTime CreatedAt,
+    DateTime UpdatedAt
+);
+
+public record PurchaseOrderLineDto(
+    Guid Id,
+    Guid InventoryItemId,
+    string ItemName,
+    string ItemSKU,
+    string? Description,
+    decimal QuantityOrdered,
+    decimal QuantityReceived,
+    decimal QuantityPending,
+    decimal UnitPrice,
+    decimal TotalPrice,
+    bool IsFullyReceived,
+    string? Notes
+);
+
+public record PurchaseOrderSummaryDto(
+    Guid Id,
+    string PONumber,
+    PurchaseOrderStatus Status,
+    decimal TotalAmount,
+    DateTime CreatedAt
+);
+```
+
+**MassTransit Events:**
+```csharp
+public record LowStockAlertEvent(
+    Guid ItemId,
+    Guid TenantId,
+    string ItemName,
+    string SKU,
+    decimal QuantityOnHand,
+    decimal ReorderPoint
+);
+
+public record LowStockResolvedEvent(
+    Guid ItemId,
+    Guid TenantId,
+    string ItemName
+);
+
+public record PurchaseOrderFullyReceivedEvent(
+    Guid PurchaseOrderId,
+    Guid TenantId,
+    string PONumber,
+    Guid VendorId
+);
+```
+
+**Validators:**
+```csharp
+public class CreatePurchaseOrderValidator
+    : AbstractValidator<CreatePurchaseOrderCommand>
+{
+    public CreatePurchaseOrderValidator()
+    {
+        RuleFor(x => x.VendorId).NotEmpty();
+        RuleFor(x => x.RequestedById).NotEmpty();
+        RuleFor(x => x.RequestedByName).NotEmpty().MaximumLength(200);
+        RuleFor(x => x.Notes).MaximumLength(2000);
+        RuleFor(x => x.ShippingAddress).MaximumLength(1000);
+        RuleFor(x => x.Lines).NotEmpty()
+            .WithMessage("A purchase order must have at least one line item.");
+        RuleForEach(x => x.Lines).ChildRules(line =>
+        {
+            line.RuleFor(l => l.InventoryItemId).NotEmpty();
+            line.RuleFor(l => l.QuantityOrdered).GreaterThan(0);
+            line.RuleFor(l => l.UnitPrice).GreaterThanOrEqualTo(0);
+            line.RuleFor(l => l.Description).MaximumLength(500);
+            line.RuleFor(l => l.Notes).MaximumLength(500);
+        });
+    }
+}
+```
+
+### Controller
+Create `ResearchLms.Inventory.Api/Controllers/PurchaseOrdersController.cs`:
+```csharp
+[ApiController]
+[Authorize]
+[Route("api/v1/inventory/purchase-orders")]
+public class PurchaseOrdersController(IMediator mediator) : ControllerBase
+{
+    [HttpGet]
+    // GET list — filters: status, vendorId, fromDate, toDate, page, pageSize
+    public async Task<IActionResult> GetAll(
+        [FromQuery] GetPurchaseOrdersQuery query)
+
+    [HttpGet("{id:guid}")]
+    // GET PO detail with all lines + vendor info
+    public async Task<IActionResult> GetById(Guid id)
+
+    [HttpPost]
+    // POST create PO (Status = Draft) with line items
+    public async Task<IActionResult> Create(
+        [FromBody] CreatePurchaseOrderCommand cmd)
+
+    [HttpPost("{id:guid}/lines")]
+    // POST add a line to a Draft PO
+    public async Task<IActionResult> AddLine(
+        Guid id, [FromBody] AddPurchaseOrderLineCommand cmd)
+
+    [HttpDelete("{id:guid}/lines/{lineId:guid}")]
+    // DELETE remove a line from a Draft PO
+    public async Task<IActionResult> RemoveLine(Guid id, Guid lineId)
+
+    [HttpPost("{id:guid}/submit")]
+    // POST submit for approval (Draft → PendingApproval)
+    public async Task<IActionResult> Submit(Guid id)
+
+    [HttpPost("{id:guid}/approve")]
+    // POST approve (PendingApproval → Approved)
+    // Body: { approvedByName }
+    [Authorize(Policy = "PurchaseAdmin")]
+    public async Task<IActionResult> Approve(
+        Guid id, [FromBody] ApprovePurchaseOrderRequest req)
+
+    [HttpPost("{id:guid}/send")]
+    // POST mark as sent to vendor (Approved → Ordered)
+    public async Task<IActionResult> Send(Guid id)
+
+    [HttpPost("{id:guid}/receive")]
+    // POST record partial or full receipt
+    // Body: { receivedLines: [{ lineId, quantityReceived }] }
+    public async Task<IActionResult> Receive(
+        Guid id, [FromBody] ReceivePurchaseOrderItemsCommand cmd)
+
+    [HttpDelete("{id:guid}")]
+    // DELETE cancel PO
+    // Body: { reason }
+    public async Task<IActionResult> Cancel(
+        Guid id, [FromBody] CancelPurchaseOrderRequest req)
+}
+```
+
+---
+
+## LOW-STOCK BACKGROUND JOB
+
+### Hangfire Job
+Create `ResearchLms.Inventory.Infrastructure/BackgroundJobs/LowStockCheckJob.cs`:
+```csharp
+public class LowStockCheckJob(
+    IInventoryItemRepository itemRepo,
+    IPublishEndpoint bus,
+    ILogger<LowStockCheckJob> logger) : ILowStockCheckJob
+{
+    public async Task ExecuteAsync()
+    {
+        var lowStockItems = await itemRepo.GetLowStockItemsAsync(
+            CancellationToken.None);
+
+        foreach (var item in lowStockItems)
+        {
+            try
+            {
+                await bus.Publish(new LowStockAlertEvent(
+                    item.Id,
+                    item.TenantId,
+                    item.Name,
+                    item.SKU,
+                    item.QuantityOnHand,
+                    item.ReorderPoint));
+
+                logger.LogInformation(
+                    "Low stock alert published for Item {SKU} " +
+                    "(OnHand: {Qty}, ReorderPoint: {Rp})",
+                    item.SKU, item.QuantityOnHand, item.ReorderPoint);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex,
+                    "Failed to publish low-stock alert for {ItemId}", item.Id);
+            }
+        }
+    }
+}
+```
+
+Register in DI:
+```csharp
+recurringJobManager.AddOrUpdate<ILowStockCheckJob>(
+    "low-stock-check",
+    job => job.ExecuteAsync(),
+    "0 * * * *"   // Every hour
+);
+```
+
+### MassTransit Consumer
+Create `LowStockAlertEventConsumer.cs`:
+```csharp
+public class LowStockAlertEventConsumer(
+    ISmtpEmailService emailService,   // reuse from ServiceWorkflow? No — use INotificationService
+    ILogger<LowStockAlertEventConsumer> logger)
+    : IConsumer<LowStockAlertEvent>
+{
+    public async Task Consume(ConsumeContext<LowStockAlertEvent> context)
+    {
+        var msg = context.Message;
+        logger.LogWarning(
+            "LOW STOCK: {ItemName} (SKU: {SKU}) — " +
+            "OnHand: {Qty}, ReorderPoint: {Rp}",
+            msg.ItemName, msg.SKU, msg.QuantityOnHand, msg.ReorderPoint);
+
+        // Phase 7 will implement full email/notification here.
+        // For now: log the alert and store in a future AlertsLog table.
+        await Task.CompletedTask;
+    }
+}
+```
+
+Register consumer in MassTransit config:
+```csharp
+services.AddMassTransit(x =>
+{
+    x.AddConsumer<LowStockAlertEventConsumer>();
+    x.UsingRabbitMq((ctx, cfg) =>
+    {
+        cfg.Host(configuration["RabbitMQ:Host"] ?? "localhost");
+        cfg.ConfigureEndpoints(ctx);
+    });
+});
+```
+
+---
+
+## EF CORE MIGRATION (Sprint 4 Tables)
+dotnet ef migrations add Inventory_Sprint4_Initial
+--project ResearchLms.Inventory.Infrastructure
+--startup-project ResearchLms.Inventory.Api
+dotnet ef database update
+--project ResearchLms.Inventory.Infrastructure
+--startup-project ResearchLms.Inventory.Api
+
+text
+
+Tables created:
+- `InventoryItems`
+- `StockTransactions`
+- `Vendors`
+- `PurchaseOrders`
+- `PurchaseOrderLines`
+
+---
+
+## DEPENDENCY INJECTION (Infrastructure)
+
+`ResearchLms.Inventory.Infrastructure/DependencyInjection.cs`:
+```csharp
+public static IServiceCollection AddInfrastructureServices(
+    this IServiceCollection services,
+    IConfiguration configuration)
+{
+    services.AddDbContext<InventoryDbContext>(opts =>
+        opts.UseSqlServer(
+            configuration.GetConnectionString("InventoryDb")));
+
+    services.AddScoped<IInventoryItemRepository, InventoryItemRepository>();
+    services.AddScoped<IStockTransactionRepository, StockTransactionRepository>();
+    services.AddScoped<IVendorRepository, VendorRepository>();
+    services.AddScoped<IPurchaseOrderRepository, PurchaseOrderRepository>();
+    services.AddScoped<ILowStockCheckJob, LowStockCheckJob>();
+
+    services.AddMassTransit(x =>
+    {
+        x.AddConsumer<LowStockAlertEventConsumer>();
+        x.UsingRabbitMq((ctx, cfg) =>
+        {
+            cfg.Host(configuration["RabbitMQ:Host"] ?? "localhost");
+            cfg.ConfigureEndpoints(ctx);
+        });
+    });
+
+    services.AddHangfire(config =>
+        config.UseSqlServerStorage(
+            configuration.GetConnectionString("InventoryDb")));
+    services.AddHangfireServer();
+
+    return services;
+}
+```
+
+---
+
+## FRONTEND SETUP (Sprint 4)
+
+### Install New Dependencies
+```bash
+cd frontend
+npm install html5-qrcode          # barcode/QR scanning via camera
+npm install quagga2               # barcode scanning fallback
+npm install @tanstack/react-table # already installed — reuse
+npm install recharts              # already installed — reuse
+```
+
+### Create Module Structure
+frontend/src/modules/inventory/
+├── pages/
+│ ├── inventory-dashboard.tsx
+│ ├── item-catalog.tsx
+│ ├── item-details.tsx
+│ ├── stock-ledger.tsx
+│ ├── vendor-directory.tsx
+│ ├── vendor-details.tsx
+│ └── purchase-orders.tsx
+└── components/
+├── barcode-scanner.tsx
+├── low-stock-alert-banner.tsx
+├── stock-status-badge.tsx
+├── po-status-badge.tsx
+├── po-wizard.tsx
+└── receive-po-dialog.tsx
+
+text
+
+---
+
+## FRONTEND TASK 4.28 — Inventory Dashboard
+
+Create `frontend/src/modules/inventory/pages/inventory-dashboard.tsx`:
+Route: `/inventory`
+
+**KPI Cards row (top):**
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│ Total Items │ │ Low Stock │ │ Out of Stock│ │ Expiring │ │Pending Orders│
+│ 142 │ │ 8 items │ │ 3 items │ │ 5 items │ │ 4 orders │
+└──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘
+
+text
+Data: `GET /api/v1/inventory/items/dashboard`
+- Low Stock (amber card + amber pulsing dot if > 0)
+- Out of Stock (red card)
+- Expiring (orange card — within 30 days)
+- Pending Orders (blue card — pending PO count)
+
+**Low-Stock Alert Banner:**
+Create `<LowStockAlertBanner>` component:
+- If `lowStockCount > 0`: shows sticky amber alert at top:
+⚠ 8 items are running low on stock.
+[View Low-Stock Items] [Create Purchase Order]
+
+text
+- Only visible on dashboard and item catalog pages.
+
+**Inventory Value Breakdown Chart:**
+Recharts `PieChart` — inventory value by category:
+- Each slice: `SUM(QuantityOnHand × UnitCost)` per `ItemCategory`
+- Legend below with category names + values
+- Click slice → filters item catalog to that category
+
+**Expiring Items Table:**
+Fetch: `GET /api/v1/inventory/items/expiring?daysAhead=30`
+Compact table below the chart:
+| SKU | Name | Category | Qty | Expiry Date | Days Left | Location |
+|-----|------|----------|-----|-------------|-----------|----------|
+Color-code "Days Left":
+- ≤ 7 days → red
+- 8–14 → orange
+- 15–30 → amber
+
+**Recent Transactions Feed (right sidebar, 30% width):**
+Last 15 stock transactions across all items (add
+`GET /api/v1/inventory/items/recent-transactions?limit=15` to
+InventoryItemsController → query StockTransactions ordered by TransactedAt DESC):
+● [Receipt] 50 × HCl 37% — Received · Jun 15, 9:32 AM
+● [Issue] 2 × Petri Dish — Issued · Jun 15, 9:00 AM
+● [Adjust] Lab Gloves — Manual Adj. · Jun 14, 3:10 PM
+
+text
+Icons: ▼ green for Receipt/Return, ▲ red for Issue/Write-Off, ⚡ yellow for Adjustment.
+
+---
+
+## FRONTEND TASK 4.29 — Item Catalog
+
+Create `frontend/src/modules/inventory/pages/item-catalog.tsx`:
+Route: `/inventory/items`
+
+**Top bar:**
+- "Item Catalog" heading
+- "Add Item" button → opens `CreateItemDialog` (modal)
+- [🔍 Scan Barcode] button → opens `<BarcodeScanner>` modal
+
+**Filter bar:**
+- Category multi-select (Chemical / LabEquipment / Consumable / SafetyEquipment /
+  OfficeSupply / SparePart / Other)
+- Low Stock only toggle
+- Expiring Soon toggle
+- Include Inactive toggle
+- Search by name/SKU (debounced 300ms)
+
+**TanStack Table columns:**
+| Column | Notes |
+|--------|-------|
+| SKU | monospace chip |
+| Name | clickable → `/inventory/items/:id` |
+| Category | chip |
+| On Hand | right-aligned decimal |
+| Reserved | right-aligned |
+| Available | right-aligned, **bold** |
+| Unit | UOM abbreviation |
+| Unit Cost | right-aligned currency |
+| Total Value | right-aligned currency (`OnHand × UnitCost`) |
+| Status | `<StockStatusBadge>` |
+| Expiry | date, red if expired/expiring |
+| Location | storage location text |
+| Actions | Issue, Receive, Edit, View Ledger |
+
+**Create `StockStatusBadge` component:**
+- Normal → green "In Stock"
+- Low Stock → amber "Low Stock" with warning icon
+- Out of Stock → red "Out of Stock"
+- Expiring Soon → orange "Expiring Soon"
+- Expired → dark red "Expired"
+
+Show combined badges: a Chemical item can be both "Low Stock" AND "Expiring Soon" —
+render both as stacked chips.
+
+**Barcode Scanner:**
+Create `frontend/src/modules/inventory/components/barcode-scanner.tsx`:
+```tsx
+import { Html5QrcodeScanner } from 'html5-qrcode';
+
+interface BarcodeScannerProps {
+  onScan: (barcode: string) => void;
+  onClose: () => void;
+}
+
+export const BarcodeScanner: React.FC<BarcodeScannerProps> = ({
+  onScan, onClose
+}) => {
+  const scannerRef = useRef<Html5QrcodeScanner | null>(null);
+
+  useEffect(() => {
+    scannerRef.current = new Html5QrcodeScanner(
+      "barcode-reader",
+      { fps: 10, qrbox: { width: 250, height: 250 } },
+      false
+    );
+
+    scannerRef.current.render(
+      (decodedText) => {
+        onScan(decodedText);
+        scannerRef.current?.clear();
+      },
+      (error) => { /* Ignore scan errors */ }
+    );
+
+    return () => { scannerRef.current?.clear(); };
+  }, []);
+
+  return (
+    <Dialog open onOpenChange={onClose}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Scan Barcode / QR Code</DialogTitle>
+        </DialogHeader>
+        <div id="barcode-reader" className="w-full" />
+        <p className="text-sm text-muted-foreground text-center mt-2">
+          Point your camera at the barcode or QR code
+        </p>
+      </DialogContent>
+    </Dialog>
+  );
+};
+```
+
+**After scan:**
+1. Close scanner modal
+2. Call `GET /api/v1/inventory/items/by-barcode/{barcode}`
+3. If found → navigate to `/inventory/items/{id}`
+4. If not found → show toast "No item found for this barcode. Create one?" +
+   "Create Item" button pre-filled with barcode value
+
+**Quick Stock Action Sheet (slide-over for Issue / Receive):**
+Clicking "Issue" or "Receive" in table row actions opens a compact slide-over:
+Issue Stock — HCl 37% (SKU: CHEM-001)
+
+Current Stock: 50 L Available: 48 L
+
+Quantity to Issue: [] L
+Reference: [ServiceRequest ▼] [Ref ID input]
+Notes: []
+Issued By: Dr. Patel (auto-filled from current user)
+
+[Cancel] [Issue Stock]
+
+text
+Submit → `POST /api/v1/inventory/items/{id}/issue` → refetch table + toast.
+
+---
+
+## FRONTEND TASK 4.30 — Item Details + Stock Ledger
+
+Create `frontend/src/modules/inventory/pages/item-details.tsx`:
+Route: `/inventory/items/:id`
+
+**Header card:**
+- SKU chip (monospace) + Name (h1) + `<StockStatusBadge>` + Active/Inactive badge
+- Category, UOM, Storage Location, Hazardous flag (⚠ red chip)
+- Expiry Date (colored if expiring/expired)
+- Unit Cost + Total Value
+
+**Stock Level card:**
+┌───────────────────────────────────────────────────────────┐
+│ On Hand: 48 L │ Reserved: 2 L │ Available: 46 L │
+│ Reorder Point: 10 L Reorder Qty: 25 L │
+│ [████████████████░░░] 80% of capacity (vs reorder pt) │
+└───────────────────────────────────────────────────────────┘
+
+text
+
+**Quick Actions bar:**
+- [+ Receive Stock] → Receipt slide-over
+- [- Issue Stock] → Issue slide-over
+- [⚡ Adjust Stock] → Adjust dialog (admin only)
+- [✕ Write Off] → Write-off dialog (admin only)
+- [Edit Item] → `EditItemDialog`
+
+**Preferred Vendor card:**
+If `PreferredVendorId` set:
+Preferred Vendor: Sigma-Aldrich (VND-001) [View Vendor ↗]
+
+text
+If not set: "No preferred vendor. [Set Vendor]"
+
+**Stock Ledger section:**
+Create `frontend/src/modules/inventory/pages/stock-ledger.tsx` (also usable
+as an embedded section in item-details):
+- Fetch: `GET /api/v1/inventory/items/{id}/ledger?page=1&pageSize=25`
+- Date range picker filter (From → To)
+- "Export to CSV" button (client-side, using Papa Parse):
+  ```typescript
+  import Papa from 'papaparse';
+  // npm install papaparse @types/papaparse (already in project)
+  const csv = Papa.unparse(transactions.map(t => ({
+    Date: format(t.transactedAt, 'yyyy-MM-dd HH:mm'),
+    Type: t.type,
+    Quantity: t.quantity,
+    'Before': t.quantityBefore,
+    'After': t.quantityAfter,
+    'Unit Cost': t.unitCost,
+    'Total Cost': t.totalCost,
+    Reference: t.referenceType ?? '',
+    Notes: t.notes ?? '',
+    'By': t.transactedByName
+  })));
+  ```
+- TanStack Table:
+
+| Column | Notes |
+|--------|-------|
+| Date | formatted "Jun 15, 2026 09:32" |
+| Type | color chip (Receipt=green, Issue=red, Adjustment=blue, Write-Off=gray, Return=teal) |
+| Qty | color: green if positive, red if negative |
+| Before | gray text |
+| After | bold |
+| Unit Cost | currency |
+| Total Cost | currency |
+| Reference | clickable if PurchaseOrder → `/inventory/purchase-orders/{id}` |
+| Notes | truncated, tooltip on hover |
+| By | name |
+
+**Stock Movement Summary sub-section:**
+Fetch: `GET /api/v1/inventory/items/{id}/movement-summary?from=...&to=...`
+Show as 4 stat chips inline:
+Received: +125 L Issued: -80 L Adjusted: +3 L Net Change: +48 L
+
+text
+
+---
+
+## FRONTEND TASK 4.31 — Vendor Directory
+
+Create `frontend/src/modules/inventory/pages/vendor-directory.tsx`:
+Route: `/inventory/vendors`
+
+**Top bar:**
+- "Vendor Directory" heading
+- "Add Vendor" button (admin only) → opens `CreateVendorDialog`
+
+**Filter bar:**
+- Status filter: Active / Inactive / Blacklisted / All
+- Search by name or code
+
+**TanStack Table:**
+| Column | Notes |
+|--------|-------|
+| Code | monospace |
+| Name | clickable → `/inventory/vendors/:id` |
+| Contact | name + email |
+| Status | colored badge (Active=green, Inactive=gray, Blacklisted=red) |
+| Payment Terms | "Net 30" etc. |
+| Rating | ★★★★☆ (star rating display, 1–5) |
+| Total Orders | count + value |
+| Actions | View, Edit |
+
+**`CreateVendorDialog`:**
+Modal with two columns:
+Left: Code, Name, Contact Person, Email, Phone, Website, Tax ID, Payment Terms
+Right: Street, City, State/Province, ZIP, Country, Rating (1–5 stars), Notes
+Validation: email format, URL format.
+Save → POST `/api/v1/inventory/vendors`
+
+Create `frontend/src/modules/inventory/pages/vendor-details.tsx`:
+Route: `/inventory/vendors/:id`
+
+**Layout:**
+- Header: Code chip + Name + Status badge
+- Contact card: Contact Person, Email (mailto link), Phone, Website (external link), TaxId
+- Address card: full address display
+- Payment Terms + Rating (star display)
+- Notes card
+
+**Performance card:**
+Fetch: `GET /api/v1/inventory/vendors/{id}/performance`
+┌─────────────────────────────────────────────────────────────┐
+│ Total Orders: 24 Completed: 20 Pending: 4 │
+│ Total Value: ₹4,50,000 Avg Order: ₹18,750 │
+│ Avg Lead Time: 7.2 days │
+│ Rating: ★★★★☆ (4/5) │
+└─────────────────────────────────────────────────────────────┘
+
+text
+
+**Recent Purchase Orders table:**
+Last 5 POs from `RecentOrders` in `VendorDetailDto`:
+| PO Number | Status | Total | Created |
+|-----------|--------|-------|---------|
+| PO-2026-0012 | FullyReceived | ₹12,500 | Jun 10 |
+Each row clickable → `/inventory/purchase-orders/{id}`.
+
+---
+
+## FRONTEND TASK 4.32 — Purchase Order Wizard + List
+
+Create `frontend/src/modules/inventory/pages/purchase-orders.tsx`:
+Route: `/inventory/purchase-orders`
+
+**Top bar:**
+- "Purchase Orders" heading
+- "Create PO" button → opens `<POWizard>`
+
+**Status tabs:**
+All | Draft | Pending Approval | Approved | Ordered | Partially Received | Fully Received | Cancelled
+
+**TanStack Table:**
+| Column | Notes |
+|--------|-------|
+| PO Number | monospace, clickable → PO detail slide-over |
+| Vendor | name |
+| Status | `<POStatusBadge>` |
+| Lines | count of line items |
+| Total Amount | currency |
+| Expected Delivery | date, red if overdue + Ordered |
+| Requested By | name |
+| Approved By | name (or "Pending") |
+| Created | relative date |
+| Actions | View, Approve (if PendingApproval + admin), Receive (if Ordered), Cancel |
+
+**Create `POStatusBadge` component:**
+- Draft → gray
+- PendingApproval → amber
+- Approved → blue
+- Ordered → indigo
+- PartiallyReceived → orange
+- FullyReceived → green
+- Cancelled → red strikethrough
+
+**Create `POWizard` component:**
+`frontend/src/modules/inventory/components/po-wizard.tsx`
+
+3-step wizard:
+
+**Step 1 — Vendor & Details:**
+- Vendor (searchable select → `GET /api/v1/inventory/vendors?status=Active`)
+  - Selecting vendor → auto-fill "Payment Terms" display
+  - If vendor has Blacklisted status → show error "This vendor is blacklisted."
+- Expected Delivery Date (date picker)
+- Shipping Address (textarea, optional)
+- Cost Center (select from active cost centers — placeholder for cross-service call)
+- Notes (textarea)
+- "Next →" button
+
+**Step 2 — Line Items:**
+- "Add Item" button → opens item search dropdown
+  - Search by name or SKU (debounced 300ms → `GET /api/v1/inventory/items`)
+  - Select item → adds a line row
+
+Line item row:
+[Item: HCl 37%] [Qty: 25 L] [Unit Price: ₹450] [Total: ₹11,250] [✕]
+
+text
+- Qty and Unit Price are editable inputs
+- Total auto-computes inline
+- Barcode scanner button beside "Add Item" → use `<BarcodeScanner>` to look up item
+- Running total shown at bottom: "Order Total: ₹X,XX,XXX"
+- Minimum 1 line required to proceed
+- "← Back"  "Next →" buttons
+
+**Step 3 — Review & Submit:**
+Summary view (read-only):
+- Vendor name, payment terms, expected delivery
+- Line items table (non-editable)
+- Order total
+- "Submit for Approval" button → POST `/api/v1/inventory/purchase-orders`
+  then POST `.../submit` → redirect to PO list + toast
+  "PO {PONumber} created and submitted for approval."
+- "Save as Draft" → POST `/api/v1/inventory/purchase-orders` only (no submit)
+- "← Back" button
+
+**PO Detail Slide-Over:**
+Clicking a PO row or PO number opens a right-side slide-over:
+- PO Number + Vendor + Status badge
+- Requested By / Approved By / Dates
+- Notes + Shipping Address
+
+Lines table:
+| Item | SKU | Ordered | Received | Pending | Unit Price | Total |
+|------|-----|---------|----------|---------|------------|-------|
+Progress bar per line: `(QuantityReceived / QuantityOrdered) × 100%`
+
+Action buttons at bottom of slide-over:
+- If `PendingApproval` + user has `purchase.admin`:
+  [✓ Approve] → POST `.../approve` → refetch + toast
+- If `Approved`:
+  [📤 Send to Vendor] → POST `.../send` → refetch + toast
+- If `Ordered` or `PartiallyReceived`:
+  [📦 Receive Items] → opens `<ReceivePODialog>`
+
+**Create `ReceivePODialog` component:**
+`frontend/src/modules/inventory/components/receive-po-dialog.tsx`
+
+Modal:
+Receive Items — PO-2026-0012
+────────────────────────────────────────────────────────
+Item Ordered Received Pending Receive Now
+────────────────────────────────────────────────────────
+HCl 37% 25 L 0 L 25 L [__25__]
+Lab Gloves 10 Sets 5 Sets 5 Sets [___5__]
+────────────────────────────────────────────────────────
+
+text
+- Each "Receive Now" field: number input (max = pending qty, min = 0)
+- Leave at 0 to skip that line
+- "Confirm Receipt" → POST `.../receive`
+  Body: `{ receivedLines: [{ lineId, quantityReceived }] }`
+- On success: refetch PO + toast + update stock ledger
+- "This action will automatically update inventory stock levels."
+
+---
+
+## ADD ROUTES TO INVENTORY ROUTER
+
+Create `frontend/src/modules/inventory/router.tsx`:
+```tsx
+export const inventoryRoutes = [
+  { path: "/inventory",
+    element: <InventoryDashboardPage /> },
+  { path: "/inventory/items",
+    element: <ItemCatalogPage /> },
+  { path: "/inventory/items/:id",
+    element: <ItemDetailsPage /> },
+  { path: "/inventory/items/:id/ledger",
+    element: <StockLedgerPage /> },
+  { path: "/inventory/vendors",
+    element: <VendorDirectoryPage /> },
+  { path: "/inventory/vendors/:id",
+    element: <VendorDetailsPage /> },
+  { path: "/inventory/purchase-orders",
+    element: <PurchaseOrdersPage /> },
+];
+```
+
+Register in `App.tsx`.
+
+---
+
+## NAVIGATION SIDEBAR UPDATE
+
+Add Inventory section to the main sidebar:
+📦 Inventory
+├── Dashboard → /inventory
+├── Item Catalog → /inventory/items
+├── Purchase Orders → /inventory/purchase-orders
+└── Vendors → /inventory/vendors
+
+text
+Low-stock count badge on "Item Catalog" nav item (auto-refreshes every 5 minutes

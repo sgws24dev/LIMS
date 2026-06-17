@@ -85,7 +85,7 @@ public class WorkflowExecutionService : IWorkflowExecutionService
         if (instance is null)
             return TransitionResult.Fail("Workflow instance not found.");
 
-        if (instance.Status != WorkflowInstanceStatus.Active)
+        if (instance.Status != Domain.Enums.WorkflowInstanceStatus.Active)
             return TransitionResult.Fail("Workflow is not active.");
 
         var def = instance.WorkflowDefinition;

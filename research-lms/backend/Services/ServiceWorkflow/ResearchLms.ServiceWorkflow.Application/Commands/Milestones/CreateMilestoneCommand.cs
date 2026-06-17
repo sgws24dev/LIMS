@@ -8,6 +8,7 @@ public record CreateMilestoneCommand(
     string Title,
     string? Description,
     int Order,
+    DateTime? DueDate,
     string? AssignedTo,
     string CreatedBy
 ) : IRequest<ApiResponse<MilestoneDto>>;

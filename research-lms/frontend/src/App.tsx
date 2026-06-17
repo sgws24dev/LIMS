@@ -57,6 +57,26 @@ import RequestDetailsPage from '@/modules/requests/pages/request-details'
 import ApprovalsDashboardPage from '@/modules/requests/pages/approvals-dashboard'
 import WorkflowDefinitionsListPage from '@/modules/workflow/pages/workflow-definitions-list'
 import WorkflowDesignerPage from '@/modules/workflow/pages/workflow-designer'
+import WorkflowInstanceView from '@/modules/workflow/components/workflow-instance-view'
+
+import ProjectsDashboardPage from '@/modules/projects/pages/projects-dashboard'
+import ProjectsListPage from '@/modules/projects/pages/projects-list'
+import ProjectDetailsPage from '@/modules/projects/pages/project-details'
+import WorkOrdersPage from '@/modules/projects/pages/work-orders-page'
+import CostCentersPage from '@/modules/projects/pages/cost-centers-page'
+import IssuesListPage from '@/modules/issues/pages/issues-list'
+import CreateIssuePage from '@/modules/issues/pages/create-issue'
+import IssueDetailsPage from '@/modules/issues/pages/issue-details'
+
+import InventoryDashboardPage from '@/modules/inventory/pages/inventory-dashboard'
+import ItemCatalogPage from '@/modules/inventory/pages/item-catalog'
+import ItemDetailsPage from '@/modules/inventory/pages/item-details'
+import InventoryItemFormPage from '@/modules/inventory/pages/inventory-item-form'
+import StockLedgerPage from '@/modules/inventory/pages/stock-ledger'
+import PurchaseOrdersPage from '@/modules/inventory/pages/purchase-orders'
+import VendorDirectoryPage from '@/modules/inventory/pages/vendor-directory'
+import VendorDetailsPage from '@/modules/inventory/pages/vendor-details'
+
 import SettingsPage from '@/modules/settings/pages/settings-page'
 import NotFoundPage from '@/modules/settings/pages/not-found-page'
 
@@ -137,6 +157,28 @@ export default function App() {
           <Route path="/workflow/definitions" element={<WorkflowDefinitionsListPage />} />
           <Route path="/workflow/designer/new" element={<WorkflowDesignerPage />} />
           <Route path="/workflow/designer/:id" element={<WorkflowDesignerPage />} />
+          <Route path="/workflow/instances/:entityType/:entityId" element={<WorkflowInstanceView />} />
+
+          <Route path="/projects" element={<ProjectsDashboardPage />} />
+          <Route path="/projects/list" element={<ProjectsListPage />} />
+          <Route path="/projects/:id" element={<ProjectDetailsPage />} />
+          <Route path="/projects/work-orders" element={<WorkOrdersPage />} />
+          <Route path="/projects/:projectId/work-orders" element={<WorkOrdersPage />} />
+          <Route path="/projects/cost-centers" element={<CostCentersPage />} />
+
+          <Route path="/issues" element={<IssuesListPage />} />
+          <Route path="/issues/new" element={<CreateIssuePage />} />
+          <Route path="/issues/:id" element={<IssueDetailsPage />} />
+
+          <Route path="/inventory" element={<InventoryDashboardPage />} />
+          <Route path="/inventory/items" element={<ItemCatalogPage />} />
+          <Route path="/inventory/items/new" element={<InventoryItemFormPage />} />
+          <Route path="/inventory/items/:id" element={<ItemDetailsPage />} />
+          <Route path="/inventory/items/:id/edit" element={<ItemDetailsPage />} />
+          <Route path="/inventory/items/:id/ledger" element={<StockLedgerPage />} />
+          <Route path="/inventory/purchase-orders" element={<PurchaseOrdersPage />} />
+          <Route path="/inventory/vendors" element={<VendorDirectoryPage />} />
+          <Route path="/inventory/vendors/:id" element={<VendorDetailsPage />} />
 
           <Route path="/settings" element={<SettingsPage />} />
         </Route>

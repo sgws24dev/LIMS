@@ -536,3 +536,19 @@ export async function decideApproval(
   )
   return data.data
 }
+
+export async function approveRequest(
+  requestId: string,
+  approvalId: string,
+  comment?: string
+): Promise<ApprovalDto> {
+  return decideApproval(approvalId, true, comment)
+}
+
+export async function rejectRequest(
+  requestId: string,
+  approvalId: string,
+  comment?: string
+): Promise<ApprovalDto> {
+  return decideApproval(approvalId, false, comment)
+}

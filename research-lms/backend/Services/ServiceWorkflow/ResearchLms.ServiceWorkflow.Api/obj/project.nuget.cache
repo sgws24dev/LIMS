@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "x0cNbae2XfQ=",
+  "dgSpecHash": "8itVsQKSJyo=",
   "success": true,
   "projectFilePath": "E:\\LIMS\\research-lms\\backend\\Services\\ServiceWorkflow\\ResearchLms.ServiceWorkflow.Api\\ResearchLms.ServiceWorkflow.Api.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\NET_SP\\.nuget\\packages\\azure.security.keyvault.certificates\\4.6.0\\azure.security.keyvault.certificates.4.6.0.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\azure.security.keyvault.secrets\\4.6.0\\azure.security.keyvault.secrets.4.6.0.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\NET_SP\\.nuget\\packages\\bouncycastle.cryptography\\2.6.2\\bouncycastle.cryptography.2.6.2.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\elasticsearch.net\\7.17.5\\elasticsearch.net.7.17.5.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
@@ -21,6 +22,7 @@
     "C:\\Users\\NET_SP\\.nuget\\packages\\json.more.net\\2.1.0\\json.more.net.2.1.0.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\jsonpointer.net\\5.1.0\\jsonpointer.net.5.1.0.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\jsonschema.net\\7.3.1\\jsonschema.net.7.3.1.nupkg.sha512",
+    "C:\\Users\\NET_SP\\.nuget\\packages\\mailkit\\4.17.0\\mailkit.4.17.0.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\masstransit\\9.1.2\\masstransit.9.1.2.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\masstransit.abstractions\\9.1.2\\masstransit.abstractions.9.1.2.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\masstransit.rabbitmq\\9.1.2\\masstransit.rabbitmq.9.1.2.nupkg.sha512",
@@ -62,6 +64,7 @@
     "C:\\Users\\NET_SP\\.nuget\\packages\\microsoft.identitymodel.validators\\8.12.1\\microsoft.identitymodel.validators.8.12.1.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\microsoft.openapi\\1.6.22\\microsoft.openapi.1.6.22.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
+    "C:\\Users\\NET_SP\\.nuget\\packages\\mimekit\\4.17.0\\mimekit.4.17.0.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\nest\\7.17.5\\nest.7.17.5.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\newtonsoft.json\\11.0.1\\newtonsoft.json.11.0.1.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\rabbitmq.client\\7.2.1\\rabbitmq.client.7.2.1.nupkg.sha512",
@@ -86,7 +89,7 @@
     "C:\\Users\\NET_SP\\.nuget\\packages\\system.configuration.configurationmanager\\9.0.4\\system.configuration.configurationmanager.9.0.4.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.12.1\\system.identitymodel.tokens.jwt.8.12.1.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\system.memory.data\\8.0.1\\system.memory.data.8.0.1.nupkg.sha512",
-    "C:\\Users\\NET_SP\\.nuget\\packages\\system.security.cryptography.pkcs\\9.0.4\\system.security.cryptography.pkcs.9.0.4.nupkg.sha512",
+    "C:\\Users\\NET_SP\\.nuget\\packages\\system.security.cryptography.pkcs\\10.0.0\\system.security.cryptography.pkcs.10.0.0.nupkg.sha512",
     "C:\\Users\\NET_SP\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.4\\system.security.cryptography.protecteddata.9.0.4.nupkg.sha512"
   ],
   "logs": [

@@ -8,10 +8,12 @@ public record ServiceRequestDto(
     string Title,
     string? Description,
     string Status,
+    string Priority,
     string FormData,
     string? AssignedTo,
     DateTime? SubmittedAt,
     string? SubmittedBy,
+    DateTime? DueDate,
     DateTime? CompletedAt,
     string? CompletedBy,
     string ApprovalRouting,
@@ -24,7 +26,9 @@ public record CreateServiceRequestRequest(
     string Title,
     string? Description,
     string FormData,
-    string ApprovalRouting
+    string ApprovalRouting,
+    string Priority,
+    DateTime? DueDate
 );
 
 public record UpdateServiceRequestFormDataRequest(

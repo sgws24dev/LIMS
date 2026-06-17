@@ -43,7 +43,7 @@ public class FormDefinitionsController : ControllerBase
     {
         var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "system";
         var command = new CreateFormDefinitionCommand(
-            request.Title, request.Description, request.Schema, request.Category, userId);
+            request.Title, request.Description, request.Schema, request.Fields, request.Category, userId);
         var result = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetById), new { id = result.Data?.Id }, result);
     }
@@ -55,7 +55,7 @@ public class FormDefinitionsController : ControllerBase
     {
         var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "system";
         var command = new UpdateFormDefinitionCommand(
-            id, request.Title, request.Description, request.Schema, request.Category, userId);
+            id, request.Title, request.Description, request.Schema, request.Fields, request.Category, userId);
         var result = await _mediator.Send(command);
         return Ok(result);
     }

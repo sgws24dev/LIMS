@@ -7,6 +7,7 @@ public record CreateFormDefinitionCommand(
     string Title,
     string? Description,
     string Schema,
+    string Fields,
     string Category,
     string CreatedBy
 ) : IRequest<ApiResponse<FormDefinitionDto>>;

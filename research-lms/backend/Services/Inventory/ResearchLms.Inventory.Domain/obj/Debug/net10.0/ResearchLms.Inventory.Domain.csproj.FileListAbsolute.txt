@@ -1,0 +1,16 @@
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\bin\Debug\net10.0\ResearchLms.Inventory.Domain.deps.json
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\bin\Debug\net10.0\ResearchLms.Inventory.Domain.dll
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\bin\Debug\net10.0\ResearchLms.Inventory.Domain.pdb
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\bin\Debug\net10.0\ResearchLms.Shared.dll
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\bin\Debug\net10.0\ResearchLms.Shared.pdb
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\obj\Debug\net10.0\ResearchLms.Inventory.Domain.csproj.AssemblyReference.cache
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\obj\Debug\net10.0\ResearchLms.Inventory.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\obj\Debug\net10.0\ResearchLms.Inventory.Domain.AssemblyInfoInputs.cache
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\obj\Debug\net10.0\ResearchLms.Inventory.Domain.AssemblyInfo.cs
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\obj\Debug\net10.0\ResearchLms.Inventory.Domain.csproj.CoreCompileInputs.cache
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\obj\Debug\net10.0\ResearchLms.Inventory.Domain.sourcelink.json
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\obj\Debug\net10.0\Research.0B5E063D.Up2Date
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\obj\Debug\net10.0\ResearchLms.Inventory.Domain.dll
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\obj\Debug\net10.0\refint\ResearchLms.Inventory.Domain.dll
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\obj\Debug\net10.0\ResearchLms.Inventory.Domain.pdb
+E:\LIMS\research-lms\backend\Services\Inventory\ResearchLms.Inventory.Domain\obj\Debug\net10.0\ref\ResearchLms.Inventory.Domain.dll

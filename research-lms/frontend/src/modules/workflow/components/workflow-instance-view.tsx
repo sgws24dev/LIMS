@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import {
   WorkflowInstanceDto,
   StateTransitionRecord,
@@ -19,16 +20,15 @@ import { Play, Clock, User, MessageSquare } from 'lucide-react'
 import StateMachineDiagram from '../components/state-machine-diagram'
 
 interface WorkflowInstanceViewProps {
-  entityType: string
-  entityId: string
-  className?: string
+  entityType?: string
+  entityId?: string
 }
 
-export default function WorkflowInstanceView({
-  entityType,
-  entityId,
-  className = '',
-}: WorkflowInstanceViewProps) {
+export default function WorkflowInstanceView({ entityType: propEntityType, entityId: propEntityId }: WorkflowInstanceViewProps = {}) {
+  const params = useParams<{ entityType: string; entityId: string }>()
+  const entityType = propEntityType ?? params.entityType ?? ''
+  const entityId = propEntityId ?? params.entityId ?? ''
+  const className = ''
   const { toast } = useToast()
   const [instance, setInstance] = useState<WorkflowInstanceDto | null>(null)
   const [definition, setDefinition] = useState<WorkflowDefinitionDto | null>(null)

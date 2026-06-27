@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ResearchLms.ServiceWorkflow.Api.Middleware;
 using ResearchLms.ServiceWorkflow.Application;
 using ResearchLms.ServiceWorkflow.Infrastructure;
+using ResearchLms.ServiceWorkflow.Infrastructure.Persistence;
 using Serilog;
 using System.Text;
 
@@ -53,6 +55,16 @@ builder.Services.AddServiceWorkflowApplication();
 builder.Services.AddServiceWorkflowInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ServiceWorkflowDbContext>();
+    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+    if (env != "Testing" && context.Database.IsRelational())
+        await context.Database.MigrateAsync();
+    else
+        await context.Database.EnsureCreatedAsync();
+}
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

@@ -77,6 +77,52 @@ import PurchaseOrdersPage from '@/modules/inventory/pages/purchase-orders'
 import VendorDirectoryPage from '@/modules/inventory/pages/vendor-directory'
 import VendorDetailsPage from '@/modules/inventory/pages/vendor-details'
 
+import InvoicesListPage from '@/modules/billing/pages/invoices-list'
+import InvoiceDetailsPage from '@/modules/billing/pages/invoice-details'
+import CreateInvoicePage from '@/modules/billing/pages/create-invoice'
+import PricingModelsPage from '@/modules/billing/pages/pricing-models-page'
+import RateEditorPage from '@/modules/billing/pages/rate-editor'
+import RebatesPage from '@/modules/billing/pages/rebates-page'
+import CreditsPage from '@/modules/billing/pages/credits-page'
+import TaxCodesPage from '@/modules/billing/pages/tax-codes-page'
+import ErpSyncDashboardPage from '@/modules/billing/pages/erp-sync-dashboard'
+import ExchangeRatesPage from '@/modules/billing/pages/exchange-rates-page'
+import ReconciliationPage from '@/modules/billing/pages/reconciliation-page'
+import FinancialDashboardPage from '@/modules/billing/pages/financial-dashboard'
+import DepreciationReportsPage from '@/modules/billing/pages/depreciation-reports'
+import AnalyticsHomePage from '@/modules/billing/pages/analytics-home'
+import DashboardDetailPage from '@/modules/billing/pages/dashboard-detail'
+import ReportsPage from '@/modules/billing/pages/reports-page'
+
+import AuditLogsPage from '@/modules/compliance/pages/audit-logs-page'
+import TrainingDashboard from '@/modules/training/pages/TrainingDashboard'
+import CompetencyMatrix from '@/modules/training/pages/CompetencyMatrix'
+
+import NotificationCenter from '@/modules/notifications/pages/NotificationCenter'
+import NotificationPreferences from '@/modules/notifications/pages/NotificationPreferences'
+import EmailTemplateEditor from '@/modules/admin/pages/EmailTemplateEditor'
+import SmsTemplateEditor from '@/modules/admin/pages/SmsTemplateEditor'
+import AnnouncementsList from '@/modules/announcements/pages/AnnouncementsList'
+import CreateAnnouncement from '@/modules/announcements/pages/CreateAnnouncement'
+
+import HelpCenter from '@/modules/help/pages/HelpCenter'
+import HelpArticleDetail from '@/modules/help/pages/HelpArticleDetail'
+
+import PublicationsList from '@/modules/publications/pages/PublicationsList'
+import AddPublication from '@/modules/publications/pages/AddPublication'
+import PublicationDetails from '@/modules/publications/pages/PublicationDetails'
+import HomepageBuilder from '@/modules/admin/pages/HomepageBuilder'
+
+import HelpdeskChat from '@/modules/ai-modules/pages/HelpdeskChat'
+import HelpdeskSlaDashboard from '@/modules/ai-modules/pages/HelpdeskSlaDashboard'
+import TalkToAction from '@/modules/ai-modules/pages/TalkToAction'
+import ActionHistory from '@/modules/ai-modules/pages/ActionHistory'
+import EquipmentFaq from '@/modules/ai-modules/pages/EquipmentFaq'
+import SopViewer from '@/modules/ai-modules/pages/SopViewer'
+import IoTDashboard from '@/modules/ai-modules/pages/IoTDashboard'
+import IoTAlerts from '@/modules/ai-modules/pages/IoTAlerts'
+import AutomationRules from '@/modules/ai-modules/pages/AutomationRules'
+
 import SettingsPage from '@/modules/settings/pages/settings-page'
 import NotFoundPage from '@/modules/settings/pages/not-found-page'
 
@@ -179,6 +225,59 @@ export default function App() {
           <Route path="/inventory/purchase-orders" element={<PurchaseOrdersPage />} />
           <Route path="/inventory/vendors" element={<VendorDirectoryPage />} />
           <Route path="/inventory/vendors/:id" element={<VendorDetailsPage />} />
+
+          <Route path="/billing/invoices" element={<InvoicesListPage />} />
+          <Route path="/billing/invoices/new" element={<CreateInvoicePage />} />
+          <Route path="/billing/invoices/:id" element={<InvoiceDetailsPage />} />
+          <Route path="/billing/pricing-models" element={<PricingModelsPage />} />
+          <Route path="/billing/pricing-models/:pricingModelId/rates" element={<RateEditorPage />} />
+          <Route path="/billing/rebates" element={<RebatesPage />} />
+          <Route path="/billing/credits" element={<CreditsPage />} />
+          <Route path="/billing/tax-codes" element={<TaxCodesPage />} />
+          <Route path="/billing/erp-sync" element={<ErpSyncDashboardPage />} />
+          <Route path="/billing/exchange-rates" element={<ExchangeRatesPage />} />
+          <Route path="/billing/reconciliation" element={<ReconciliationPage />} />
+          <Route path="/billing/depreciation-reports" element={<DepreciationReportsPage />} />
+          <Route path="/billing/analytics" element={<AnalyticsHomePage />} />
+          <Route path="/billing/analytics/:id" element={<DashboardDetailPage />} />
+          <Route path="/billing/reports" element={<ReportsPage />} />
+          <Route path="/billing" element={<FinancialDashboardPage />} />
+
+          <Route path="/compliance/audit-logs" element={<AuditLogsPage />} />
+
+          <Route path="/training" element={<TrainingDashboard />} />
+          <Route path="/training/matrix" element={<CompetencyMatrix />} />
+
+          <Route path="/notifications" element={<NotificationCenter />} />
+          <Route path="/settings/notifications" element={<NotificationPreferences />} />
+          <Route path="/announcements" element={<AnnouncementsList />} />
+          <Route path="/announcements/create" element={<CreateAnnouncement />} />
+          <Route path="/announcements/:id/edit" element={<CreateAnnouncement />} />
+
+          <Route path="/admin/notifications/templates/email" element={<EmailTemplateEditor />} />
+          <Route path="/admin/notifications/templates/email/:id" element={<EmailTemplateEditor />} />
+          <Route path="/admin/notifications/templates/sms" element={<SmsTemplateEditor />} />
+          <Route path="/admin/notifications/templates/sms/:id" element={<SmsTemplateEditor />} />
+
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/help/:slug" element={<HelpArticleDetail />} />
+
+          <Route path="/publications" element={<PublicationsList />} />
+          <Route path="/publications/add" element={<AddPublication />} />
+          <Route path="/publications/:id" element={<PublicationDetails />} />
+          <Route path="/publications/:id/edit" element={<AddPublication />} />
+
+          <Route path="/admin/homepage" element={<HomepageBuilder />} />
+
+          <Route path="/ai/helpdesk" element={<HelpdeskChat />} />
+          <Route path="/ai/sla-dashboard" element={<HelpdeskSlaDashboard />} />
+          <Route path="/ai/talk-to-action" element={<TalkToAction />} />
+          <Route path="/ai/action-history" element={<ActionHistory />} />
+          <Route path="/ai/equipment-faq" element={<EquipmentFaq />} />
+          <Route path="/ai/sop-viewer" element={<SopViewer />} />
+          <Route path="/ai/iot" element={<IoTDashboard />} />
+          <Route path="/ai/iot/alerts" element={<IoTAlerts />} />
+          <Route path="/ai/iot/automation" element={<AutomationRules />} />
 
           <Route path="/settings" element={<SettingsPage />} />
         </Route>

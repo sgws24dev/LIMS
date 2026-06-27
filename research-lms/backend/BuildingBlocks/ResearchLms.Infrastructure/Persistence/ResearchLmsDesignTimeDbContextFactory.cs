@@ -12,7 +12,7 @@ public class ResearchLmsDesignTimeDbContextFactory : IDesignTimeDbContextFactory
 
         var connectionString = args.Length > 0
             ? args[0]
-            : "Server=localhost,1433;Database=ResearchLms_Identity;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;";
+            : "Server=.\\SQLEXPRESS;Database=ResearchLms_Identity;Integrated Security=True;TrustServerCertificate=True;";
 
         optionsBuilder.UseSqlServer(connectionString);
 

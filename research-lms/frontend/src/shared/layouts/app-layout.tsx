@@ -4,6 +4,7 @@ import { Header } from './header'
 import { useAuthStore } from '@/store/authStore'
 import { useUIStore } from '@/store/uiStore'
 import { cn } from '@/lib/utils'
+import { InteractiveWalkthrough } from '@/modules/help/components/InteractiveWalkthrough'
 
 export function AppLayout() {
   const { isAuthenticated, isLoading } = useAuthStore()
@@ -29,6 +30,7 @@ export function AppLayout() {
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">
           <Outlet />
         </main>
+        <InteractiveWalkthrough />
       </div>
     </div>
   )

@@ -28,16 +28,21 @@ public static class DependencyInjection
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
         var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-        services.AddDbContext<ResearchLmsDbContext>((sp, options) =>
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        if (!string.IsNullOrEmpty(connectionString))
         {
-            if (env == "Testing")
+            services.AddDbContext<ResearchLmsDbContext>((sp, options) =>
+                options.UseSqlServer(connectionString));
+        }
+        else if (env == "Development")
+        {
+            services.AddScoped(_ => new SqliteConnection("DataSource=researchlms.db"));
+            services.AddDbContext<ResearchLmsDbContext>((sp, options) =>
             {
                 var connection = sp.GetRequiredService<SqliteConnection>();
                 options.UseSqlite(connection);
-            }
-            else
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-        });
+            });
+        }
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ResearchLmsDbContext>());
 
         var jwtSettings = configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>()!;
@@ -61,20 +66,30 @@ public static class DependencyInjection
         //   services.AddAuthentication().AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"));
         // Requires Microsoft.Identity.Web NuGet package.
 
-        if (env != "Testing")
+        services.AddMassTransit(busConfigurator =>
         {
-            services.AddMassTransit(busConfigurator =>
+            if (env != "Development")
             {
                 busConfigurator.UsingRabbitMq((context, cfg) =>
                 {
                     var host = configuration.GetValue<string>("RabbitMQ:Host") ?? "localhost";
                     cfg.Host(host);
                 });
-            });
-            services.AddScoped<EventBus.IEventBus, EventBus.EventBus>();
+            }
+            else
+            {
+                busConfigurator.UsingInMemory((context, cfg) =>
+                {
+                    cfg.ConfigureEndpoints(context);
+                });
+            }
+        });
+        services.AddScoped<EventBus.IEventBus, EventBus.EventBus>();
 
+        if (!string.IsNullOrEmpty(connectionString) && env != "Testing")
+        {
             services.AddHangfire(cfg =>
-                cfg.UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection")));
+                cfg.UseSqlServerStorage(connectionString));
             services.AddHangfireServer();
             services.AddScoped<IJobService, JobService>();
         }

@@ -1,3 +1,4 @@
+using ResearchLms.Billing.Domain.Entities;
 using ResearchLms.Billing.Domain.ValueObjects;
 
 namespace ResearchLms.Billing.Domain.Interfaces;

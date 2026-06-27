@@ -50,6 +50,42 @@
     <Project Path="Gateway\ResearchLms.Gateway\ResearchLms.Gateway.csproj" />
   </Folder>
   <Folder Name="/tests/" />
+  <Folder Name="/Services/Billing/">
+    <Project Path="Services\Billing\ResearchLms.Billing.Domain\ResearchLms.Billing.Domain.csproj" />
+    <Project Path="Services\Billing\ResearchLms.Billing.Application\ResearchLms.Billing.Application.csproj" />
+    <Project Path="Services\Billing\ResearchLms.Billing.Infrastructure\ResearchLms.Billing.Infrastructure.csproj" />
+    <Project Path="Services\Billing\ResearchLms.Billing.Api\ResearchLms.Billing.Api.csproj" />
+  </Folder>
+  <Folder Name="/Services/Compliance/">
+    <Project Path="Services\Compliance\ResearchLms.Compliance.Domain\ResearchLms.Compliance.Domain.csproj" />
+    <Project Path="Services\Compliance\ResearchLms.Compliance.Application\ResearchLms.Compliance.Application.csproj" />
+    <Project Path="Services\Compliance\ResearchLms.Compliance.Infrastructure\ResearchLms.Compliance.Infrastructure.csproj" />
+    <Project Path="Services\Compliance\ResearchLms.Compliance.Api\ResearchLms.Compliance.Api.csproj" />
+  </Folder>
+  <Folder Name="/Services/Training/">
+    <Project Path="Services\Training\ResearchLms.Training.Domain\ResearchLms.Training.Domain.csproj" />
+    <Project Path="Services\Training\ResearchLms.Training.Application\ResearchLms.Training.Application.csproj" />
+    <Project Path="Services\Training\ResearchLms.Training.Infrastructure\ResearchLms.Training.Infrastructure.csproj" />
+    <Project Path="Services\Training\ResearchLms.Training.Api\ResearchLms.Training.Api.csproj" />
+  </Folder>
+  <Folder Name="/Services/Communications/">
+    <Project Path="Services\Communications\ResearchLms.Communications.Domain\ResearchLms.Communications.Domain.csproj" />
+    <Project Path="Services\Communications\ResearchLms.Communications.Application\ResearchLms.Communications.Application.csproj" />
+    <Project Path="Services\Communications\ResearchLms.Communications.Infrastructure\ResearchLms.Communications.Infrastructure.csproj" />
+    <Project Path="Services\Communications\ResearchLms.Communications.Api\ResearchLms.Communications.Api.csproj" />
+  </Folder>
+  <Folder Name="/Services/Content/">
+    <Project Path="Services\Content\ResearchLms.Content.Domain\ResearchLms.Content.Domain.csproj" />
+    <Project Path="Services\Content\ResearchLms.Content.Application\ResearchLms.Content.Application.csproj" />
+    <Project Path="Services\Content\ResearchLms.Content.Infrastructure\ResearchLms.Content.Infrastructure.csproj" />
+    <Project Path="Services\Content\ResearchLms.Content.Api\ResearchLms.Content.Api.csproj" />
+  </Folder>
+  <Folder Name="/Services/AiServices/">
+    <Project Path="Services\AiServices\ResearchLms.AiServices.Domain\ResearchLms.AiServices.Domain.csproj" />
+    <Project Path="Services\AiServices\ResearchLms.AiServices.Application\ResearchLms.AiServices.Application.csproj" />
+    <Project Path="Services\AiServices\ResearchLms.AiServices.Infrastructure\ResearchLms.AiServices.Infrastructure.csproj" />
+    <Project Path="Services\AiServices\ResearchLms.AiServices.Api\ResearchLms.AiServices.Api.csproj" />
+  </Folder>
   <Folder Name="/tests/IntegrationTests/">
     <Project Path="tests\IntegrationTests\ResearchLms.IntegrationTests.csproj" />
   </Folder>

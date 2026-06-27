@@ -1,0 +1,16 @@
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\bin\Debug\net10.0\ResearchLms.AiServices.Domain.deps.json
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\bin\Debug\net10.0\ResearchLms.AiServices.Domain.dll
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\bin\Debug\net10.0\ResearchLms.AiServices.Domain.pdb
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\bin\Debug\net10.0\ResearchLms.Shared.dll
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\bin\Debug\net10.0\ResearchLms.Shared.pdb
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\obj\Debug\net10.0\ResearchLms.AiServices.Domain.csproj.AssemblyReference.cache
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\obj\Debug\net10.0\ResearchLms.AiServices.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\obj\Debug\net10.0\ResearchLms.AiServices.Domain.AssemblyInfoInputs.cache
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\obj\Debug\net10.0\ResearchLms.AiServices.Domain.AssemblyInfo.cs
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\obj\Debug\net10.0\ResearchLms.AiServices.Domain.csproj.CoreCompileInputs.cache
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\obj\Debug\net10.0\ResearchLms.AiServices.Domain.sourcelink.json
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\obj\Debug\net10.0\Research.BD5533AA.Up2Date
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\obj\Debug\net10.0\ResearchLms.AiServices.Domain.dll
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\obj\Debug\net10.0\refint\ResearchLms.AiServices.Domain.dll
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\obj\Debug\net10.0\ResearchLms.AiServices.Domain.pdb
+E:\LIMS\research-lms\backend\Services\AiServices\ResearchLms.AiServices.Domain\obj\Debug\net10.0\ref\ResearchLms.AiServices.Domain.dll

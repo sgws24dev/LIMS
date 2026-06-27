@@ -252,3 +252,4 @@ E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Api\obj\Debu
 E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Api\obj\Debug\net10.0\ResearchLms.Projects.Api.pdb
 E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Api\obj\Debug\net10.0\ResearchLms.Projects.Api.genruntimeconfig.cache
 E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Api\obj\Debug\net10.0\ref\ResearchLms.Projects.Api.dll
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

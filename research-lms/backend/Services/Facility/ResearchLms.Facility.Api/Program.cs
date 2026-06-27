@@ -42,7 +42,7 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<ResearchLmsDbContext>();
     var tenantContext = scope.ServiceProvider.GetRequiredService<ITenantContext>();
     var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-    if (env != "Testing" && context.Database.IsRelational())
+    if (env != "Development" && context.Database.IsRelational())
         await context.Database.MigrateAsync();
     else
         await context.Database.EnsureCreatedAsync();

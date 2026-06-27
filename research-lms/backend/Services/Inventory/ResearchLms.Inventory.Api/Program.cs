@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ResearchLms.Inventory.Api.Middleware;
 using ResearchLms.Inventory.Application;
 using ResearchLms.Inventory.Infrastructure;
+using ResearchLms.Inventory.Infrastructure.Persistence;
 using Serilog;
 using System.Text;
 
@@ -47,6 +49,16 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInventoryInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<InventoryDbContext>();
+    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+    if (env != "Testing" && context.Database.IsRelational())
+        await context.Database.MigrateAsync();
+    else
+        await context.Database.EnsureCreatedAsync();
+}
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

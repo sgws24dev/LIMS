@@ -1,0 +1,16 @@
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\bin\Release\net10.0\ResearchLms.Content.Domain.deps.json
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\bin\Release\net10.0\ResearchLms.Content.Domain.dll
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\bin\Release\net10.0\ResearchLms.Content.Domain.pdb
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\bin\Release\net10.0\ResearchLms.Shared.dll
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\bin\Release\net10.0\ResearchLms.Shared.pdb
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\obj\Release\net10.0\ResearchLms.Content.Domain.csproj.AssemblyReference.cache
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\obj\Release\net10.0\ResearchLms.Content.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\obj\Release\net10.0\ResearchLms.Content.Domain.AssemblyInfoInputs.cache
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\obj\Release\net10.0\ResearchLms.Content.Domain.AssemblyInfo.cs
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\obj\Release\net10.0\ResearchLms.Content.Domain.csproj.CoreCompileInputs.cache
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\obj\Release\net10.0\ResearchLms.Content.Domain.sourcelink.json
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\obj\Release\net10.0\Research.E57ECCAF.Up2Date
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\obj\Release\net10.0\ResearchLms.Content.Domain.dll
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\obj\Release\net10.0\refint\ResearchLms.Content.Domain.dll
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\obj\Release\net10.0\ResearchLms.Content.Domain.pdb
+E:\LIMS\research-lms\backend\Services\Content\ResearchLms.Content.Domain\obj\Release\net10.0\ref\ResearchLms.Content.Domain.dll

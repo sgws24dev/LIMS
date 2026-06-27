@@ -1,4 +1,4 @@
-import { Bell, Moon, Sun, LogOut, User, Settings, ChevronDown, ChevronRight, Home } from "lucide-react"
+import { Moon, Sun, LogOut, User, Settings, ChevronDown, ChevronRight, Home } from "lucide-react"
 import { useAuthStore } from "@/store/authStore"
 import { useUIStore } from "@/store/uiStore"
 import { Button } from "@/shared/ui/button"
@@ -14,6 +14,7 @@ import {
 import { useNavigate, Link } from "react-router-dom"
 import { cn } from "@/lib/utils"
 import GlobalSearch from "@/shared/components/global-search"
+import { NotificationBell } from "@/modules/notifications/components/NotificationBell"
 
 export function Header() {
   const { user, logout } = useAuthStore()
@@ -72,12 +73,7 @@ export function Header() {
           {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
         </Button>
 
-        <Button variant="ghost" size="icon-sm" className="relative text-muted-foreground/60 hover:text-foreground" onClick={() => navigate("/notifications")}>
-          <Bell className="h-4 w-4" />
-          <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-destructive text-[9px] font-semibold text-destructive-foreground">
-            3
-          </span>
-        </Button>
+        <NotificationBell />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

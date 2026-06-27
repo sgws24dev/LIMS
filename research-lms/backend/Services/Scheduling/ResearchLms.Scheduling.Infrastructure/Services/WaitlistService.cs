@@ -13,14 +13,14 @@ public class WaitlistService : IWaitlistService
     private readonly IBookingRepository _bookingRepo;
     private readonly Persistence.SchedulingDbContext _db;
     private readonly ITenantContext _tenantContext;
-    private readonly INotificationService _notificationService;
+    private readonly ResearchLms.Scheduling.Domain.Interfaces.INotificationService _notificationService;
 
     public WaitlistService(
         IWaitlistRepository repo,
         IBookingRepository bookingRepo,
         Persistence.SchedulingDbContext db,
         ITenantContext tenantContext,
-        INotificationService notificationService)
+        ResearchLms.Scheduling.Domain.Interfaces.INotificationService notificationService)
     {
         _repo = repo;
         _bookingRepo = bookingRepo;

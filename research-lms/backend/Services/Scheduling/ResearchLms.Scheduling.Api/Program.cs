@@ -1,9 +1,11 @@
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ResearchLms.Scheduling.Api.Middleware;
 using ResearchLms.Scheduling.Application;
 using ResearchLms.Scheduling.Infrastructure;
+using ResearchLms.Scheduling.Infrastructure.Persistence;
 using Serilog;
 using System.Text;
 
@@ -52,6 +54,16 @@ builder.Services.AddSchedulingApplication();
 builder.Services.AddSchedulingInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<SchedulingDbContext>();
+    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+    if (env != "Testing" && context.Database.IsRelational())
+        await context.Database.MigrateAsync();
+    else
+        await context.Database.EnsureCreatedAsync();
+}
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

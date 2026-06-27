@@ -31,6 +31,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
               "E:\\LIMS\\research-lms\\backend\\BuildingBlocks\\ResearchLms.Shared\\ResearchLms.Shared.csproj": {
@@ -53,6 +54,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "BCrypt.Net-Next": {
@@ -427,6 +429,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -445,6 +448,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "MediatR": {
@@ -773,6 +777,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
               "E:\\LIMS\\research-lms\\backend\\Services\\Projects\\ResearchLms.Projects.Infrastructure\\ResearchLms.Projects.Infrastructure.csproj": {
@@ -795,6 +800,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Hangfire": {
@@ -1288,6 +1294,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
               "E:\\LIMS\\research-lms\\backend\\Services\\Projects\\ResearchLms.Projects.Domain\\ResearchLms.Projects.Domain.csproj": {
@@ -1310,6 +1317,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "FluentValidation.DependencyInjectionExtensions": {
@@ -1642,6 +1650,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
               "E:\\LIMS\\research-lms\\backend\\BuildingBlocks\\ResearchLms.Shared\\ResearchLms.Shared.csproj": {
@@ -1664,6 +1673,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "imports": [
             "net461",
@@ -1986,6 +1996,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
               "E:\\LIMS\\research-lms\\backend\\BuildingBlocks\\ResearchLms.Infrastructure\\ResearchLms.Infrastructure.csproj": {
@@ -2011,6 +2022,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Hangfire": {

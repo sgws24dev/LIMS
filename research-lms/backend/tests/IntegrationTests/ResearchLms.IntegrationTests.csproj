@@ -26,6 +26,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Services\Identity\ResearchLms.Identity.Api\ResearchLms.Identity.Api.csproj" />
     <ProjectReference Include="..\..\Services\Facility\ResearchLms.Facility.Api\ResearchLms.Facility.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Billing\ResearchLms.Billing.Api\ResearchLms.Billing.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Compliance\ResearchLms.Compliance.Api\ResearchLms.Compliance.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Content\ResearchLms.Content.Api\ResearchLms.Content.Api.csproj" />
   </ItemGroup>
 
 </Project>

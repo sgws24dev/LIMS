@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0-preview.1.25080.5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ResearchLms.Billing.Domain\ResearchLms.Billing.Domain.csproj" />

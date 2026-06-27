@@ -1,0 +1,16 @@
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\bin\Debug\net10.0\ResearchLms.Training.Domain.deps.json
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\bin\Debug\net10.0\ResearchLms.Training.Domain.dll
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\bin\Debug\net10.0\ResearchLms.Training.Domain.pdb
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\bin\Debug\net10.0\ResearchLms.Shared.dll
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\bin\Debug\net10.0\ResearchLms.Shared.pdb
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\obj\Debug\net10.0\ResearchLms.Training.Domain.csproj.AssemblyReference.cache
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\obj\Debug\net10.0\ResearchLms.Training.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\obj\Debug\net10.0\ResearchLms.Training.Domain.AssemblyInfoInputs.cache
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\obj\Debug\net10.0\ResearchLms.Training.Domain.AssemblyInfo.cs
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\obj\Debug\net10.0\ResearchLms.Training.Domain.csproj.CoreCompileInputs.cache
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\obj\Debug\net10.0\ResearchLms.Training.Domain.sourcelink.json
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\obj\Debug\net10.0\Research.3FF8108F.Up2Date
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\obj\Debug\net10.0\ResearchLms.Training.Domain.dll
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\obj\Debug\net10.0\refint\ResearchLms.Training.Domain.dll
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\obj\Debug\net10.0\ResearchLms.Training.Domain.pdb
+E:\LIMS\research-lms\backend\Services\Training\ResearchLms.Training.Domain\obj\Debug\net10.0\ref\ResearchLms.Training.Domain.dll

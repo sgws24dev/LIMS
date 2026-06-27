@@ -1,10 +1,12 @@
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ResearchLms.Projects.Api.Middleware;
 using ResearchLms.Projects.Application;
 using ResearchLms.Projects.Domain.Interfaces;
 using ResearchLms.Projects.Infrastructure;
+using ResearchLms.Projects.Infrastructure.Persistence;
 using Serilog;
 using System.Text;
 
@@ -55,6 +57,16 @@ builder.Services.AddApplicationServices();
 builder.Services.AddProjectInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ProjectsDbContext>();
+    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+    if (env != "Testing" && context.Database.IsRelational())
+        await context.Database.MigrateAsync();
+    else
+        await context.Database.EnsureCreatedAsync();
+}
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

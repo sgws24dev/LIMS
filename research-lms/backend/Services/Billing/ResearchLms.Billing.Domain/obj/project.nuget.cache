@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "R09L/1dO39Y=",
+  "success": true,
+  "projectFilePath": "E:\\LIMS\\research-lms\\backend\\Services\\Billing\\ResearchLms.Billing.Domain\\ResearchLms.Billing.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\NET_SP\\.nuget\\packages\\mediatr\\12.4.1\\mediatr.12.4.1.nupkg.sha512",
+    "C:\\Users\\NET_SP\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\NET_SP\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

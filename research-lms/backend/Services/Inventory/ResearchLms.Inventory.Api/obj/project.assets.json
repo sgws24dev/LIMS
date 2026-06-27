@@ -5637,6 +5637,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
             "E:\\LIMS\\research-lms\\backend\\Services\\Inventory\\ResearchLms.Inventory.Infrastructure\\ResearchLms.Inventory.Infrastructure.csproj": {
@@ -5659,6 +5660,7 @@
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
@@ -6128,6 +6130,16 @@
       "warningLevel": 1,
       "message": "ResearchLms.Inventory.Api depends on Microsoft.AspNetCore.Authentication.JwtBearer (>= 10.0.0-preview.3.25171.6) but Microsoft.AspNetCore.Authentication.JwtBearer 10.0.0-preview.3.25171.6 was not found. Microsoft.AspNetCore.Authentication.JwtBearer 10.0.0-preview.3.25172.1 was resolved instead.",
       "libraryId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q",
+      "libraryId": "SQLitePCLRaw.lib.e_sqlite3",
       "targetGraphs": [
         "net10.0"
       ]

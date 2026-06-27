@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -102,7 +100,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5002
-      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=ResearchLms_Identity;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=ResearchLms_Institution;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
       - Elasticsearch__Url=http://elasticsearch:9200
     ports:
       - "5002:5002"
@@ -228,8 +226,26 @@ services:
     volumes:
       - inventory-logs:/app/logs
 
+  billing-api:
+    image: ${DOCKER_REGISTRY-}researchlms-billing
+    container_name: research-lms-billing
+    build:
+      context: .
+      dockerfile: Services/Billing/ResearchLms.Billing.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5008
+      - ConnectionStrings__BillingDb=Server=sqlserver,1433;Database=ResearchLms_Billing;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+    ports:
+      - "5008:5008"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    volumes:
+      - billing-logs:/app/logs
+
   mailhog:
-    image: mailhog/mailhog:latest
+    image: mailhog/mailhog:v1.0.1
     container_name: research-lms-mailhog
     ports:
       - "1025:1025"
@@ -238,6 +254,109 @@ services:
       MH_STORAGE: maildir
     volumes:
       - mailhog-data:/maildir
+
+  communications-api:
+    image: ${DOCKER_REGISTRY-}researchlms-communications
+    container_name: research-lms-communications
+    build:
+      context: .
+      dockerfile: Services/Communications/ResearchLms.Communications.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5010
+      - ConnectionStrings__CommunicationsDb=Server=sqlserver,1433;Database=ResearchLms_Communications;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+      - RabbitMQ__Host=rabbitmq
+    ports:
+      - "5010:5010"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - communications-logs:/app/logs
+
+  compliance-api:
+    image: ${DOCKER_REGISTRY-}researchlms-compliance
+    container_name: research-lms-compliance
+    build:
+      context: .
+      dockerfile: Services/Compliance/ResearchLms.Compliance.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5009
+      - ConnectionStrings__ComplianceDb=Server=sqlserver,1433;Database=ResearchLms_Compliance;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+    ports:
+      - "5009:5009"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    volumes:
+      - compliance-logs:/app/logs
+
+  content-api:
+    image: ${DOCKER_REGISTRY-}researchlms-content
+    container_name: research-lms-content
+    build:
+      context: .
+      dockerfile: Services/Content/ResearchLms.Content.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5011
+      - ConnectionStrings__ContentDb=Server=sqlserver,1433;Database=ResearchLms_Content;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+      - Elasticsearch__Url=http://elasticsearch:9200
+    ports:
+      - "5011:5011"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_started
+    volumes:
+      - content-logs:/app/logs
+
+  aiservices-api:
+    image: ${DOCKER_REGISTRY-}researchlms-aiservices
+    container_name: research-lms-aiservices
+    build:
+      context: .
+      dockerfile: Services/AiServices/ResearchLms.AiServices.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5012
+      - ConnectionStrings__AiServicesDb=Server=sqlserver,1433;Database=ResearchLms_AiServices;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+      - Elasticsearch__Url=http://elasticsearch:9200
+    ports:
+      - "5012:5012"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_started
+    volumes:
+      - aiservices-logs:/app/logs
+
+  training-api:
+    image: ${DOCKER_REGISTRY-}researchlms-training
+    container_name: research-lms-training
+    build:
+      context: .
+      dockerfile: Services/Training/ResearchLms.Training.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5013
+      - ConnectionStrings__TrainingDb=Server=sqlserver,1433;Database=ResearchLms_Training;User Id=sa;Password=ResearchLms@2024!;TrustServerCertificate=True;
+      - ConnectionStrings__Redis=redis:6379
+      - RabbitMQ__Host=rabbitmq
+    ports:
+      - "5013:5013"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - training-logs:/app/logs
 
   gateway:
     image: ${DOCKER_REGISTRY-}researchlms-gateway
@@ -258,6 +377,12 @@ services:
       - serviceworkflow-api
       - projects-api
       - inventory-api
+      - billing-api
+      - communications-api
+      - compliance-api
+      - content-api
+      - aiservices-api
+      - training-api
 
 volumes:
   sqlserver-data:
@@ -272,3 +397,9 @@ volumes:
   projects-logs:
   serviceworkflow-logs:
   inventory-logs:
+  billing-logs:
+  communications-logs:
+  compliance-logs:
+  content-logs:
+  aiservices-logs:
+  training-logs:

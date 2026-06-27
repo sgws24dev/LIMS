@@ -1,0 +1,16 @@
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\bin\Release\net10.0\ResearchLms.Projects.Domain.deps.json
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\bin\Release\net10.0\ResearchLms.Projects.Domain.dll
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\bin\Release\net10.0\ResearchLms.Projects.Domain.pdb
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\bin\Release\net10.0\ResearchLms.Shared.dll
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\bin\Release\net10.0\ResearchLms.Shared.pdb
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\obj\Release\net10.0\ResearchLms.Projects.Domain.csproj.AssemblyReference.cache
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\obj\Release\net10.0\ResearchLms.Projects.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\obj\Release\net10.0\ResearchLms.Projects.Domain.AssemblyInfoInputs.cache
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\obj\Release\net10.0\ResearchLms.Projects.Domain.AssemblyInfo.cs
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\obj\Release\net10.0\ResearchLms.Projects.Domain.csproj.CoreCompileInputs.cache
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\obj\Release\net10.0\ResearchLms.Projects.Domain.sourcelink.json
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\obj\Release\net10.0\Research.38F5F3E1.Up2Date
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\obj\Release\net10.0\ResearchLms.Projects.Domain.dll
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\obj\Release\net10.0\refint\ResearchLms.Projects.Domain.dll
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\obj\Release\net10.0\ResearchLms.Projects.Domain.pdb
+E:\LIMS\research-lms\backend\Services\Projects\ResearchLms.Projects.Domain\obj\Release\net10.0\ref\ResearchLms.Projects.Domain.dll

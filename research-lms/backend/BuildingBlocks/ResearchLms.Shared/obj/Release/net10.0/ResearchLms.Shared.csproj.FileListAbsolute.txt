@@ -1,0 +1,13 @@
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\bin\Release\net10.0\ResearchLms.Shared.deps.json
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\bin\Release\net10.0\ResearchLms.Shared.dll
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\bin\Release\net10.0\ResearchLms.Shared.pdb
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\obj\Release\net10.0\ResearchLms.Shared.csproj.AssemblyReference.cache
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\obj\Release\net10.0\ResearchLms.Shared.GeneratedMSBuildEditorConfig.editorconfig
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\obj\Release\net10.0\ResearchLms.Shared.AssemblyInfoInputs.cache
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\obj\Release\net10.0\ResearchLms.Shared.AssemblyInfo.cs
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\obj\Release\net10.0\ResearchLms.Shared.csproj.CoreCompileInputs.cache
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\obj\Release\net10.0\ResearchLms.Shared.sourcelink.json
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\obj\Release\net10.0\ResearchLms.Shared.dll
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\obj\Release\net10.0\refint\ResearchLms.Shared.dll
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\obj\Release\net10.0\ResearchLms.Shared.pdb
+E:\LIMS\research-lms\backend\BuildingBlocks\ResearchLms.Shared\obj\Release\net10.0\ref\ResearchLms.Shared.dll

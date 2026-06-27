@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ResearchLms.AiServices.Infrastructure</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="10.0.0-preview.3.25171.5" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua" Version="1.5.374.92" />
+    <PackageReference Include="MQTTnet" Version="5.0.1.1416" />
+    <PackageReference Include="EasyModbus" Version="4.4.0" />
+    <PackageReference Include="Azure.Search.Documents" Version="12.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\ResearchLms.Infrastructure\ResearchLms.Infrastructure.csproj" />
+    <ProjectReference Include="..\ResearchLms.AiServices.Application\ResearchLms.AiServices.Application.csproj" />
+  </ItemGroup>
+</Project>

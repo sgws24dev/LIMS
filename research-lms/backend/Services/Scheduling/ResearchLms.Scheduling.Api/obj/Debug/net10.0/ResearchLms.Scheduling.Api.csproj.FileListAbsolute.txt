@@ -170,3 +170,4 @@ E:\LIMS\research-lms\backend\Services\Scheduling\ResearchLms.Scheduling.Api\obj\
 E:\LIMS\research-lms\backend\Services\Scheduling\ResearchLms.Scheduling.Api\bin\Debug\net10.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
 E:\LIMS\research-lms\backend\Services\Scheduling\ResearchLms.Scheduling.Api\bin\Debug\net10.0\Pipelines.Sockets.Unofficial.dll
 E:\LIMS\research-lms\backend\Services\Scheduling\ResearchLms.Scheduling.Api\bin\Debug\net10.0\StackExchange.Redis.dll
+E:\LIMS\research-lms\backend\Services\Scheduling\ResearchLms.Scheduling.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

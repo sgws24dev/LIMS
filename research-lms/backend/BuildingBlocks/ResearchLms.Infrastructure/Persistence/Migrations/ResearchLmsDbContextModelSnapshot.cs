@@ -204,6 +204,16 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                     b.Property<int?>("UsefulLifeYears")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("ValidFrom")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ValidFrom");
+
+                    b.Property<DateTime>("ValidTo")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ValidTo");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FacilityId");
@@ -219,7 +229,18 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
 
                     b.HasDiscriminator<string>("AssetType").HasValue("Asset");
 
-                    b.UseTphMappingStrategy();
+                    b
+                        .UseTphMappingStrategy()
+                        .ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("AssetsHistory");
+                                ttb
+                                    .HasPeriodStart("ValidFrom")
+                                    .HasColumnName("ValidFrom");
+                                ttb
+                                    .HasPeriodEnd("ValidTo")
+                                    .HasColumnName("ValidTo");
+                            }));
                 });
 
             modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.CalibrationRecord", b =>
@@ -228,11 +249,12 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CalibrationDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("CalibrationDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("CertificateRef")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -253,15 +275,26 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("NextDueDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("NextDueDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("PerformedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("PerformedByOrganization")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -276,7 +309,11 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("InstrumentId");
 
-                    b.ToTable("CalibrationRecord");
+                    b.HasIndex("TenantId", "Status");
+
+                    b.HasIndex("TenantId", "InstrumentId", "NextDueDate");
+
+                    b.ToTable("CalibrationRecords", (string)null);
                 });
 
             modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.CustodyEvent", b =>
@@ -286,6 +323,9 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AssetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AssetId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -302,17 +342,27 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FromLocation")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("FromUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("FromUserName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<string>("Reason")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("SignatureRef")
                         .HasColumnType("nvarchar(max)");
@@ -321,11 +371,22 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ToLocation")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("ToUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ToUserName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("TransferredAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -337,7 +398,14 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("AssetId");
 
-                    b.ToTable("CustodyEvent");
+                    b.HasIndex("AssetId1");
+
+                    b.HasIndex("TenantId", "ToUserId");
+
+                    b.HasIndex("TenantId", "AssetId", "TransferredAt")
+                        .IsDescending(false, false, true);
+
+                    b.ToTable("CustodyEvents", (string)null);
                 });
 
             modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.Facility", b =>
@@ -469,8 +537,11 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                     b.Property<Guid>("AssetId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("CompletedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<Guid?>("AssetId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly?>("CompletedDate")
+                        .HasColumnType("date");
 
                     b.Property<decimal?>("Cost")
                         .HasColumnType("decimal(18,2)");
@@ -489,27 +560,38 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ScheduledDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Notes")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateOnly>("ScheduledDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("TechnicianId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("TechnicianId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TechnicianName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -521,7 +603,13 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("AssetId");
 
-                    b.ToTable("MaintenanceRecord");
+                    b.HasIndex("AssetId1");
+
+                    b.HasIndex("TenantId", "ScheduledDate");
+
+                    b.HasIndex("TenantId", "AssetId", "Status");
+
+                    b.ToTable("MaintenanceRecords", (string)null);
                 });
 
             modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.Permission", b =>
@@ -764,6 +852,73 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                     b.ToTable("Rooms", (string)null);
                 });
 
+            modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.TelemetryRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("InstrumentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Metrics")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ReceivedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ValidationNotes")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InstrumentId");
+
+                    b.HasIndex("TenantId", "IsValid");
+
+                    b.HasIndex("TenantId", "InstrumentId", "ReceivedAt")
+                        .IsDescending(false, false, true);
+
+                    b.ToTable("TelemetryRecords", (string)null);
+                });
+
             modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.Tenant", b =>
                 {
                     b.Property<Guid>("Id")
@@ -980,6 +1135,87 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                     b.ToTable("UserRoles", (string)null);
                 });
 
+            modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.WorkOrder", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AssigneeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AssigneeName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateOnly?>("DueDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("MaintenanceRecordId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Priority")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ResolutionNotes")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateOnly?>("ResolvedDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaintenanceRecordId");
+
+                    b.HasIndex("TenantId", "MaintenanceRecordId");
+
+                    b.HasIndex("TenantId", "Status", "Priority");
+
+                    b.ToTable("WorkOrders", (string)null);
+                });
+
             modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.Instrument", b =>
                 {
                     b.HasBaseType("ResearchLms.Shared.Domain.Entities.Asset");
@@ -1001,6 +1237,9 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
 
                     b.Property<DateOnly?>("LastCalibrationDate")
                         .HasColumnType("date");
+
+                    b.Property<DateTime?>("LastTelemetryAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("MaintenanceIntervalDays")
                         .HasColumnType("int");
@@ -1030,7 +1269,7 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                     b.HasOne("ResearchLms.Shared.Domain.Entities.Instrument", "Instrument")
                         .WithMany("CalibrationRecords")
                         .HasForeignKey("InstrumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Instrument");
@@ -1039,10 +1278,14 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.CustodyEvent", b =>
                 {
                     b.HasOne("ResearchLms.Shared.Domain.Entities.Asset", "Asset")
-                        .WithMany("CustodyEvents")
+                        .WithMany()
                         .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("ResearchLms.Shared.Domain.Entities.Asset", null)
+                        .WithMany("CustodyEvents")
+                        .HasForeignKey("AssetId1");
 
                     b.Navigation("Asset");
                 });
@@ -1061,10 +1304,14 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.MaintenanceRecord", b =>
                 {
                     b.HasOne("ResearchLms.Shared.Domain.Entities.Asset", "Asset")
-                        .WithMany("MaintenanceRecords")
+                        .WithMany()
                         .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("ResearchLms.Shared.Domain.Entities.Asset", null)
+                        .WithMany("MaintenanceRecords")
+                        .HasForeignKey("AssetId1");
 
                     b.Navigation("Asset");
                 });
@@ -1086,11 +1333,38 @@ namespace ResearchLms.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.TelemetryRecord", b =>
+                {
+                    b.HasOne("ResearchLms.Shared.Domain.Entities.Instrument", "Instrument")
+                        .WithMany()
+                        .HasForeignKey("InstrumentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Instrument");
+                });
+
+            modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.WorkOrder", b =>
+                {
+                    b.HasOne("ResearchLms.Shared.Domain.Entities.MaintenanceRecord", "MaintenanceRecord")
+                        .WithMany("WorkOrders")
+                        .HasForeignKey("MaintenanceRecordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MaintenanceRecord");
+                });
+
             modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.Asset", b =>
                 {
                     b.Navigation("CustodyEvents");
 
                     b.Navigation("MaintenanceRecords");
+                });
+
+            modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.MaintenanceRecord", b =>
+                {
+                    b.Navigation("WorkOrders");
                 });
 
             modelBuilder.Entity("ResearchLms.Shared.Domain.Entities.Role", b =>

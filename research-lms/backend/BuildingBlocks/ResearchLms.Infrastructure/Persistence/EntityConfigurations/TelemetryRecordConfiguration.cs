@@ -16,6 +16,7 @@ public class TelemetryRecordConfiguration : IEntityTypeConfiguration<TelemetryRe
         builder.Property(x => x.ValidationNotes).HasMaxLength(500);
 
         builder.Property(x => x.Metrics)
+            .HasConversion(new JsonValueConverter<Dictionary<string, double>>())
             .HasColumnType("nvarchar(max)");
 
         builder.HasOne(x => x.Instrument)

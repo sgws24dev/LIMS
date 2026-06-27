@@ -3,6 +3,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ResearchLms.Infrastructure.Contexts;
 using ResearchLms.Scheduling.Domain.Interfaces;
 using ResearchLms.Scheduling.Infrastructure.BackgroundJobs;
 using ResearchLms.Scheduling.Infrastructure.EventConsumers;
@@ -19,6 +20,7 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddScoped<ITenantContext, TenantContext>();
         services.AddDbContext<SchedulingDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("SchedulingDb")));
 
@@ -47,7 +49,7 @@ public static class DependencyInjection
         services.AddScoped<IAvailabilityService, AvailabilityService>();
         services.AddScoped<IConstraintEvaluationService, ConstraintEvaluationService>();
         services.AddScoped<IWaitlistService, WaitlistService>();
-        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<ResearchLms.Scheduling.Domain.Interfaces.INotificationService, NotificationService>();
         services.AddScoped<IWaitlistPromotionJob, WaitlistPromotionJob>();
         services.AddScoped<IRecurringRuleService, RecurringRuleService>();
         services.AddScoped<IPricingService, PricingService>();

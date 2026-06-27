@@ -166,3 +166,4 @@ E:\LIMS\research-lms\backend\Services\Institution\ResearchLms.Institution.Api\bi
 E:\LIMS\research-lms\backend\Services\Institution\ResearchLms.Institution.Api\bin\Debug\net10.0\ResearchLms.Institution.Application.pdb
 E:\LIMS\research-lms\backend\Services\Institution\ResearchLms.Institution.Api\bin\Debug\net10.0\ResearchLms.Institution.Infrastructure.pdb
 E:\LIMS\research-lms\backend\Services\Institution\ResearchLms.Institution.Api\bin\Debug\net10.0\ResearchLms.Institution.Domain.pdb
+E:\LIMS\research-lms\backend\Services\Institution\ResearchLms.Institution.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

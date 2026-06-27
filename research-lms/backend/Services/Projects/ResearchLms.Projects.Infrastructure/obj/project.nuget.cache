@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "d30+qxZnUJ8=",
+  "dgSpecHash": "QQ9r2jMhSos=",
   "success": true,
   "projectFilePath": "E:\\LIMS\\research-lms\\backend\\Services\\Projects\\ResearchLms.Projects.Infrastructure\\ResearchLms.Projects.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -149,6 +149,18 @@
       "warningLevel": 1,
       "filePath": "E:\\LIMS\\research-lms\\backend\\Services\\Projects\\ResearchLms.Projects.Infrastructure\\ResearchLms.Projects.Infrastructure.csproj",
       "libraryId": "MimeKit",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q",
+      "projectPath": "E:\\LIMS\\research-lms\\backend\\Services\\Projects\\ResearchLms.Projects.Infrastructure\\ResearchLms.Projects.Infrastructure.csproj",
+      "warningLevel": 1,
+      "filePath": "E:\\LIMS\\research-lms\\backend\\Services\\Projects\\ResearchLms.Projects.Infrastructure\\ResearchLms.Projects.Infrastructure.csproj",
+      "libraryId": "SQLitePCLRaw.lib.e_sqlite3",
       "targetGraphs": [
         "net10.0"
       ]

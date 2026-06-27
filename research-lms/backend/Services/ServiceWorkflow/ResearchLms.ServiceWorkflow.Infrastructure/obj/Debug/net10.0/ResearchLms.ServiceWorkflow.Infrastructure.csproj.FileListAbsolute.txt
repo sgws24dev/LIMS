@@ -20,3 +20,5 @@ E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflo
 E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Infrastructure\obj\Debug\net10.0\refint\ResearchLms.ServiceWorkflow.Infrastructure.dll
 E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Infrastructure\obj\Debug\net10.0\ResearchLms.ServiceWorkflow.Infrastructure.pdb
 E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Infrastructure\obj\Debug\net10.0\ref\ResearchLms.ServiceWorkflow.Infrastructure.dll
+E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Infrastructure\bin\Debug\net10.0\ResearchLms.ServiceWorkflow.Infrastructure.runtimeconfig.json
+E:\LIMS\research-lms\backend\Services\ServiceWorkflow\ResearchLms.ServiceWorkflow.Infrastructure\obj\Debug\net10.0\ResearchLms.ServiceWorkflow.Infrastructure.genruntimeconfig.cache

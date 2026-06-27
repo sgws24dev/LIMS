@@ -1,12 +1,14 @@
 import { NavLink } from "react-router-dom"
 import {
   LayoutDashboard, Users, Shield, Building2,
-  Beaker, ClipboardList, FlaskConical, Microscope, FileText,
-  DollarSign, Package, Bell, BarChart3,
+  Beaker, ClipboardList, FlaskConical, Microscope,   FileText,
+  DollarSign, Package, Bell, BarChart3, CircleHelp, BookMarked, LayoutDashboard,
   ShieldCheck, Settings, CreditCard, ChevronLeft,
   ChevronRight, Dna, Wrench, BookOpen,
   ClipboardPen, CalendarCheck, GitBranch, Activity,
   Clock, ListOrdered, AlertTriangle, Repeat, ShoppingCart,
+  Receipt, DollarSignIcon, BadgePercent, Percent, RefreshCw,
+  Grid3x3, Megaphone, Bot, Send, Gauge,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useUIStore } from "@/store/uiStore"
@@ -55,6 +57,12 @@ const navCategories: NavCategory[] = [
   {
     label: "Operations",
     items: [
+      { label: "Training", icon: BookOpen, href: "/training" },
+      { label: "Competency Matrix", icon: Grid3x3, href: "/training/matrix" },
+      { label: "Help Center", icon: CircleHelp, href: "/help" },
+      { label: "Publications", icon: BookMarked, href: "/publications" },
+      { label: "Announcements", icon: Megaphone, href: "/announcements" },
+      { label: "Homepage Builder", icon: LayoutDashboard, href: "/admin/homepage" },
       { label: "Booking Calendar", icon: CalendarCheck, href: "/scheduler/calendar" },
       { label: "My Bookings", icon: BookOpen, href: "/scheduler/bookings" },
       { label: "Availability", icon: Clock, href: "/scheduler/availability" },
@@ -72,17 +80,44 @@ const navCategories: NavCategory[] = [
     ],
   },
   {
+    label: "Finance",
+    items: [
+      { label: "Invoices", icon: Receipt, href: "/billing/invoices" },
+      { label: "Pricing Models", icon: DollarSign, href: "/billing/pricing-models" },
+      { label: "Rebates", icon: BadgePercent, href: "/billing/rebates" },
+      { label: "Credits", icon: CreditCard, href: "/billing/credits" },
+      { label: "Tax Codes", icon: Percent, href: "/billing/tax-codes" },
+      { label: "Exchange Rates", icon: Repeat, href: "/billing/exchange-rates" },
+      { label: "Reconciliation", icon: ListOrdered, href: "/billing/reconciliation" },
+      { label: "ERP Sync", icon: RefreshCw, href: "/billing/erp-sync" },
+      { label: "Reports", icon: FileText, href: "/billing/reports" },
+    ],
+  },
+  {
     label: "Analytics",
     items: [
-      { label: "Dashboards", icon: BarChart3, href: "/analytics" },
-      { label: "Reports", icon: FileText, href: "/reports" },
+      { label: "Dashboards", icon: BarChart3, href: "/billing/analytics" },
+    ],
+  },
+  {
+    label: "AI Modules",
+    items: [
+      { label: "Helpdesk Chat", icon: Bot, href: "/ai/helpdesk" },
+      { label: "SLA Dashboard", icon: BarChart3, href: "/ai/sla-dashboard" },
+      { label: "Talk to Action", icon: Send, href: "/ai/talk-to-action" },
+      { label: "Action History", icon: Clock, href: "/ai/action-history" },
+      { label: "Equipment FAQ", icon: FileText, href: "/ai/equipment-faq" },
+      { label: "SOP Viewer", icon: BookOpen, href: "/ai/sop-viewer" },
+      { label: "IoT Dashboard", icon: Activity, href: "/ai/iot" },
+      { label: "IoT Alerts", icon: Bell, href: "/ai/iot/alerts" },
+      { label: "Automation Rules", icon: Gauge, href: "/ai/iot/automation" },
     ],
   },
   {
     label: "System",
     items: [
       { label: "Notifications", icon: Bell, href: "/notifications" },
-      { label: "Audit Logs", icon: ShieldCheck, href: "/audit" },
+      { label: "Audit Logs", icon: ShieldCheck, href: "/compliance/audit-logs" },
       { label: "Subscription", icon: CreditCard, href: "/subscription" },
     ],
   },

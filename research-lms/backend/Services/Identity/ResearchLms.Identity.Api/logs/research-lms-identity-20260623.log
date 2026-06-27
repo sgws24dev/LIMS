@@ -1,0 +1,178 @@
+2026-06-23 17:20:38.394 +05:30 [WRN] Entity 'Instrument' has a global query filter defined and is the required end of a relationship with the entity 'InstrumentConfig'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-23 17:20:38.481 +05:30 [WRN] The property 'Asset.CustomFields' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:20:38.490 +05:30 [WRN] The property 'InstitutionSettings.CustomSettings' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:20:38.492 +05:30 [WRN] The property 'InstrumentConfig.MetricKeys' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:20:38.499 +05:30 [WRN] The property 'TelemetryRecord.Metrics' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:20:38.514 +05:30 [WRN] The foreign key property 'CustodyEvent.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:20:38.516 +05:30 [WRN] The foreign key property 'MaintenanceRecord.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:20:39.260 +05:30 [WRN] Entity 'Instrument' has a global query filter defined and is the required end of a relationship with the entity 'InstrumentConfig'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-23 17:20:39.264 +05:30 [WRN] The property 'Asset.CustomFields' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:20:39.267 +05:30 [WRN] The property 'InstitutionSettings.CustomSettings' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:20:39.270 +05:30 [WRN] The property 'InstrumentConfig.MetricKeys' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:20:39.273 +05:30 [WRN] The property 'TelemetryRecord.Metrics' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:20:39.276 +05:30 [WRN] The foreign key property 'CustodyEvent.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:20:39.279 +05:30 [WRN] The foreign key property 'MaintenanceRecord.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:21:23.710 +05:30 [WRN] Entity 'Instrument' has a global query filter defined and is the required end of a relationship with the entity 'InstrumentConfig'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-23 17:21:23.795 +05:30 [WRN] The property 'Asset.CustomFields' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:21:23.804 +05:30 [WRN] The property 'InstitutionSettings.CustomSettings' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:21:23.806 +05:30 [WRN] The property 'InstrumentConfig.MetricKeys' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:21:23.810 +05:30 [WRN] The property 'TelemetryRecord.Metrics' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:21:23.822 +05:30 [WRN] The foreign key property 'CustodyEvent.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:21:23.823 +05:30 [WRN] The foreign key property 'MaintenanceRecord.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:24:44.672 +05:30 [WRN] Entity 'Instrument' has a global query filter defined and is the required end of a relationship with the entity 'InstrumentConfig'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-23 17:24:44.769 +05:30 [WRN] The property 'Asset.CustomFields' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:24:44.779 +05:30 [WRN] The property 'InstitutionSettings.CustomSettings' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:24:44.782 +05:30 [WRN] The property 'InstrumentConfig.MetricKeys' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:24:44.789 +05:30 [WRN] The property 'TelemetryRecord.Metrics' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:24:44.804 +05:30 [WRN] The foreign key property 'CustodyEvent.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:24:44.806 +05:30 [WRN] The foreign key property 'MaintenanceRecord.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:33:16.671 +05:30 [WRN] Entity 'Instrument' has a global query filter defined and is the required end of a relationship with the entity 'InstrumentConfig'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-23 17:33:16.903 +05:30 [WRN] The property 'Asset.CustomFields' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:33:16.914 +05:30 [WRN] The property 'InstitutionSettings.CustomSettings' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:33:16.917 +05:30 [WRN] The property 'InstrumentConfig.MetricKeys' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:33:16.923 +05:30 [WRN] The property 'TelemetryRecord.Metrics' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:33:16.941 +05:30 [WRN] The foreign key property 'CustodyEvent.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:33:16.943 +05:30 [WRN] The foreign key property 'MaintenanceRecord.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:34:51.903 +05:30 [WRN] Entity 'Instrument' has a global query filter defined and is the required end of a relationship with the entity 'InstrumentConfig'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-23 17:34:51.990 +05:30 [WRN] The property 'Asset.CustomFields' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:34:51.998 +05:30 [WRN] The property 'InstitutionSettings.CustomSettings' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:34:52.000 +05:30 [WRN] The property 'InstrumentConfig.MetricKeys' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:34:52.004 +05:30 [WRN] The property 'TelemetryRecord.Metrics' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:34:52.016 +05:30 [WRN] The foreign key property 'CustodyEvent.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:34:52.019 +05:30 [WRN] The foreign key property 'MaintenanceRecord.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:35:02.472 +05:30 [INF] Start installing Hangfire SQL objects...
+2026-06-23 17:35:02.856 +05:30 [INF] Hangfire SQL objects installed.
+2026-06-23 17:35:03.036 +05:30 [FTL] Application startup exception
+System.InvalidOperationException: Scheme already exists: Bearer
+   at Microsoft.AspNetCore.Authentication.AuthenticationOptions.AddScheme(String name, Action`1 configureBuilder)
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at Microsoft.Extensions.Options.UnnamedOptionsManager`1.get_Value()
+   at Microsoft.AspNetCore.Authentication.AuthenticationSchemeProvider..ctor(IOptions`1 options, IDictionary`2 schemes)
+   at InvokeStub_AuthenticationSchemeProvider..ctor(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.CreateServiceAccessor(ServiceIdentifier serviceIdentifier)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.ReflectionMiddlewareBinder.CreateMiddleware(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+2026-06-23 17:35:03.070 +05:30 [ERR] Hosting failed to start
+System.InvalidOperationException: Scheme already exists: Bearer
+   at Microsoft.AspNetCore.Authentication.AuthenticationOptions.AddScheme(String name, Action`1 configureBuilder)
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at Microsoft.Extensions.Options.UnnamedOptionsManager`1.get_Value()
+   at Microsoft.AspNetCore.Authentication.AuthenticationSchemeProvider..ctor(IOptions`1 options, IDictionary`2 schemes)
+   at InvokeStub_AuthenticationSchemeProvider..ctor(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.CreateServiceAccessor(ServiceIdentifier serviceIdentifier)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.ReflectionMiddlewareBinder.CreateMiddleware(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-06-23 17:35:03.095 +05:30 [WRN] Failed to stop bus: "rabbitmq://localhost/DESKTOPOH5VLR8_ResearchLmsIdentityApi_bus_9tyyyygczzkbyq6dbdxpn878go?temporary=true" (Not Started)
+2026-06-23 17:36:40.487 +05:30 [WRN] Entity 'Instrument' has a global query filter defined and is the required end of a relationship with the entity 'InstrumentConfig'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-23 17:36:40.586 +05:30 [WRN] The property 'Asset.CustomFields' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:36:40.593 +05:30 [WRN] The property 'InstitutionSettings.CustomSettings' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:36:40.596 +05:30 [WRN] The property 'InstrumentConfig.MetricKeys' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:36:40.600 +05:30 [WRN] The property 'TelemetryRecord.Metrics' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:36:40.611 +05:30 [WRN] The foreign key property 'CustodyEvent.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:36:40.612 +05:30 [WRN] The foreign key property 'MaintenanceRecord.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:36:41.827 +05:30 [ERR] Hosting failed to start
+MassTransit.ConfigurationException: The bus configuration is invalid:
+[Failure] License must be specified with SetLicense/SetLicenseLocation or by setting the MT_LICENSE/MT_LICENSE_PATH environment variables. See https://masstransit.massient.com/configuration/license for details.
+   at MassTransit.MassTransitExceptionExtensions.ThrowIfContainsFailure(IEnumerable`1 results, String prefix) in D:\a\MassTransit\MassTransit\src\MassTransit.Abstractions\Exceptions\MassTransitExceptionExtensions.cs:line 26
+   at MassTransit.Configuration.TransportRegistrationBusFactory`1.CreateBus[T,TConfigurator](T configurator, IBusRegistrationContext context, Action`2 configure, IEnumerable`1 specifications) in D:\a\MassTransit\MassTransit\src\MassTransit\DependencyInjection\Configuration\TransportRegistrationBusFactory.cs:line 50
+   at MassTransit.RabbitMqTransport.Configuration.RabbitMqRegistrationBusFactory.CreateBus(IBusRegistrationContext context, IEnumerable`1 specifications, String busName) in D:\a\MassTransit\MassTransit\src\Transports\MassTransit.RabbitMqTransport\RabbitMqTransport\Configuration\RabbitMqRegistrationBusFactory.cs:line 71
+   at MassTransit.Configuration.ServiceCollectionBusConfigurator.CreateBus[T](T busFactory, IServiceProvider provider) in D:\a\MassTransit\MassTransit\src\MassTransit\DependencyInjection\Configuration\ServiceCollectionBusConfigurator.cs:line 154
+   at MassTransit.Configuration.ServiceCollectionBusConfigurator.<>c__DisplayClass9_0`1.<SetBusFactory>b__0(IServiceProvider provider) in D:\a\MassTransit\MassTransit\src\MassTransit\DependencyInjection\Configuration\ServiceCollectionBusConfigurator.cs:line 108
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.CreateServiceAccessor(ServiceIdentifier serviceIdentifier)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at MassTransit.Configuration.ServiceCollectionBusConfigurator.<>c__9`1.<SetBusFactory>b__9_1(IServiceProvider provider) in D:\a\MassTransit\MassTransit\src\MassTransit\DependencyInjection\Configuration\ServiceCollectionBusConfigurator.cs:line 110
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitIEnumerable(IEnumerableCallSite enumerableCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitIEnumerable(IEnumerableCallSite enumerableCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitIEnumerable(IEnumerableCallSite enumerableCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass2_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+2026-06-23 17:37:48.684 +05:30 [WRN] Entity 'Instrument' has a global query filter defined and is the required end of a relationship with the entity 'InstrumentConfig'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-23 17:37:48.778 +05:30 [WRN] The property 'Asset.CustomFields' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:37:48.787 +05:30 [WRN] The property 'InstitutionSettings.CustomSettings' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:37:48.788 +05:30 [WRN] The property 'InstrumentConfig.MetricKeys' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:37:48.793 +05:30 [WRN] The property 'TelemetryRecord.Metrics' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-23 17:37:48.805 +05:30 [WRN] The foreign key property 'CustodyEvent.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:37:48.808 +05:30 [WRN] The foreign key property 'MaintenanceRecord.AssetId1' was created in shadow state because a conflicting property with the simple name 'AssetId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 17:37:55.701 +05:30 [INF] Start installing Hangfire SQL objects...
+2026-06-23 17:37:55.903 +05:30 [INF] Hangfire SQL objects installed.
+2026-06-23 17:37:56.357 +05:30 [INF] Starting Hangfire Server using job storage: 'SQL Server: .\SQLEXPRESS@ResearchLms_Identity'
+2026-06-23 17:37:56.358 +05:30 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2026-06-23 17:37:56.359 +05:30 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-06-23 17:37:56.589 +05:30 [INF] Bus started: "rabbitmq://localhost/"
+2026-06-23 17:37:56.693 +05:30 [INF] Server desktop-oh5vlr8:8852:aabf263d successfully announced in 298.1641 ms
+2026-06-23 17:37:56.702 +05:30 [INF] Server desktop-oh5vlr8:8852:aabf263d is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, SqlServerHeartbeatProcess, ExpirationManager, CountersAggregator, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-06-23 17:37:57.017 +05:30 [INF] Server desktop-oh5vlr8:8852:aabf263d all the dispatchers started
+2026-06-23 17:38:00.457 +05:30 [INF] HTTP GET / responded 404 in 194.9861 ms
+2026-06-23 17:38:09.411 +05:30 [INF] HTTP GET /swagger responded 301 in 7.0149 ms
+2026-06-23 17:38:09.573 +05:30 [INF] HTTP GET /swagger/index.html responded 200 in 134.9020 ms
+2026-06-23 17:38:09.600 +05:30 [INF] HTTP GET /swagger/index.js responded 200 in 1.5512 ms
+2026-06-23 17:38:09.613 +05:30 [INF] HTTP GET /swagger/index.css responded 200 in 19.4059 ms
+2026-06-23 17:38:09.669 +05:30 [INF] HTTP GET /swagger/swagger-ui-standalone-preset.js responded 200 in 74.8798 ms
+2026-06-23 17:38:09.669 +05:30 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 78.2003 ms
+2026-06-23 17:38:09.711 +05:30 [INF] HTTP GET /swagger/swagger-ui-bundle.js responded 200 in 117.2139 ms
+2026-06-23 17:38:10.181 +05:30 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 37.0157 ms
+2026-06-23 17:38:10.263 +05:30 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 18.8492 ms

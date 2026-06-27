@@ -87,12 +87,28 @@ public class Invoice : BaseEntity
         RecalculateTotals();
     }
 
-    private void RecalculateTotals()
+    public void RecalculateTotals()
     {
         Subtotal = _lineItems.Sum(li => li.LineTotal);
         DiscountAmount = _lineItems.Sum(li => li.LineTotal * li.DiscountPercent / 100);
         TaxAmount = _lineItems.Sum(li => (li.LineTotal - (li.LineTotal * li.DiscountPercent / 100)) * li.TaxRate / 100);
         TotalAmount = Subtotal - DiscountAmount + TaxAmount;
+        BalanceDue = TotalAmount - AmountPaid;
+    }
+
+    public void ClearLineItems()
+    {
+        _lineItems.Clear();
+    }
+
+    public void RecalculateForCurrency(decimal convertedTotal, string currency)
+    {
+        Currency = currency;
+        var ratio = Subtotal > 0 ? convertedTotal / TotalAmount : 1;
+        Subtotal = Math.Round(Subtotal * ratio, 2);
+        DiscountAmount = Math.Round(DiscountAmount * ratio, 2);
+        TaxAmount = Math.Round(TaxAmount * ratio, 2);
+        TotalAmount = Math.Round(convertedTotal, 2);
         BalanceDue = TotalAmount - AmountPaid;
     }
 
